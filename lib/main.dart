@@ -1,10 +1,27 @@
-import 'package:flutter/material.dart';
 
+
+import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+
+
+import 'common/functions/cipher_key.dart';
 import 'injection_container.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
+
+  final encryptionKey = await cipherKey();
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getApplicationDocumentsDirectory()).path,
+    ),
+    encryptionCipher: HydratedAesCipher(encryptionKey),
+  );
+
   runApp(const MyApp());
 }
 
