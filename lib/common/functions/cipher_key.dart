@@ -18,6 +18,3 @@ Future<List<int>> cipherKey() async {
 
   return base64Url.decode(keyString);
 }
-
-
-
