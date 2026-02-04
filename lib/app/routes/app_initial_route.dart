@@ -1,4 +1,4 @@
-import '../services/role_service.dart';
+import '../../core/services/role_service.dart';
 
 class AppStartDecider {
   final RoleService roleService;

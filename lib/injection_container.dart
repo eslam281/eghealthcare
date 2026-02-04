@@ -8,6 +8,7 @@ final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async{
   sl.registerLazySingleton(() => const FlutterSecureStorage());
+
   sl.registerLazySingleton<EncryptionKeyService>(
         () => EncryptionKeyServiceImpl(sl()),
   );
