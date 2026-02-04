@@ -9,6 +9,9 @@ import 'core/services/cipher_key.dart';
 import 'features/Patient/Dashboard/presentation/pages/dashboard.dart';
 import 'injection_container.dart';
 
+// flutter run --dart-define=ENV=dev
+// flutter run --dart-define=ENV=prod
+// flutter build apk --dart-define=ENV=prod
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +22,7 @@ Future<void> main() async {
 
   await initializeDependencies();
 
-  final encryptionKey = await cipherKey();
+  final encryptionKey = await sl<EncryptionKeyService>().getKey();
 
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path,),
