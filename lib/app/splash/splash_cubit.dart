@@ -2,19 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
+import '../routes/app_initial_route.dart';
+
 part 'splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit() : super(SplashInitial()) {
-    // final route = await appStartDecider.decideRoute();
-    // Navigator.pushReplacementNamed(context, route);
+  final AppStartDecider appStartDecider;
 
-// final role = await roleService.getCurrentRole();
-//
-// if (role == UserRole.doctor) {
-// Navigator.pushReplacementNamed(context, Routes.doctorHome);
-// } else {
-// Navigator.pushReplacementNamed(context, Routes.patientHome);
-// }
+SplashCubit(this.appStartDecider) : super(SplashInitial());
+
+  Future<void> checkAppStart() async {
+    emit(SplashLoading());
+    final route = await appStartDecider.decideRoute();
+    emit(route);
   }
 }
+

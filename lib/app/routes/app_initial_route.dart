@@ -1,20 +1,21 @@
 import '../../core/services/role_service.dart';
 import '../../core/constants/routes.dart';
+import '../splash/splash_cubit.dart';
 
 class AppStartDecider {
   final RoleService roleService;
 
   AppStartDecider(this.roleService);
 
-  Future<String> decideRoute() async {
+  Future<SplashState> decideRoute() async {
     final role = await roleService.getCurrentRole();
 
     if (role == UserRole.doctor) {
-      return Routes.doctorDashboard;
+      return GoToDoctorHome();
     } else if (role == UserRole.patient) {
-      return Routes.patientDashboard;
+      return GoToPatientHome();
     } else {
-      return Routes.login;
+      return GoToLogin();
     }
   }
 }

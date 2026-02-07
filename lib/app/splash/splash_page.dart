@@ -1,10 +1,10 @@
+import 'package:eghealthcare/app/splash/splash_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:eghealthcare/core/themes/app_colors_light.dart';
-import 'package:flutter/cupertino.dart';
-
+import '../../core/constants/routes.dart';
 import '../../core/themes/app_colors_dark.dart';
+import '../../core/themes/app_colors_light.dart';
 import '../../core/themes/is_dark_mode.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,15 +17,31 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   @override
+  void initState() {
+    super.initState();
+    context.read<SplashCubit>().checkAppStart();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      backgroundColor:context.isDarkMode? AppColorsDark.background:AppColorsLight.background,
-      splashIconSize: double.infinity,
-      splashTransition:SplashTransition.scaleTransition ,
-      splash:Container(),
-      nextScreen: Container(),
-      duration: 2000,
-      // curve: Curves.easeInToLinear ,
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (context, state) {
+        if (state is GoToLogin) {
+          Navigator.pushReplacementNamed(context, Routes.login);
+        } else if (state is GoToPatientHome) {
+          Navigator.pushReplacementNamed(context, Routes.patientDashboard);
+        } else if (state is GoToDoctorHome) {
+          Navigator.pushReplacementNamed(context, Routes.doctorDashboard);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.isDarkMode
+            ? AppColorsDark.background
+            : AppColorsLight.background,
+        body: const Center(
+          child: FlutterLogo(size: 120),
+        ),
+      ),
     );
   }
 }

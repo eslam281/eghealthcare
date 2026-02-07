@@ -1,6 +1,14 @@
 part of 'splash_cubit.dart';
 
 @immutable
-sealed class SplashState {}
+abstract class SplashState {}
 
-final class SplashInitial extends SplashState {}
+class SplashInitial extends SplashState {}
+
+class SplashLoading extends SplashState {}
+
+class GoToLogin extends SplashState {}
+
+class GoToDoctorHome extends SplashState {}
+
+class GoToPatientHome extends SplashState {}
