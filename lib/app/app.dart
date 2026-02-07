@@ -1,7 +1,7 @@
 
+import 'package:eghealthcare/app/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 
-import '../features/Patient/Dashboard/presentation/pages/dashboard.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Dashboard(),
+      home: const SplashScreen(),
     );
   }
 }
