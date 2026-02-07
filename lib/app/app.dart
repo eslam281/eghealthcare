@@ -1,5 +1,4 @@
 import 'package:eghealthcare/app/routes/app_routes.dart';
-import 'package:eghealthcare/app/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

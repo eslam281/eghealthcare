@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../routes/app_initial_route.dart';
 
