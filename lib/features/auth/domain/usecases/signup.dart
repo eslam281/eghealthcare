@@ -6,7 +6,7 @@ import '../../../../injection_container.dart';
 import '../../data/models/create_user_req.dart';
 import '../repository/auth_reepository.dart';
 
-class SingupUseCase implements UseCase<Either,CreateUserReq>{
+class SingUpUseCase implements UseCase<Either,CreateUserReq>{
   @override
   Future<Either> call({CreateUserReq? params}) async{
     return await sl<AuthRepository>().signup(params!);

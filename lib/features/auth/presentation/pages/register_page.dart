@@ -22,27 +22,27 @@ class RegisterPage extends StatelessWidget {
                   subtitle: "Sign in to your EHealthcare account",
                 ),
                 const SizedBox(height: 24),
-                AuthCard(
-                  child: Column(
-                    children: [
-                      AuthTextField(
-                        hint: "Email Address",
-                        controller: TextEditingController(),
-                      ),
-                      const SizedBox(height: 16),
-                      AuthTextField(
-                        hint: "Password",
-                        isPassword: true,
-                        controller: TextEditingController(),
-                      ),
-                      const SizedBox(height: 20),
-                      AuthButton(
-                        text: "Sign In",
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
+                // AuthCard(
+                //   child: Column(
+                //     children: [
+                //       AuthTextField(
+                //         hint: "Email Address",
+                //         controller: TextEditingController(),
+                //       ),
+                //       const SizedBox(height: 16),
+                //       AuthTextField(
+                //         hint: "Password",
+                //         isPassword: true,
+                //         controller: TextEditingController(),
+                //       ),
+                //       const SizedBox(height: 20),
+                //       AuthButton(
+                //         text: "Sign In",
+                //         onTap: () {},
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

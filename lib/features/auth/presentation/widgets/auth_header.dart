@@ -14,14 +14,17 @@ class AuthHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // الدائرة زي الصورة
         Container(
           height: 60,
           width: 60,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            shape: BoxShape.circle, // مهم: circle مش مربع
             border: Border.all(color: Colors.teal, width: 2),
           ),
-          child: const Icon(Icons.check, color: Colors.teal, size: 32),
+          child: const Center(
+            child: Icon(Icons.check, color: Colors.teal, size: 32),
+          ),
         ),
         const SizedBox(height: 16),
         Text(
@@ -34,6 +37,7 @@ class AuthHeader extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           subtitle,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey[600],
@@ -43,3 +47,4 @@ class AuthHeader extends StatelessWidget {
     );
   }
 }
+

@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool enabled;
 
-  const AuthButton({super.key, required this.text, required this.onTap});
+  const AuthButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 52,
+      width: double.infinity, // fills the card's width
+      height: 50,
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: enabled ? onTap : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.teal,
           shape: RoundedRectangleBorder(
@@ -22,14 +28,9 @@ class AuthButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
   }
 }
-

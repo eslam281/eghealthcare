@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AuthTextField extends StatefulWidget {
+  final String label;
   final String hint;
   final bool isPassword;
   final TextEditingController controller;
+  final TextInputType keyboardType;
 
   const AuthTextField({
     super.key,
-    required this.hint,
+    required this.label,
     required this.controller,
+    this.hint = '',
     this.isPassword = false,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -25,7 +29,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.hint,
+          widget.label,
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 14,
@@ -34,13 +38,12 @@ class _AuthTextFieldState extends State<AuthTextField> {
         const SizedBox(height: 8),
         TextField(
           controller: widget.controller,
+          keyboardType: widget.keyboardType,
           obscureText: widget.isPassword ? obscure : false,
           decoration: InputDecoration(
-            hintText: widget.isPassword ? "••••••••" : "you@example.com",
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 16,
-            ),
+            hintText:
+            widget.hint.isNotEmpty ? widget.hint : (widget.isPassword ? '••••••••' : ''),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
             suffixIcon: widget.isPassword
                 ? IconButton(
               icon: Icon(
@@ -64,4 +67,3 @@ class _AuthTextFieldState extends State<AuthTextField> {
     );
   }
 }
-

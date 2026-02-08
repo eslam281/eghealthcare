@@ -23,4 +23,3 @@ class AuthCard extends StatelessWidget {
     );
   }
 }
-

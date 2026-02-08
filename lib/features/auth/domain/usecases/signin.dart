@@ -6,7 +6,7 @@ import '../../../../injection_container.dart';
 import '../../data/models/signin_user_req.dart';
 import '../repository/auth_reepository.dart';
 
-class SigninUseCase implements UseCase<Either,SignInUserReq>{
+class SignInUseCase implements UseCase<Either,SignInUserReq>{
   @override
   Future<Either> call({SignInUserReq? params}) async {
     return await sl<AuthRepository>().signin(params!);
