@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "318363221520",
+    "project_id": "eghealthcare-b1daa",
+    "storage_bucket": "eghealthcare-b1daa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318363221520:android:b54986285f85c5c3655495",
+        "android_client_info": {
+          "package_name": "com.example.eghealthcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLcWE9lEm8d501Lwlta3_9KgFeTT5_JWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
