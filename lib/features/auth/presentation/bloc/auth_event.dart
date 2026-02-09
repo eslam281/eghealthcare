@@ -9,6 +9,10 @@ final class LoginRequested extends AuthEvent {
   final UserRole userRole;
   LoginRequested(this.email, this.password, this.userRole);
 }
+final class GoogleSignInRequested extends AuthEvent {
+  final UserRole userRole;
+  GoogleSignInRequested(this.userRole);
+}
 
 final class RegisterRequested extends AuthEvent {
   final String name;

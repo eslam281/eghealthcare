@@ -11,6 +11,7 @@ import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/signin.dart';
+import 'features/auth/domain/usecases/signin_Google.dart';
 import 'features/auth/domain/usecases/signup.dart';
 
 final sl = GetIt.instance;
@@ -19,6 +20,7 @@ Future<void> initializeDependencies() async {
   _initExternal();
   _initServices();
   _initCore();
+  _initRepository();
   _initUseCase();
 }
 
@@ -30,14 +32,20 @@ void _initServices() {
   sl.registerLazySingleton<EncryptionKeyService>(() => EncryptionKeyServiceImpl(sl()));
   sl.registerLazySingleton<RoleService>(() => RoleServiceImpl(sl()));
   sl.registerLazySingleton<AuthFirebaseService>(() => AuthFirebaseServiceImpl());
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+
 }
 
 void _initCore() {
   sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
 }
+
+void _initRepository() {
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+}
+
 void _initUseCase() {
   sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
   sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase());
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
+  sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
 }
