@@ -11,6 +11,7 @@ abstract class AuthFirebaseService{
   Future<Either> signup(CreateUserReq createuserReq);
   Future<Either> signin(SignInUserReq signInUserReq);
   Future<Either> getUser();
+  Future<Either> signOut();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService{
@@ -40,11 +41,11 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: createuserReq.email,
           password: createuserReq.password
       );
-      FirebaseFirestore.instance.collection('Users').doc(data.user!.uid)
-          .set({
-        "name":createuserReq.fullName,
-        "email":data.user!.email,
-      });
+      // FirebaseFirestore.instance.collection('Users').doc(data.user!.uid)
+      //     .set({
+      //   "name":createuserReq.fullName,
+      //   "email":data.user!.email,
+      // });
       return const Right("SignUp was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -61,15 +62,34 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   Future<Either> getUser() async {
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      // FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      //
+      // var user = await firebaseFirestore.collection('Users').doc(
+      //     firebaseAuth.currentUser!.uid
+      // ).get();
+      // UserModel userModel = UserModel.fromJson((user).data()!);
+      // userModel.imageURL = firebaseAuth.currentUser!.photoURL ?? "";//AppURLs.defaultImage
+      // UserEntity userEntity = userModel.toEntity();
+      // return Right(userEntity);
+      return  Right(firebaseAuth.currentUser!);
+    }catch(e){
+      return Left("An error occurred $e");
+    }
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> signOut() async {
+    try {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-      var user = await firebaseFirestore.collection('Users').doc(
+      await firebaseFirestore.collection('Users').doc(
           firebaseAuth.currentUser!.uid
-      ).get();
-      UserModel userModel = UserModel.fromJson((user).data()!);
-      userModel.imageURL = firebaseAuth.currentUser!.photoURL ?? "";//AppURLs.defaultImage
-      UserEntity userEntity = userModel.toEntity();
-      return Right(userEntity);
+      ).delete();
+
+      await firebaseAuth.signOut();
+
+      return const Right("Sign out was Successful");
     }catch(e){
       return Left("An error occurred $e");
     }

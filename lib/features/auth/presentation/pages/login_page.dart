@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // استبدل بالمسارات الحقيقية عندك
+import '../../../../core/constants/routes.dart';
+import '../../../../core/services/role_service.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
@@ -96,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                             if (state is AuthSuccess) {
                               // navigate to home
-                              Navigator.of(context).pushReplacementNamed('/home');
+                              Navigator.pushReplacementNamed(context, Routes.patientDashboard);
                             }
                           },
                           builder: (context, state) {
@@ -120,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                   LoginRequested(
                                     emailCtrl.text.trim(),
                                     passwordCtrl.text,
+                                    UserRole.patient,
                                   ),
                                 );
                               },

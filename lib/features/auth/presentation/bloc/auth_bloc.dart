@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:eghealthcare/features/auth/domain/usecases/signout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/services/role_service.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/create_user_req.dart';
 import '../../data/models/signin_user_req.dart';
+import '../../domain/usecases/get_user.dart';
 import '../../domain/usecases/signin.dart';
 import '../../domain/usecases/signup.dart';
 
@@ -25,7 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       result.fold(
             (message) => emit(AuthFailure(message)),
-            (_) => emit(AuthSuccess()),
+            (_) async{
+              await sl<RoleService>().saveRole(event.userRole);
+              emit(AuthSuccess());
+            }
       );
     });
 
@@ -41,13 +47,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       result.fold(
             (message) => emit(AuthFailure(message)),
-            (_) => emit(AuthSuccess()),
+            (_) async{
+              await sl<RoleService>().saveRole(event.userRole);
+              emit(AuthSuccess());
+            } ,
       );
     });
 
-    // on<LogoutRequested>((event, emit) async {
-    //   await repo.logout();
-    //   emit(AuthInitial());
-    // });
+    on<LogoutRequested>((event, emit) async {
+      await sl<SignOutUseCase>().call();
+      emit(AuthInitial());
+    });
+
+    on<GetUserRequested>((event, emit) async {
+      emit(AuthLoading());
+      final result = await sl<GetUserUseCase>().call();
+
+      result.fold(
+            (message) => emit(AuthFailure(message)),
+            (re) {
+              print(re);
+              emit(AuthSuccess());
+        } ,
+      );
+    });
   }
 }
