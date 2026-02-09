@@ -55,28 +55,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           fullName:event.name,
           email:event.email,
           password:event.password,
+          userRole:event.userRole==UserRole.patient?"patient":"doctor",
         ),
       );
 
-      result.fold(
-            (message) => emit(AuthFailure(message)),
-            (_) async{
-              await sl<RoleService>().saveRole(event.userRole);
-              emit(AuthSuccess());
-            } ,
-      );
+      if (result.isLeft()) {
+        final message = result.fold((l) => l, (r) => null);
+        if (!emit.isDone) emit(AuthFailure(message!));
+        return;
+      }
+      await sl<RoleService>().saveRole(event.userRole);
+      if (!emit.isDone)emit(AuthSuccess());
+
     });
 
     on<LogoutRequested>((event, emit) async {
       final result = await sl<SignOutUseCase>().call();
-      result.fold(
-            (message) => emit(AuthFailure(message)),
-            (re) async{
-              print(re);
-              await sl<RoleService>().clearRole();
-              emit(AuthInitial());
-        } ,
-      );
+      if (result.isLeft()) {
+        final message = result.fold((l) => l, (r) => null);
+        if (!emit.isDone) emit(AuthFailure(message!));
+        return;
+      }
+      await sl<RoleService>().clearRole();
+      if (!emit.isDone)emit(AuthInitial());
     });
 
     on<GetUserRequested>((event, emit) async {

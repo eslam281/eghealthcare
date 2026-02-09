@@ -19,9 +19,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
-  bool remember = false;
+  final confirmPasswordCtrl = TextEditingController();
+  bool isAgree = false;
   late UserRole _role = UserRole.patient;
 
   @override
@@ -47,14 +49,21 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   children: [
                     const AuthHeader(
-                      title: "Welcome Back",
-                      subtitle: "Sign in to your EHealthcare account",
+                      title: "Create Account",
+                      subtitle: "Join EGhealthcare today",
                     ),
                     const SizedBox(height: 28),
                     AuthCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          AuthTextField(
+                            label: "Full Name",
+                            hint: "John Doe",
+                            controller: nameCtrl,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(height: 16),
                           AuthTextField(
                             label: "Email Address",
                             hint: "you@example.com",
@@ -66,6 +75,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             label: "Password",
                             isPassword: true,
                             controller: passwordCtrl,
+                          ),
+                          const SizedBox(height: 16),
+                          AuthTextField(
+                            label: "Confirm Password",
+                            isPassword: true,
+                            controller: confirmPasswordCtrl,
                           ),
                           const SizedBox(height: 18),
                           RoleSelector(
@@ -84,27 +99,20 @@ class _RegisterPageState extends State<RegisterPage> {
                               Row(
                                 children: [
                                   Checkbox(
-                                    value: remember,
+                                    value: isAgree,
                                     activeColor: Colors.teal,
                                     onChanged: (v) =>
-                                        setState(() => remember = v ?? false),
+                                        setState(() => isAgree = v ?? false),
                                   ),
-                                  const Text("Remember me"),
+                                  const Text("I agree to the Terms of Service and Privacy Policy"),
                                 ],
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  "Forgot password?",
-                                  style: TextStyle(color: Colors.teal),
-                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 10),
 
                           // BlocConsumer for states
-                          BlocListener<AuthBloc, AuthState>(
+                          BlocConsumer<AuthBloc, AuthState>(
                             listener: (context, state) {
                               if (state is AuthFailure) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -119,63 +127,71 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                               }
                             },
-                            child: BlocBuilder<AuthBloc, AuthState>(
                               builder: (context, state) {
                                 final isLoading = state is AuthLoading;
 
-                                return Column(
-                                  children: [
-                                    AuthButton(
-                                      text: isLoading
-                                          ? "Signing in..."
-                                          : "Sign In",
-                                      enabled: !isLoading,
-                                      onTap: isLoading
-                                          ? null
-                                          : () {
-                                              if (emailCtrl.text
-                                                      .trim()
-                                                      .isEmpty ||
-                                                  passwordCtrl.text.isEmpty) {
-                                                ScaffoldMessenger.of(
-                                                  context,
-                                                ).showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                      'Please fill all fields',
-                                                    ),
-                                                  ),
-                                                );
-                                                return;
-                                              }
+                                return AuthButton(
+                                  text: isLoading
+                                      ? "Create Account..." : "Sign UP",
+                                  enabled: !isLoading,
+                                  onTap: isLoading
+                                      ? null
+                                      : () {
+                                    if (emailCtrl.text.trim().isEmpty || passwordCtrl.text.isEmpty ||
+                                        nameCtrl.text.isEmpty
+                                    ) {
+                                      ScaffoldMessenger.of(context,).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Please fill all fields',),),);
+                                      return;
+                                    }
+                                    if(!isAgree){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Please agree to the Terms of Service and Privacy Policy',),),);
+                                      return;
+                                    }
+                                    if (passwordCtrl.text != confirmPasswordCtrl.text) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Passwords do not match',),),);
+                                      return;
+                                    }
 
-                                              context.read<AuthBloc>().add(
-                                                LoginRequested(
-                                                  emailCtrl.text.trim(),
-                                                  passwordCtrl.text,
-                                                  _role,
-                                                ),
-                                              );
-                                            },
-                                    ),
-                                    const SizedBox(height: 20),
-
-                                    /// 🔹 Google Button
-                                    SocialLoginSection(
-                                      onGooglePressed: () {
-                                        context.read<AuthBloc>().add(
-                                          GoogleSignInRequested(_role),
-                                        );
-                                      },
-                                    ),
-                                  ],
+                                    context.read<AuthBloc>().add(
+                                      RegisterRequested(
+                                        nameCtrl.text,
+                                        emailCtrl.text.trim(),
+                                        passwordCtrl.text,
+                                        _role,
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            ),
-                          ),
+                          )
+
                         ],
                       ),
                     ),
+                    const SizedBox(height: 15),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Already have an account?"),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                Routes.register,
+                              );
+                            },
+                            child: const Text(
+                              "Sign in here",
+                              style: TextStyle(color: Colors.teal),
+                            ),
+                          )
+                        ]),
                   ],
                 ),
               ),

@@ -7,8 +7,9 @@ class UserModel {
   String? fullName;
   String? email;
   String? imageURL;
+  String? userRole;
 
-  UserModel({this.fullName, this.email, this.imageURL});
+  UserModel({this.fullName, this.email, this.imageURL, this.userRole});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     fullName= json['name'];
