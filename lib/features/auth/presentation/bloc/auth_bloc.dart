@@ -30,22 +30,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
             (message) => emit(AuthFailure(message)),
             (_) async{
-              await sl<RoleService>().saveRole(event.userRole);
+              // await sl<RoleService>().saveRole(event.userRole);
               emit(AuthSuccess());
             }
       );
     });
- on<GoogleSignInRequested>((event, emit) async {
+
+    on<GoogleSignInRequested>((event, emit) async {
       emit(AuthLoading());
       final result = await sl<SignInGoogleUseCase>().call();
 
-      result.fold(
-            (message) => emit(AuthFailure(message)),
-            (_) async{
-              await sl<RoleService>().saveRole(event.userRole);
-              emit(AuthSuccess());
-            }
-      );
+     if (result.isLeft()) {
+        final message = result.fold((l) => l, (r) => null);
+        if (!emit.isDone) emit(AuthFailure(message!));
+        return;
+      }
+      if (!emit.isDone) emit(AuthSuccess());
     });
 
     on<RegisterRequested>((event, emit) async {
@@ -68,8 +68,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<LogoutRequested>((event, emit) async {
-      await sl<SignOutUseCase>().call();
-      emit(AuthInitial());
+      final result = await sl<SignOutUseCase>().call();
+      result.fold(
+            (message) => emit(AuthFailure(message)),
+            (re) async{
+              print(re);
+              await sl<RoleService>().clearRole();
+              emit(AuthInitial());
+        } ,
+      );
     });
 
     on<GetUserRequested>((event, emit) async {

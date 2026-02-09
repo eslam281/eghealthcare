@@ -85,11 +85,11 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   Future<Either<dynamic, dynamic>> signOut() async {
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-      await firebaseFirestore.collection('Users').doc(
-          firebaseAuth.currentUser!.uid
-      ).delete();
+      // FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      //
+      // await firebaseFirestore.collection('Users').doc(
+      //     firebaseAuth.currentUser!.uid
+      // ).delete();
 
       await firebaseAuth.signOut();
 
@@ -105,7 +105,9 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
     final GoogleSignIn googleSignIn =GoogleSignIn.instance;
     try{
       // لازم initialize مرة واحدة
-      await googleSignIn.initialize();
+      await googleSignIn.initialize(
+        serverClientId: "318363221520-b2ijh4kl9hrmpdljlkl5h9f3jk6kmslb.apps.googleusercontent.com"
+      );
 
       // يبدأ عملية تسجيل الدخول
       final GoogleSignInAccount account = await googleSignIn.authenticate();
@@ -120,6 +122,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
       final result = await firebaseAuth.signInWithCredential(credential);
       return Right(result.user!);
     } catch (e) {
+      print(e.toString());
     return Left(e.toString());
     }
 

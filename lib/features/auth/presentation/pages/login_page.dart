@@ -166,12 +166,29 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                         ),
-                      )
-                      ],
                       ),
+                      ],),
                     ),
-                  ],
-                ),
+
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Don't have an account?"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Routes.register,
+                            );
+                          },
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(color: Colors.teal),
+                          ),
+                        )
+                          ]),
+                    ],),
               ),
             ),
           ),

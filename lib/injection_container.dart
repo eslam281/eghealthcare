@@ -12,6 +12,7 @@ import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/signin.dart';
 import 'features/auth/domain/usecases/signin_Google.dart';
+import 'features/auth/domain/usecases/signout.dart';
 import 'features/auth/domain/usecases/signup.dart';
 
 final sl = GetIt.instance;
@@ -47,5 +48,6 @@ void _initUseCase() {
   sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
   sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase());
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
+  sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
 }

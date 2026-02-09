@@ -24,8 +24,11 @@ class PatientDashboard extends StatelessWidget {
             ),
 
             floatingActionButton: FloatingActionButton(onPressed: () {
+              // context.read<AuthBloc>().add(
+              //   GetUserRequested(),
+              // );
               context.read<AuthBloc>().add(
-                GetUserRequested(),
+                LogoutRequested(),
               );
             }, shape: CircleBorder(), backgroundColor: Colors.green,
               child: Icon(LucideIcons.messageCircle, color: Colors.white,),),
