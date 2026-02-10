@@ -45,13 +45,13 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: createuserReq.email,
           password: createuserReq.password
       );
-      FirebaseFirestore.instance.collection('Users').doc(data.user!.uid)
-          .set({
-        "uid":data.user!.uid,
-        "name":createuserReq.fullName,
-        "email":data.user!.email,
-        "role":createuserReq.userRole,
-      });
+      // FirebaseFirestore.instance.collection('Users').doc(data.user!.uid)
+      //     .set({
+      //   "uid":data.user!.uid,
+      //   "name":createuserReq.fullName,
+      //   "email":data.user!.email,
+      //   "role":createuserReq.userRole,
+      // });
       return const Right("SignUp was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -68,16 +68,16 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   Future<Either> getUser() async {
     try {
 
-      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-      var user = await firebaseFirestore.collection('Users').doc(
-          firebaseAuth.currentUser!.uid
-      ).get();
-      UserModel userModel = UserModel.fromJson((user).data()!);
-      userModel.imageURL = firebaseAuth.currentUser!.photoURL ?? "";//AppURLs.defaultImage
-      UserEntity userEntity = userModel.toEntity();
-      return Right(userEntity);
-      // return  Right(firebaseAuth.currentUser!);
+      // FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      //
+      // var user = await firebaseFirestore.collection('Users').doc(
+      //     firebaseAuth.currentUser!.uid
+      // ).get();
+      // UserModel userModel = UserModel.fromJson((user).data()!);
+      // userModel.imageURL = firebaseAuth.currentUser!.photoURL ?? "";//AppURLs.defaultImage
+      // UserEntity userEntity = userModel.toEntity();
+      // return Right(userEntity);
+      return  Right(firebaseAuth.currentUser!);
     }catch(e){
       return Left("An error occurred $e");
     }
@@ -124,7 +124,6 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
       final result = await firebaseAuth.signInWithCredential(credential);
       return Right(result.user!);
     } catch (e) {
-      print(e.toString());
     return Left(e.toString());
     }
 

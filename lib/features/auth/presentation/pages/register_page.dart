@@ -19,6 +19,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -54,124 +55,147 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 28),
                     AuthCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AuthTextField(
-                            label: "Full Name",
-                            hint: "John Doe",
-                            controller: nameCtrl,
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          const SizedBox(height: 16),
-                          AuthTextField(
-                            label: "Email Address",
-                            hint: "you@example.com",
-                            controller: emailCtrl,
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          const SizedBox(height: 16),
-                          AuthTextField(
-                            label: "Password",
-                            isPassword: true,
-                            controller: passwordCtrl,
-                          ),
-                          const SizedBox(height: 16),
-                          AuthTextField(
-                            label: "Confirm Password",
-                            isPassword: true,
-                            controller: confirmPasswordCtrl,
-                          ),
-                          const SizedBox(height: 18),
-                          RoleSelector(
-                            selectedRole: _role,
-                            onChanged: (role) {
-                              setState(() {
-                                _role = role;
-                              });
-                            },
-                          ),
-
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    value: isAgree,
-                                    activeColor: Colors.teal,
-                                    onChanged: (v) =>
-                                        setState(() => isAgree = v ?? false),
-                                  ),
-                                  const Text("I agree to the Terms of Service and Privacy Policy"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-
-                          // BlocConsumer for states
-                          BlocConsumer<AuthBloc, AuthState>(
-                            listener: (context, state) {
-                              if (state is AuthFailure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(state.message)),
-                                );
-                              }
-
-                              if (state is AuthSuccess) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  Routes.patientDashboard,
-                                );
-                              }
-                            },
-                              builder: (context, state) {
-                                final isLoading = state is AuthLoading;
-
-                                return AuthButton(
-                                  text: isLoading
-                                      ? "Create Account..." : "Sign UP",
-                                  enabled: !isLoading,
-                                  onTap: isLoading
-                                      ? null
-                                      : () {
-                                    if (emailCtrl.text.trim().isEmpty || passwordCtrl.text.isEmpty ||
-                                        nameCtrl.text.isEmpty
-                                    ) {
-                                      ScaffoldMessenger.of(context,).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Please fill all fields',),),);
-                                      return;
-                                    }
-                                    if(!isAgree){
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Please agree to the Terms of Service and Privacy Policy',),),);
-                                      return;
-                                    }
-                                    if (passwordCtrl.text != confirmPasswordCtrl.text) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Passwords do not match',),),);
-                                      return;
-                                    }
-
-                                    context.read<AuthBloc>().add(
-                                      RegisterRequested(
-                                        nameCtrl.text,
-                                        emailCtrl.text.trim(),
-                                        passwordCtrl.text,
-                                        _role,
-                                      ),
-                                    );
-                                  },
-                                );
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AuthTextField(
+                              label: "Full Name",
+                              hint: "John Doe",
+                              controller: nameCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Full name is required";
+                                }
+                                if (value.length < 3) {
+                                  return "Name is too short";
+                                }
+                                return null;
                               },
-                          )
+                            ),
+                            const SizedBox(height: 16),
+                            AuthTextField(
+                              label: "Email Address",
+                              hint: "you@example.com",
+                              controller: emailCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) return "Email is required";
+                                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                                  return "Enter a valid email";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            AuthTextField(
+                              label: "Password",
+                              isPassword: true,
+                              controller: passwordCtrl,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) return "Password is required";
+                                if (value.length < 6) return "Password must be at least 6 characters";
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            AuthTextField(
+                              label: "Confirm Password",
+                              isPassword: true,
+                              controller: confirmPasswordCtrl,
+                              validator: (value) {
+                                if (value != passwordCtrl.text) {
+                                  return "Passwords do not match";
+                                }
+                                return null;
+                              },
 
-                        ],
+                            ),
+                            const SizedBox(height: 18),
+                            RoleSelector(
+                              selectedRole: _role,
+                              onChanged: (role) {
+                                setState(() {
+                                  _role = role;
+                                });
+                              },
+                            ),
+
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: isAgree,
+                                      activeColor: Colors.teal,
+                                      onChanged: (v) =>
+                                          setState(() => isAgree = v ?? false),
+                                    ),
+                                    const Text("I agree to the Terms of Service and Privacy Policy"),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+
+                            // BlocConsumer for states
+                            BlocConsumer<AuthBloc, AuthState>(
+                              listener: (context, state) {
+                                if (state is AuthFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(state.message)),
+                                  );
+                                }
+
+                                if (state is AuthSuccess) {
+                                  Navigator.pushReplacementNamed(
+                                    context,_role==UserRole.patient?
+                                  Routes.patientDashboard:Routes.doctorDashboard
+                                  );
+                                }
+                              },
+                                builder: (context, state) {
+                                  final isLoading = state is AuthLoading;
+
+                                  return AuthButton(
+                                    text: isLoading
+                                        ? "Create Account..." : "Sign UP",
+                                    enabled: !isLoading,
+                                    onTap: isLoading
+                                        ? null
+                                        : () {
+                                      final isValid = _formKey.currentState!.validate();
+                                      if (!isValid) return;
+
+                                      if (!isAgree) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Please agree to Terms'),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      context.read<AuthBloc>().add(
+                                        RegisterRequested(
+                                          nameCtrl.text,
+                                          emailCtrl.text.trim(),
+                                          passwordCtrl.text,
+                                          _role,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                            )
+
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
@@ -183,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: () {
                               Navigator.pushReplacementNamed(
                                 context,
-                                Routes.register,
+                                Routes.login,
                               );
                             },
                             child: const Text(

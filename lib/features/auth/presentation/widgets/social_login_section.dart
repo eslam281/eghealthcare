@@ -1,3 +1,4 @@
+import 'package:eghealthcare/core/constants/images.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -50,11 +51,10 @@ class SocialLoginSection extends StatelessWidget {
               backgroundColor: Colors.white,
             ),
             onPressed: onGooglePressed,
-            icon: const Icon(Icons.sports_volleyball_rounded)
-            // Image.asset(
-            //   "assets/images/google.png", // حط لوجو جوجل هنا
-            //   height: 22,
-            // )
+            icon: Image.asset(
+              AppImages.google, // حط لوجو جوجل هنا
+              height: 25,
+            )
             ,
             label: const Text(
               "Continue with Google",
