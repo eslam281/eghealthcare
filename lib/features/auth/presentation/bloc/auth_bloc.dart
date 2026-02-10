@@ -27,13 +27,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
 
-      result.fold(
-            (message) => emit(AuthFailure(message)),
-            (_) async{
-              // await sl<RoleService>().saveRole(event.userRole);
-              emit(AuthSuccess());
-            }
-      );
+      if (result.isLeft()) {
+        final message = result.fold((l) => l, (r) => null);
+        if (!emit.isDone) emit(AuthFailure(message!));
+        return;
+      }
+      await sl<RoleService>().saveRole(event.userRole);
+      if (!emit.isDone)emit(AuthSuccess());
     });
 
     on<GoogleSignInRequested>((event, emit) async {
