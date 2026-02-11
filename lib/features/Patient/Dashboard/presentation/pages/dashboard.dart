@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -6,6 +7,7 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
+import '../widgets/featured_doctors_section.dart';
 import '../widgets/upcoming_appointments_section.dart';
 
 class PatientDashboard extends StatelessWidget {
@@ -14,16 +16,31 @@ class PatientDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(),
+      create: (context) => DashboardBloc()..add(LoadDashboardRequested()),
       child: Builder(
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Welcome back, John"), CircleAvatar(),
-                ],
+              title: BlocBuilder<DashboardBloc, DashboardState>(
+                builder: (context,stat) {
+                  if(stat is DashboardLoaded) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Welcome back,${stat.user.fullName!}"),
+                        ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(50),
+                          child: CircleAvatar(
+                            child: stat.user.imageURL != null
+                                ? CachedNetworkImage(imageUrl:stat.user.imageURL!)
+                                : const Icon(Icons.person),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox();
+                }
               ),
             ),
 
@@ -47,24 +64,14 @@ class PatientDashboard extends StatelessWidget {
                     icon: Icon(Icons.notifications_none), label: "Alerts"),
               ],
             ),
-            body: const DashboardView(),
+            body: const DashboardBody(),
           );
         }
       ),
     );
   }
 }
-class DashboardView extends StatelessWidget {
-  const DashboardView({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DashboardBloc()..add(LoadDashboardRequested()),
-      child: const DashboardBody(),
-    );
-  }
-}
 class DashboardBody extends StatelessWidget {
   const DashboardBody({super.key});
 
@@ -89,6 +96,8 @@ class DashboardBody extends StatelessWidget {
                 UpcomingAppointmentsSection(
                   appointments: state.upcomingAppointments,
                 ),
+                FeaturedDoctorsSection(doctors: state.featuredDoctors),
+                const SizedBox(height: 30),
               ],
             ),
           );

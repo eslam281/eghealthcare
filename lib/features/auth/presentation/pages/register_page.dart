@@ -9,7 +9,6 @@ import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_role_selector.dart';
 import '../widgets/auth_text_field.dart';
-import '../widgets/social_login_section.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -57,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     AuthCard(
                       child: Form(
                         key: _formKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUnfocus,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

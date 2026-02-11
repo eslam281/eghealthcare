@@ -6,7 +6,6 @@ import 'package:get_it/get_it.dart';
 import 'app/routes/app_initial_route.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
-import 'core/usecase/usecase.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/get_user.dart';

@@ -15,7 +15,7 @@ class AppTheme {
       error: AppColorsLight.destructive,
       onError: Colors.white,
       surface: AppColorsLight.card,
-      onSurface: AppColorsLight.cardForeground,
+      onSurface: AppColorsLight.cardForeground
     ),
     cardColor: AppColorsLight.card,
     dividerColor: AppColorsLight.border,

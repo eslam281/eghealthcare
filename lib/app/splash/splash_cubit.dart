@@ -13,6 +13,7 @@ SplashCubit(this.appStartDecider) : super(SplashInitial());
 
   Future<void> checkAppStart() async {
     emit(SplashLoading());
+    await Future.delayed(const Duration(seconds: 3));
     final route = await appStartDecider.decideRoute();
     emit(route);
   }

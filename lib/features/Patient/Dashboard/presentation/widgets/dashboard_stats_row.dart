@@ -1,5 +1,5 @@
-import 'package:eghealthcare/features/Patient/Dashboard/presentation/widgets/stat_card.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../domain/entities/dashboard_summary_entity.dart';
 
@@ -12,12 +12,74 @@ class DashboardStatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: StatCard(title: "Upcoming Appointments", value: summary.upcoming)),
+        Expanded(child: _StatCard(title: "Upcoming Appointments", value: summary.upcoming,
+          icon: LucideIcons.calendar, color: Colors.blue)),
         const SizedBox(width: 12),
-        Expanded(child: StatCard(title: "Completed Visits", value: summary.visits)),
+        Expanded(child: _StatCard(title: "Completed Visits", value: summary.visits,
+          icon: LucideIcons.palette, color: Colors.lightGreenAccent)),
         const SizedBox(width: 12),
-        Expanded(child: StatCard(title: "Available Doctors", value: summary.doctors)),
+        Expanded(child: _StatCard(title: "Available Doctors", value: summary.doctors,
+          icon: LucideIcons.stethoscope, color: Colors.green)),
       ],
     );
   }
 }
+
+class _StatCard extends StatelessWidget {
+  final String title;
+  final int value;
+  final IconData icon;
+  final Color color;
+
+  const _StatCard({required this.title, required this.value, required this.icon, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          const BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: Offset(0, 3),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: 36, // h-9 ≈ 36px
+                width: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12), // rounded-lg
+                  color:color
+                ),
+                child: Center(
+                  child: Icon(
+                    icon, size: 20, // h-5 w-5
+                    color: Colors.white, // text-primary-foreground
+                  ),
+                ),
+              )
+              ,
+              Text(
+                value.toString(),
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(title, style: const TextStyle(color: Colors.grey,),textAlign: TextAlign.center,),
+        ],
+      ),
+    );
+  }
+}
+

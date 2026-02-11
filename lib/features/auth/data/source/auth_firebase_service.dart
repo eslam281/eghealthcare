@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../domain/entities/user.dart';
 import '../models/create_user_req.dart';
 import '../models/signin_user_req.dart';
-import '../models/user.dart';
 
 abstract class AuthFirebaseService{
   Future<Either> signup(CreateUserReq createuserReq);

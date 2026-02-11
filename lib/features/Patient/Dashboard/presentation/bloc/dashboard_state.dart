@@ -11,11 +11,12 @@ class DashboardLoaded extends DashboardState {
   final UserEntity user;
   final DashboardSummary summary;
   final List<AppointmentEntity> upcomingAppointments;
+  final List<DoctorEntity> featuredDoctors;
 
   DashboardLoaded({
     required this.user,
     required this.summary,
-    required this.upcomingAppointments,
+    required this.upcomingAppointments, required this.featuredDoctors,
   });
 }
 
