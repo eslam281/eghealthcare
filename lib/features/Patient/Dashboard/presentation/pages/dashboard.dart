@@ -7,6 +7,7 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
+import '../widgets/drawer.dart';
 import '../widgets/featured_doctors_section.dart';
 import '../widgets/upcoming_appointments_section.dart';
 
@@ -54,7 +55,8 @@ class PatientDashboard extends StatelessWidget {
             }, shape: const CircleBorder(),
               child: const Icon(LucideIcons.messageCircle, color: Colors.white,),),
 
-            drawer: const Placeholder(),
+            drawer: const AppDrawer(),
+
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               items: const [
@@ -64,7 +66,8 @@ class PatientDashboard extends StatelessWidget {
                     icon: Icon(Icons.notifications_none), label: "Alerts"),
               ],
             ),
-            body: const DashboardBody(),
+
+            body: const _DashboardBody(),
           );
         }
       ),
@@ -72,8 +75,8 @@ class PatientDashboard extends StatelessWidget {
   }
 }
 
-class DashboardBody extends StatelessWidget {
-  const DashboardBody({super.key});
+class _DashboardBody extends StatelessWidget {
+  const _DashboardBody();
 
   @override
   Widget build(BuildContext context) {
