@@ -16,10 +16,10 @@ class DashboardStatsRow extends StatelessWidget {
           icon: LucideIcons.calendar, color: Colors.blue)),
         const SizedBox(width: 12),
         Expanded(child: _StatCard(title: "Completed Visits", value: summary.visits,
-          icon: LucideIcons.palette, color: Colors.lightGreenAccent)),
+          icon: LucideIcons.activity600, color: Colors.greenAccent)),
         const SizedBox(width: 12),
         Expanded(child: _StatCard(title: "Available Doctors", value: summary.doctors,
-          icon: LucideIcons.stethoscope, color: Colors.green)),
+          icon: LucideIcons.stethoscope600, color: Colors.green)),
       ],
     );
   }
@@ -51,19 +51,19 @@ class _StatCard extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: 36, // h-9 ≈ 36px
-                width: 36,
+                height: 40, // h-9 ≈ 36px
+                width: 40,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), // rounded-lg
-                  color:color
+                  borderRadius: BorderRadius.circular(10), // rounded-lg
+                  color:Colors.grey.withAlpha(40)
                 ),
                 child: Center(
                   child: Icon(
-                    icon, size: 20, // h-5 w-5
-                    color: Colors.white, // text-primary-foreground
+                    icon, size: 25, // h-5 w-5
+                    color: color, // text-primary-foreground
                   ),
                 ),
               )

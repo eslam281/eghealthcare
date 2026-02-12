@@ -16,15 +16,23 @@ class FeaturedDoctorsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Featured Doctors",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             TextButton(
               onPressed: () {},
-              child: Text(
-                "View All",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              child: Row(
+                children: [
+                  Text(
+                    "View All",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.arrow_forward, size: 15,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant
+                  ),
+                ],
               ),
             ),
           ],

@@ -15,9 +15,31 @@ class UpcomingAppointmentsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Upcoming Appointments",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Upcoming Appointments",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  Text(
+                    "View All",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.arrow_forward, size: 15,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+
         ...appointments.map((a) => _AppointmentCard(appointment: a)),
       ],
     );
@@ -95,9 +117,6 @@ class _AppointmentCard extends StatelessWidget {
             ),
 
             const SizedBox(height: 12),
-            Divider(color: colors.outlineVariant),
-
-            const SizedBox(height: 12),
 
             /// 🔹 Date & Time
             Row(
@@ -115,6 +134,8 @@ class _AppointmentCard extends StatelessWidget {
             ),
 
             const SizedBox(height: 12),
+            Divider(color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(50),),
+
 
             /// 🔹 Cancel Button
             Align(
