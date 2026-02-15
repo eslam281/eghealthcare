@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCard extends StatelessWidget {
@@ -18,10 +19,12 @@ class DoctorCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 30,
-                backgroundColor: Color(0xFF2D958E), // نفس لون الصورة
-                child: Icon(Icons.person, color: Colors.white, size: 35),
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(50),
+                child: CircleAvatar(
+                  radius: 22,
+                  child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(

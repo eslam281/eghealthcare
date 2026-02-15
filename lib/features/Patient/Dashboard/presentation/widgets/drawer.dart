@@ -26,7 +26,7 @@ class AppDrawer extends StatelessWidget {
                     title: "Dashboard",
                     isActive: true,
                     onTap: () {
-                      Navigator.of(context).pushNamed( Routes.findDoctor);
+                      // Navigator.of(context).pushNamed( Routes.patientDashboard);
                     },
 
                   ),

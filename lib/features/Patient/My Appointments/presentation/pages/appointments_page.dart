@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Dashboard/presentation/widgets/upcoming_appointments_section.dart';
 import '../bloc/appointments_bloc.dart';
 import '../widgets/appointments_filterTabs.dart';
-import '../widgets/appointments_header.dart';
 import '../widgets/appointments_statsRow.dart';
 
 class MyAppointmentsPage extends StatelessWidget {
@@ -26,7 +25,6 @@ class MyAppointmentsPage extends StatelessWidget {
         ),
         body: BlocBuilder<AppointmentsBloc, AppointmentsState>(
           builder: (context, state) {
-            print(state.toString());
             if (state is AppointmentsLoading) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -37,14 +35,15 @@ class MyAppointmentsPage extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-        
                   /// Header
-                const Text(
-                "Manage and track all your medical appointments",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),),
+                const Center(
+                  child: Text(
+                  "Manage and track all your medical appointments",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),),
+                ),
         
                   const SizedBox(height: 16),
         

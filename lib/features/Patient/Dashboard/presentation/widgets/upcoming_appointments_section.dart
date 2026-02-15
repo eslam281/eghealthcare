@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -70,10 +71,12 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                CircleAvatar(
-                  radius: 22,
-                  backgroundColor: colors.primary.withOpacity(.1),
-                  child: Icon(LucideIcons.stethoscope, color: colors.primary),
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(50),
+                  child: CircleAvatar(
+                    radius: 22,
+                    child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
+                  ),
                 ),
                 const SizedBox(width: 12),
 
