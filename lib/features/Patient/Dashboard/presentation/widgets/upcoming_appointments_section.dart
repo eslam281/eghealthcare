@@ -40,16 +40,16 @@ class UpcomingAppointmentsSection extends StatelessWidget {
           ],
         ),
 
-        ...appointments.map((a) => _AppointmentCard(appointment: a)),
+        ...appointments.map((a) => AppointmentCard(appointment: a)),
       ],
     );
   }
 }
 
-class _AppointmentCard extends StatelessWidget {
+class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
 
-  const _AppointmentCard({required this.appointment});
+  const AppointmentCard({super.key, required this.appointment});
 
   @override
   Widget build(BuildContext context) {

@@ -39,7 +39,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _DrawerItem(
                     icon: Icons.calendar_today_outlined,
-                    title: "My Appointments", onTap: () {  },
+                    title: "My Appointments",
+                    onTap: () {
+                      Navigator.of(context).pushNamed( Routes.myAppointments);
+                    },
                   ),
                   _DrawerItem(
                     icon: Icons.description_outlined,

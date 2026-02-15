@@ -15,10 +15,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<RefreshDashboardRequested>(_onRefreshDashboard);
   }
 
-  Future<void> _onLoadDashboard(
-      LoadDashboardRequested event,
-      Emitter<DashboardState> emit,
-      ) async {
+  Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());
 
     try {
@@ -57,10 +54,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
   }
 
-  Future<void> _onRefreshDashboard(
-      RefreshDashboardRequested event,
-      Emitter<DashboardState> emit,
-      ) async {
+  Future<void> _onRefreshDashboard(RefreshDashboardRequested event, Emitter<DashboardState> emit,) async {
     add(LoadDashboardRequested());
   }
 }
