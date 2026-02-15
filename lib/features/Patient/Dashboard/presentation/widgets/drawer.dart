@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/constants/routes.dart';
-import '../../../../../core/themes/app_colors_light.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -46,7 +45,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _DrawerItem(
                     icon: Icons.description_outlined,
-                    title: "Diagnosis History", onTap: () {  },
+                    title: "Diagnosis History",
+                    onTap: () {
+                    Navigator.of(context).pushNamed( Routes.diagnosisHistory);
+                  },
                   ),
                   _DrawerItem(
                     icon: Icons.chat_bubble_outline,

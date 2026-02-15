@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/shared/state_card.dart';
 
-class AppointmentsStatsRow extends StatelessWidget {
-  const AppointmentsStatsRow({super.key});
+class DiagnosisStatsRow extends StatelessWidget {
+  const DiagnosisStatsRow({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Row(
       children: [
-        Expanded(
-          child: StateCard(
-            title: "Scheduled",
-            count: 3,
-            color: Colors.blue,
-            icon: Icons.schedule,
-          ),
-        ),
-
-        SizedBox(width: 12),
 
         Expanded(
           child: StateCard(
-            title: "Completed",
+            title: "Ongoing",
             count: 1,
-            color: Colors.green,
-            icon: Icons.check_circle,
+            icon: LucideIcons.activity600,
+            color: Colors.orange,
           ),
         ),
 
@@ -33,14 +24,25 @@ class AppointmentsStatsRow extends StatelessWidget {
 
         Expanded(
           child: StateCard(
-            title: "Cancelled",
-            count: 0,
-            color: Colors.red,
-            icon: Icons.cancel,
+            title: "Resolved",
+            count: 2,
+            icon: Icons.description,
+            color: Colors.green,
           ),
         ),
+
+        SizedBox(width: 12),
+
+        Expanded(
+          child: StateCard(
+            title: "Follow-up",
+            count: 0,
+            icon: Icons.calendar_today,
+            color: Colors.blue,
+          ),
+        ),
+
       ],
     );
   }
 }
-

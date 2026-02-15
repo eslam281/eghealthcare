@@ -56,7 +56,7 @@ class FeaturedDoctorsSection extends StatelessWidget {
 class _DoctorCard extends StatelessWidget {
   final DoctorEntity doctor;
 
-  const _DoctorCard({super.key, required this.doctor});
+  const _DoctorCard({required this.doctor});
 
   @override
   Widget build(BuildContext context) {

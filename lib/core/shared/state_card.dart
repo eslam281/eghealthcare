@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class StatCard extends StatelessWidget {
+class StateCard extends StatelessWidget {
   final String title;
   final int count;
   final Color color;
   final IconData icon;
 
-  const StatCard({super.key,
+  const StateCard({super.key,
     required this.title,
     required this.count,
     required this.color,

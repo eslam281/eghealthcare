@@ -7,7 +7,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/constants/routes.dart';
 import '../../core/themes/app_colors_dark.dart';
 import '../../core/themes/app_colors_light.dart';
-import '../../core/themes/app_gradients.dart';
 import '../../core/themes/is_dark_mode.dart';
 
 class SplashScreen extends StatelessWidget {

@@ -64,23 +64,29 @@ class FindDoctorsPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          value: "All",
-                          items: const [
-                            DropdownMenuItem(
+                        child: Row(
+                          children: [
+                            const Icon(Icons.filter_list),
+                            const SizedBox(width: 8),
+                            DropdownButton(
                               value: "All",
-                              child: Text("All Specialties"),
-                            ),
-                            DropdownMenuItem(
-                              value: "All2",
-                              child: Text("sad"),
-                            ),
-                            DropdownMenuItem(
-                              value: "All3",
-                              child: Text("sf sfas"),
+                              items: const [
+                                DropdownMenuItem(
+                                  value: "All",
+                                  child: Text("All Specialties"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "All2",
+                                  child: Text("sad"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "All3",
+                                  child: Text("sf sfas"),
+                                ),
+                              ],
+                              onChanged: (value) {},
                             ),
                           ],
-                          onChanged: (value) {},
                         ),
                       ),
                     )
