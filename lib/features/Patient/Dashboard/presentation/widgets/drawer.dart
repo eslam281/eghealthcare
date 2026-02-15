@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -19,27 +20,34 @@ class AppDrawer extends StatelessWidget {
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                children: const [
+                children: [
                   _DrawerItem(
                     icon: Icons.home_outlined,
                     title: "Dashboard",
                     isActive: true,
+                    onTap: () {
+                      Navigator.of(context).pushNamed( Routes.findDoctor);
+                    },
+
                   ),
                   _DrawerItem(
                     icon: Icons.search,
                     title: "Find Doctors",
+                    onTap: () {
+                      Navigator.of(context).pushNamed( Routes.findDoctor);
+                    },
                   ),
                   _DrawerItem(
                     icon: Icons.calendar_today_outlined,
-                    title: "My Appointments",
+                    title: "My Appointments", onTap: () {  },
                   ),
                   _DrawerItem(
                     icon: Icons.description_outlined,
-                    title: "Diagnosis History",
+                    title: "Diagnosis History", onTap: () {  },
                   ),
                   _DrawerItem(
                     icon: Icons.chat_bubble_outline,
-                    title: "Messages",
+                    title: "Messages", onTap: () {  },
                   ),
                 ],
               ),
@@ -47,11 +55,11 @@ class AppDrawer extends StatelessWidget {
 
             Divider(color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(50),),
 
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: _DrawerItem(
                 icon: Icons.settings_outlined,
-                title: "Settings",
+                title: "Settings", onTap: () {  },
               ),
             ),
 
@@ -116,11 +124,13 @@ class _DrawerItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final bool isActive;
+  final void Function() onTap;
 
   const _DrawerItem({
     required this.icon,
     required this.title,
     this.isActive = false,
+    required this.onTap,
   });
 
   @override
@@ -147,7 +157,7 @@ class _DrawerItem extends StatelessWidget {
             fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
           ),
         ),
-        onTap: () {},
+        onTap:onTap,
       ),
     );
   }
