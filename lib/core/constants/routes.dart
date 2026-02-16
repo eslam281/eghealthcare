@@ -7,6 +7,7 @@
   static const String findDoctor = '/patient_find_doctor';
   static const String myAppointments = '/patient_My_Appointments';
   static const String diagnosisHistory = '/patient_Diagnosis_History';
+  static const String chatPage = '/patient_Chat';
 
   ////////
   static const String doctorDashboard = '/doctor_dashboard';

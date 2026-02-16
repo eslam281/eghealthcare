@@ -6,6 +6,7 @@ import '../../core/constants/routes.dart';
 import '../../features/Doctor/Dashboard/presentation/pages/dashboard.dart';
 import '../../features/Patient/Diagnosis History/presentation/pages/diagnosis_page.dart';
 import '../../features/Patient/Find Doctors/presentation/pages/find_doctor.dart';
+import '../../features/Patient/Messages/presentation/pages/chat_page.dart';
 import '../../features/Patient/My Appointments/presentation/pages/appointments_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../splash/splash_page.dart';
@@ -20,6 +21,7 @@ Map<String, Widget Function(BuildContext)> routes={
   Routes.findDoctor:(context) => const FindDoctorsPage(),
   Routes.myAppointments:(context) => const MyAppointmentsPage(),
   Routes.diagnosisHistory:(context) => const DiagnosisHistorySection(),
+  Routes.chatPage:(context) => const ChatPage(),
   /////
   Routes.doctorDashboard:(context) => const DoctorDashboard(),
 };

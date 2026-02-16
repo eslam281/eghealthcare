@@ -49,11 +49,12 @@ class PatientDashboard extends StatelessWidget {
               // context.read<AuthBloc>().add(
               //   GetUserRequested(),
               // );
-              context.read<AuthBloc>().add(
-                LogoutRequested(),
-              );
+              // context.read<AuthBloc>().add(
+              //   LogoutRequested(),
+              // );
             }, shape: const CircleBorder(),
-              child: const Icon(LucideIcons.messageCircle, color: Colors.white,),),
+              child: const Icon(Icons.support_agent,
+                color: Colors.white,),),
 
             drawer: const AppDrawer(),
 

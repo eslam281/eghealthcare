@@ -52,7 +52,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _DrawerItem(
                     icon: Icons.chat_bubble_outline,
-                    title: "Messages", onTap: () {  },
+                    title: "Messages",
+                    onTap: () {
+                      Navigator.of(context).pushNamed( Routes.chatPage);
+                    },
                   ),
                 ],
               ),
