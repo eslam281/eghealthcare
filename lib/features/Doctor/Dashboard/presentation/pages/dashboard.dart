@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/shared/drawer.dart';
+import '../../../../Patient/Dashboard/presentation/widgets/dashboard_header.dart';
+import '../../../../Patient/Dashboard/presentation/widgets/dashboard_stats_row.dart';
+import '../../../../Patient/Dashboard/presentation/widgets/upcoming_appointments_section.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/Drawer_body.dart';
 
@@ -13,7 +17,33 @@ class DoctorDashboard extends StatelessWidget {
     return BlocProvider(
       create: (context) => DashboardBloc()..add(LoadDashboardRequested()),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Doctor Dashboard")),
+        appBar:  AppBar(
+          title: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context,stat) {
+                if(stat is DashboardLoaded) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        Text("Dr.",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
+                        Text("${stat.user.fullName}"),
+                      ],),
+
+                      ClipRRect(
+                        borderRadius: BorderRadiusGeometry.circular(50),
+                        child: CircleAvatar(
+                          child: stat.user.imageURL != null
+                              ? CachedNetworkImage(imageUrl:stat.user.imageURL!)
+                              : const Icon(Icons.person),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return const SizedBox();
+              }
+          ),
+        ),
         drawer: const AppDrawer(body: DrawerBody(),),
         floatingActionButton: FloatingActionButton(onPressed: () {
           // context.read<AuthBloc>().add(
@@ -30,3 +60,38 @@ class DoctorDashboard extends StatelessWidget {
     );
   }
 }
+// class _DashboardBody extends StatelessWidget {
+//   const _DashboardBody();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<DashboardBloc, DashboardState>(
+//       builder: (context, state) {
+//         if (state is DashboardLoading) {
+//           return const Center(child: CircularProgressIndicator());
+//         }
+//
+//         if (state is DashboardLoaded) {
+//           return SingleChildScrollView(
+//             padding: const EdgeInsets.all(16),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 DashboardHeader(user: state.user),
+//                 const SizedBox(height: 20),
+//                 DashboardStatsRow(summary: state.summary),
+//                 const SizedBox(height: 24),
+//                 UpcomingAppointmentsSection(
+//                   appointments: state.upcomingAppointments,
+//                 ),
+//                 const SizedBox(height: 30),
+//               ],
+//             ),
+//           );
+//         }
+//
+//         return const Center(child: Text("Something went wrong"));
+//       },
+//     );
+//   }
+// }
