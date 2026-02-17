@@ -7,7 +7,8 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
-import '../widgets/drawer.dart';
+import '../../../../../core/shared/drawer.dart';
+import '../widgets/drawer_body.dart';
 import '../widgets/featured_doctors_section.dart';
 import '../widgets/upcoming_appointments_section.dart';
 
@@ -56,7 +57,7 @@ class PatientDashboard extends StatelessWidget {
               child: const Icon(Icons.support_agent,
                 color: Colors.white,),),
 
-            drawer: const AppDrawer(),
+            drawer: const AppDrawer(body: DrawerBody(),),
 
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,

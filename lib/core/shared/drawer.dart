@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../../../core/constants/routes.dart';
-
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  final Widget body;
+  const AppDrawer({super.key, required this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -16,56 +15,13 @@ class AppDrawer extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                children: [
-                  _DrawerItem(
-                    icon: Icons.home_outlined,
-                    title: "Dashboard",
-                    isActive: true,
-                    onTap: () {
-                      // Navigator.of(context).pushNamed( Routes.patientDashboard);
-                    },
-
-                  ),
-                  _DrawerItem(
-                    icon: Icons.search,
-                    title: "Find Doctors",
-                    onTap: () {
-                      Navigator.of(context).pushNamed( Routes.findDoctor);
-                    },
-                  ),
-                  _DrawerItem(
-                    icon: Icons.calendar_today_outlined,
-                    title: "My Appointments",
-                    onTap: () {
-                      Navigator.of(context).pushNamed( Routes.myAppointments);
-                    },
-                  ),
-                  _DrawerItem(
-                    icon: Icons.description_outlined,
-                    title: "Diagnosis History",
-                    onTap: () {
-                    Navigator.of(context).pushNamed( Routes.diagnosisHistory);
-                  },
-                  ),
-                  _DrawerItem(
-                    icon: Icons.chat_bubble_outline,
-                    title: "Messages",
-                    onTap: () {
-                      Navigator.of(context).pushNamed( Routes.chatPage);
-                    },
-                  ),
-                ],
-              ),
-            ),
+            body,
 
             Divider(color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(50),),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: _DrawerItem(
+              child: DrawerItem(
                 icon: Icons.settings_outlined,
                 title: "Settings", onTap: () {  },
               ),
@@ -128,13 +84,14 @@ class _DrawerHeader extends StatelessWidget {
   }
 }
 
-class _DrawerItem extends StatelessWidget {
+class DrawerItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final bool isActive;
   final void Function() onTap;
 
-  const _DrawerItem({
+  const DrawerItem({
+    super.key,
     required this.icon,
     required this.title,
     this.isActive = false,
