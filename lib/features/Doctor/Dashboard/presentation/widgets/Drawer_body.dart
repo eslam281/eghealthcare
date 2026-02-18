@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/constants/routes.dart';
 import '../../../../../core/shared/drawer.dart';
@@ -22,13 +23,6 @@ class DrawerBody extends StatelessWidget {
             },
 
           ),
-          // DrawerItem(
-          //   icon: Icons.search,
-          //   title: "Find Doctors",
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed( Routes.findDoctor);
-          //   },
-          // ),
           DrawerItem(
             icon: Icons.calendar_today_outlined,
             title: "Appointments",
@@ -36,18 +30,25 @@ class DrawerBody extends StatelessWidget {
               Navigator.of(context).pushNamed( Routes.myAppointments);
             },
           ),
-          // DrawerItem(
-          //   icon: Icons.description_outlined,
-          //   title: "Diagnosis History",
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed( Routes.diagnosisHistory);
-          //   },
-          // ),
+          DrawerItem(
+            icon: LucideIcons.users,
+            title: "My Patients",
+            onTap: () {
+              Navigator.of(context).pushNamed( Routes.myPatients);
+            },
+          ),
           DrawerItem(
             icon: Icons.chat_bubble_outline,
             title: "Messages",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.chatPage);
+            },
+          ),
+          DrawerItem(
+            icon: Icons.support_agent_rounded,
+            title: "Al Analysis",
+            onTap: () {
+              // Navigator.of(context).pushNamed( Routes.chatPage);
             },
           ),
         ],

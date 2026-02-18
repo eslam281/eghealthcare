@@ -24,7 +24,7 @@ class DrawerBody extends StatelessWidget {
           ),
           DrawerItem(
             icon: Icons.search,
-            title: "Al Analysis",
+            title: "Find Doctors",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.findDoctor);
             },
@@ -38,7 +38,7 @@ class DrawerBody extends StatelessWidget {
           ),
           DrawerItem(
             icon: Icons.description_outlined,
-            title: "My Patients",
+            title: "Diagnosis History",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.diagnosisHistory);
             },
