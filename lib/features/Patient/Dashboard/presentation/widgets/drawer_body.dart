@@ -18,7 +18,7 @@ class DrawerBody extends StatelessWidget {
             title: "Dashboard",
             isActive: true,
             onTap: () {
-              // Navigator.of(context).pushNamed( Routes.patientDashboard);
+              Navigator.of(context).pushNamed( Routes.doctorDashboard);
             },
 
           ),

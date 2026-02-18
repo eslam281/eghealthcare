@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../constants/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   final Widget body;
@@ -23,10 +27,38 @@ class AppDrawer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: DrawerItem(
                 icon: Icons.settings_outlined,
-                title: "Settings", onTap: () {  },
+                title: "Settings",
+                onTap: () {  },
               ),
             ),
 
+            BlocProvider(create: (context) => AuthBloc(),
+              child: BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.message)),
+                    );
+                  }
+                  if (state is AuthInitial) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.login, (route) => false);
+                  }
+                },
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: DrawerItem(
+                        icon: Icons.logout_outlined,
+                        title: "Logout",
+                        onTap: () {
+                          context.read<AuthBloc>().add(LogoutRequested());
+                        },
+                      ),
+                    );
+                  },
+              ),
+            ),
             const SizedBox(height: 12),
           ],
         ),

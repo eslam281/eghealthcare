@@ -8,6 +8,7 @@ import '../bloc/dashboard_bloc.dart';
 import '../widgets/Drawer_body.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
+import '../widgets/upcoming_appointments_section.dart';
 
 class DoctorDashboard extends StatelessWidget {
   const DoctorDashboard({super.key});
@@ -73,9 +74,9 @@ class _DashboardBody extends StatelessWidget {
                 const SizedBox(height: 20),
                 DashboardStatsRow(summary: state.summary),
                 const SizedBox(height: 24),
-                // UpcomingAppointmentsSection(
-                //   appointments: state.upcomingAppointments,
-                // ),
+                UpcomingAppointmentsSection(
+                  appointments: state.upcomingAppointments,
+                ),
                 const SizedBox(height: 30),
               ],
             ),
