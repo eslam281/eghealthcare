@@ -24,21 +24,21 @@ class DrawerBody extends StatelessWidget {
           ),
           DrawerItem(
             icon: Icons.search,
-            title: "Find Doctors",
+            title: "Al Analysis",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.findDoctor);
             },
           ),
           DrawerItem(
             icon: Icons.calendar_today_outlined,
-            title: "My Appointments",
+            title: "Appointments",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.myAppointments);
             },
           ),
           DrawerItem(
             icon: Icons.description_outlined,
-            title: "Diagnosis History",
+            title: "My Patients",
             onTap: () {
               Navigator.of(context).pushNamed( Routes.diagnosisHistory);
             },

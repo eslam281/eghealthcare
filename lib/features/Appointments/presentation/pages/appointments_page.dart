@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Dashboard/presentation/widgets/upcoming_appointments_section.dart';
 import '../bloc/appointments_bloc.dart';
+import '../widgets/appointment_card.dart' show AppointmentCard;
 import '../widgets/appointments_filterTabs.dart';
 import '../widgets/appointments_statsRow.dart';
 
@@ -16,7 +16,7 @@ class MyAppointmentsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "My Appointments",
+            "Appointments",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,

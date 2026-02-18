@@ -11,7 +11,7 @@ class DiagnosisHistorySection extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Diagnosis History",
+          "My Patients",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,

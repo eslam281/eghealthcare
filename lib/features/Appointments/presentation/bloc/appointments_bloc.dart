@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../Dashboard/domain/entities/appointment_entity.dart';
+import '../../domain/entities/appointment_entity.dart';
 
 part 'appointments_event.dart';
 part 'appointments_state.dart';

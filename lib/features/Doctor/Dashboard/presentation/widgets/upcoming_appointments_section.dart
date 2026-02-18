@@ -45,7 +45,6 @@ class UpcomingAppointmentsSection extends StatelessWidget {
     );
   }
 }
-
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
 
@@ -158,4 +157,3 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 }
-
