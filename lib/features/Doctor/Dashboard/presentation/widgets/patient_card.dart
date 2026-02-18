@@ -56,22 +56,54 @@ class PatientCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Text(
-            "Medical Summary",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            patient.medicalSummary,
-            style: TextStyle(color: Colors.grey[600]),
-          ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {},
-              child: const Text("View Full Profile"),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(16),
             ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.description_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "Medical Summary",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  patient.medicalSummary,
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          TextButton(
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "View Full Profile",
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(width: 8),
+                Icon(Icons.arrow_forward, size: 15,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant
+                ),
+              ],
+            ),
+
           )
         ],
       ),

@@ -31,10 +31,19 @@ class PatientsSection extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  // navigate later
-                },
-                child: const Text("View All"),
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Text(
+                      "View All",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.arrow_forward, size: 15,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

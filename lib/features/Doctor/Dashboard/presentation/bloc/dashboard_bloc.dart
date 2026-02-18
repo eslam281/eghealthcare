@@ -43,7 +43,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           medicalSummary:
           "History of hypertension, managed with medication. Regular checkups recommended. No known allergies.",
         ),
-        PatientEntity(
+        const PatientEntity(
           id: "2",
           name: "Sarah Williams",
           age: 32,
@@ -52,7 +52,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           medicalSummary:
           "Diabetic patient. Monitoring blood sugar levels regularly. Mild allergy to penicillin.",
         ),
-        PatientEntity(
+        const PatientEntity(
           id: "3",
           name: "Michael Brown",
           age: 50,
