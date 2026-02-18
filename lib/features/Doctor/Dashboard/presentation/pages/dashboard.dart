@@ -8,6 +8,7 @@ import '../bloc/dashboard_bloc.dart';
 import '../widgets/Drawer_body.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
+import '../widgets/patients_section.dart';
 import '../widgets/upcoming_appointments_section.dart';
 
 class DoctorDashboard extends StatelessWidget {
@@ -53,6 +54,7 @@ class DoctorDashboard extends StatelessWidget {
     );
   }
 }
+
 class _DashboardBody extends StatelessWidget {
   const _DashboardBody();
 
@@ -77,7 +79,25 @@ class _DashboardBody extends StatelessWidget {
                 UpcomingAppointmentsSection(
                   appointments: state.upcomingAppointments,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+                PatientsSection(
+                  patients: state.patients, // من البلوك
+                ),
+                //نصيحه من شات جبتي لو حابب تحسن شكل ديزاين
+                // Container(
+                //   padding: EdgeInsets.all(20),
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(20),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         blurRadius: 20,
+                //         color: Colors.black.withOpacity(.05),
+                //       ),
+                //     ],
+                //   ),
+                // )
+
               ],
             ),
           );
