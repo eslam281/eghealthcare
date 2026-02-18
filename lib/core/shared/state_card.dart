@@ -47,7 +47,6 @@ class StateCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
             ],
           ),
           const SizedBox(height: 8),
