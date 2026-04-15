@@ -2,8 +2,12 @@
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'app/routes/app_initial_route.dart';
+import 'core/network/api_client.dart';
+import 'core/network/network_call_handler.dart';
+import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
@@ -37,6 +41,10 @@ void _initServices() {
 
 void _initCore() {
   sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
+  sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker.createInstance());
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<NetworkCallHandler>(() => NetworkCallHandler(sl()));
+  sl.registerLazySingleton<ApiClient>(() => ApiClientImpl(sl()));
 }
 
 void _initRepository() {
