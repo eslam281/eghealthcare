@@ -17,6 +17,7 @@ class NetworkCallHandler {
         } on ServerException catch(e){
         return Left(ServerFailure(e.message));
       }catch (e) {
+        print("========================= $e");
         return Left(ServerFailure("Something went wrong : ${e.toString()}"));
       }
     } else {

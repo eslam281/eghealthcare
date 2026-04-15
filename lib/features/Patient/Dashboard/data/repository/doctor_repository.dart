@@ -7,13 +7,13 @@ import '../source/doctor.dart';
 
 class DoctorRepositoryImpl extends DoctorRepository {
   @override
-  Future<Either<dynamic, dynamic>> getDoctors() async{
-    return await sl<DoctorApiImpl>().getDoctors();
+  Future<Either> getDoctors() async{
+    return await sl<DoctorApi>().getDoctors();
   }
 
   @override
-  Future<Either<dynamic, dynamic>> getDoctor(String id) async{
-    return await sl<DoctorApiImpl>().getDoctor(id);
+  Future<Either> getDoctor(String id) async{
+    return await sl<DoctorApi>().getDoctor(id);
   }
 
 }

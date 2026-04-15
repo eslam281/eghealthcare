@@ -78,7 +78,7 @@ class _DoctorCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 26,
-            backgroundImage: CachedNetworkImageProvider(doctor.imageUrl),
+            backgroundImage: CachedNetworkImageProvider(doctor.imageUrl!),
           ),
           const SizedBox(width: 12),
           Column(

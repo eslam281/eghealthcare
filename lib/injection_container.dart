@@ -2,6 +2,7 @@
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'app/routes/app_initial_route.dart';
@@ -13,6 +14,7 @@ import 'core/services/role_service.dart';
 import 'features/Patient/Dashboard/data/repository/doctor_repository.dart';
 import 'features/Patient/Dashboard/data/source/doctor.dart';
 import 'features/Patient/Dashboard/domain/repository/doctor_repository.dart';
+import 'features/Patient/Dashboard/domain/usecases/getDoctor_usecases.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/get_user.dart';
@@ -44,8 +46,9 @@ void _initServices() {
 }
 
 void _initCore() {
-  sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
   sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker.createInstance());
+  sl.registerLazySingleton<Client>(() => Client());
+  sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<NetworkCallHandler>(() => NetworkCallHandler(sl()));
   sl.registerLazySingleton<ApiClient>(() => ApiClientImpl(sl()));
@@ -62,4 +65,5 @@ void _initUseCase() {
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
+  sl.registerLazySingleton<GetDoctorUseCases>(() => GetDoctorUseCases());
 }

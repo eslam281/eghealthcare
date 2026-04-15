@@ -1,6 +1,8 @@
 
+import 'package:eghealthcare/features/Patient/Dashboard/domain/entities/doctor_entity.dart';
+
 class DoctorModel {
-  late int doctorID;
+  late String doctorID;
   late String name;
   String? avatar;
   late String specialty;
@@ -49,5 +51,15 @@ class DoctorModel {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;
+  }
+}
+extension DoctorModelExtension on DoctorModel{
+  DoctorEntity doctorEntity(){
+    return DoctorEntity(
+      id: doctorID,
+      name: name,
+      specialty: specialty,
+      imageUrl: avatar
+    );
   }
 }

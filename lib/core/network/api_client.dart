@@ -38,6 +38,7 @@ class ApiClientImpl implements ApiClient {
     } else {
       try {
         final errorBody = jsonDecode(response.body);
+        print("================================== $errorBody");
         throw ServerException(errorBody['message']??'Something went wrong ${response.statusCode}');
         } catch (e) {
         throw ServerException('Failed to parse JSON ${response.statusCode}');
