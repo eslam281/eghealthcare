@@ -10,6 +10,9 @@ import 'core/network/network_call_handler.dart';
 import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
+import 'features/Patient/Dashboard/data/repository/doctor_repository.dart';
+import 'features/Patient/Dashboard/data/source/doctor.dart';
+import 'features/Patient/Dashboard/domain/repository/doctor_repository.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/get_user.dart';
@@ -36,6 +39,7 @@ void _initServices() {
   sl.registerLazySingleton<EncryptionKeyService>(() => EncryptionKeyServiceImpl(sl()));
   sl.registerLazySingleton<RoleService>(() => RoleServiceImpl(sl()));
   sl.registerLazySingleton<AuthFirebaseService>(() => AuthFirebaseServiceImpl());
+  sl.registerLazySingleton<DoctorApi>(() => DoctorApiImpl());
 
 }
 
@@ -49,6 +53,7 @@ void _initCore() {
 
 void _initRepository() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+  sl.registerLazySingleton<DoctorRepository>(() => DoctorRepositoryImpl());
 }
 
 void _initUseCase() {
