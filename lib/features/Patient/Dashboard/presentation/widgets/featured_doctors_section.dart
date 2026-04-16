@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/avatar.dart';
 import '../../domain/entities/doctor_entity.dart';
 
 class FeaturedDoctorsSection extends StatelessWidget {
@@ -76,10 +77,8 @@ class _DoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 26,
-            backgroundImage: CachedNetworkImageProvider(doctor.imageUrl!),
-          ),
+          AvatarImage(imageUrl: doctor.imageUrl, radius: 50),
+
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -46,7 +46,7 @@ void _initServices() {
 }
 
 void _initCore() {
-  sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker.createInstance());
+  sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker.instance);
   sl.registerLazySingleton<Client>(() => Client());
   sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

@@ -18,7 +18,10 @@ abstract class DoctorApi{
 class DoctorApiImpl implements DoctorApi{
   @override
   Future<Either<Failure, dynamic>> getDoctors() async {
-    final response = await sl<NetworkCallHandler>().call(await sl<ApiClient>().get(AppLinks.doctor));
+    print("===========================getDoctors");
+    final response = await sl<NetworkCallHandler>().call(
+            ()=> sl<ApiClient>().get(AppLinks.doctor));
+    print("===========================response : ${response.toString()}");
     return response.fold(
           (failure) => Left(failure),
           (data) {

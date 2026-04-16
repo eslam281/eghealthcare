@@ -10,7 +10,9 @@ class NetworkCallHandler {
   NetworkCallHandler(this.networkInfo);
 
   Future<Either<Failure, T>> call<T>(Future<T> Function() action) async {
-    if (await networkInfo.isConnected) {
+    final result = await networkInfo.isConnected;
+    print(result);
+    if (!(await networkInfo.isConnected)) {
       try {
         final result = await action();
         return Right(result);

@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/avatar.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../domain/entities/appointment_entity.dart';
 
@@ -70,13 +71,8 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(50),
-                  child: CircleAvatar(
-                    radius: 22,
-                    child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
-                  ),
-                ),
+                const AvatarImage(imageUrl:"https://randomuser.me/api/portraits/men/32.jpg", radius: 55),
+
                 const SizedBox(width: 12),
 
                 /// Name + Type

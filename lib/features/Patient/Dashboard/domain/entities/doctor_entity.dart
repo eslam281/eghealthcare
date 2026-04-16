@@ -1,5 +1,5 @@
 class DoctorEntity {
-  final String id;
+  final int id;
   final String name;
   final String specialty;
   final String? imageUrl;

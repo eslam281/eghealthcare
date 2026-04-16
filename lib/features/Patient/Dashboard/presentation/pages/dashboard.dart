@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/shared/avatar.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
@@ -28,14 +29,7 @@ class PatientDashboard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Welcome back,${stat.user.fullName!}"),
-                        ClipRRect(
-                          borderRadius: BorderRadiusGeometry.circular(50),
-                          child: CircleAvatar(
-                            child: stat.user.imageURL != null
-                                ? CachedNetworkImage(imageUrl:stat.user.imageURL!)
-                                : const Icon(Icons.person),
-                          ),
-                        ),
+                        AvatarImage(imageUrl: stat.user.imageURL!, radius: 50),
                       ],
                     );
                   }

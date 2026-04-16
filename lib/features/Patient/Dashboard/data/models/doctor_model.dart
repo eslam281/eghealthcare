@@ -2,7 +2,7 @@
 import 'package:eghealthcare/features/Patient/Dashboard/domain/entities/doctor_entity.dart';
 
 class DoctorModel {
-  late String doctorID;
+  late int doctorID;
   late String name;
   String? avatar;
   late String specialty;
