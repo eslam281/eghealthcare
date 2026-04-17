@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:eghealthcare/core/network/network_info.dart';
 
@@ -10,21 +11,19 @@ class NetworkCallHandler {
   NetworkCallHandler(this.networkInfo);
 
   Future<Either<Failure, T>> call<T>(Future<T> Function() action) async {
-    final result = await networkInfo.isConnected;
-    print(result);
-    if (!(await networkInfo.isConnected)) {
+
+    if (await networkInfo.isConnected) {
       try {
         final result = await action();
         return Right(result);
         } on ServerException catch(e){
         return Left(ServerFailure(e.message));
       }catch (e) {
-        print("========================= $e");
+        print("NetworkCallHandler========================= $e");
         return Left(ServerFailure("Something went wrong : ${e.toString()}"));
       }
     } else {
       return const Left(NetworkFailure("No internet connection"));
-
     }
   }
 

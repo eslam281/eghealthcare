@@ -1,9 +1,9 @@
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'app/routes/app_initial_route.dart';
 import 'core/network/api_client.dart';
@@ -46,7 +46,7 @@ void _initServices() {
 }
 
 void _initCore() {
-  sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker.instance);
+  sl.registerLazySingleton<Connectivity>(() => Connectivity());
   sl.registerLazySingleton<Client>(() => Client());
   sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
