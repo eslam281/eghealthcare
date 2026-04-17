@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-abstract class DoctorRepository {
+abstract class DashboardRepository {
   Future<Either> getDoctors();
+  Future<Either> getUser();
   Future<Either> getDoctor(String id);
 
 }

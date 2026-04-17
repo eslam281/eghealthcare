@@ -21,6 +21,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
+  final ageCtrl = TextEditingController();
+  final phoneCtrl = TextEditingController();
+  final addressCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final confirmPasswordCtrl = TextEditingController();
   bool isAgree = false;
@@ -64,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               label: "Full Name",
                               hint: "John Doe",
                               controller: nameCtrl,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.name,
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
                                   return "Full name is required";
@@ -85,6 +88,51 @@ class _RegisterPageState extends State<RegisterPage> {
                                 if (value == null || value.isEmpty) return "Email is required";
                                 if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                                   return "Enter a valid email";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            AuthTextField(
+                              label: "age",
+                              controller: ageCtrl,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "age is required";
+                                }
+                                if (value.length < 2) {
+                                  return "age is too short";
+                                }
+                                return null;
+                              },
+                            ),
+                            AuthTextField(
+                              label: "phoneNumber",
+                              hint: "+20123456789",
+                              controller: phoneCtrl,
+                              keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "phone is required";
+                                }
+                                if (value.length < 11) {
+                                  return "phone is too short";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            AuthTextField(
+                              label: "address",
+                              controller: addressCtrl,
+                              keyboardType: TextInputType.streetAddress,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "address is required";
+                                }
+                                if (value.length < 8) {
+                                  return "address is too short";
                                 }
                                 return null;
                               },
@@ -179,13 +227,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                         );
                                         return;
                                       }
-
                                       context.read<AuthBloc>().add(
                                         RegisterRequested(
                                           nameCtrl.text,
                                           emailCtrl.text.trim(),
                                           passwordCtrl.text,
                                           _role,
+                                          int.parse(ageCtrl.text),
+                                          addressCtrl.text,
+                                          phoneCtrl.text,
                                         ),
                                       );
                                     },

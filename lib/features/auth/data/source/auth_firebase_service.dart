@@ -1,7 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../core/constants/links.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/network_call_handler.dart';
+import '../../../../injection_container.dart';
 import '../models/create_user_req.dart';
 import '../models/signin_user_req.dart';
 
@@ -9,20 +14,21 @@ abstract class AuthFirebaseService{
   Future<Either> signup(CreateUserReq createuserReq);
   Future<Either> signin(SignInUserReq signInUserReq);
   Future<Either> singInWithGoogle();
-  Future<Either> getUser();
   Future<Either> signOut();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService{
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FlutterSecureStorage secureStorage=sl<FlutterSecureStorage>();
 
   @override
   Future<Either> signin(SignInUserReq signInUserReq) async{
     try{
-      await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential data = await firebaseAuth.signInWithEmailAndPassword(
           email: signInUserReq.email,
           password: signInUserReq.password
       );
+      await secureStorage.write(key: 'hydrated_key', value: data.user!.uid);
       return const Right("Sign in was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -37,18 +43,14 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
 
   @override
   Future<Either> signup(CreateUserReq createuserReq) async{
+
     try{
-      var data = await firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential data = await firebaseAuth.createUserWithEmailAndPassword(
           email: createuserReq.email,
           password: createuserReq.password
       );
-      // FirebaseFirestore.instance.collection('Users').doc(data.user!.uid)
-      //     .set({
-      //   "uid":data.user!.uid,
-      //   "name":createuserReq.fullName,
-      //   "email":data.user!.email,
-      //   "role":createuserReq.userRole,
-      // });
+      await secureStorage.write(key: 'uid', value: data.user!.uid);
+      _createUser( createuserReq,data.user!.uid);
       return const Right("SignUp was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -62,36 +64,10 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   }
 
   @override
-  Future<Either> getUser() async {
-    try {
-
-      // FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      //
-      // var user = await firebaseFirestore.collection('Users').doc(
-      //     firebaseAuth.currentUser!.uid
-      // ).get();
-      // UserModel userModel = UserModel.fromJson((user).data()!);
-      // userModel.imageURL = firebaseAuth.currentUser!.photoURL ?? "";//AppURLs.defaultImage
-      // UserEntity userEntity = userModel.toEntity();
-      // return Right(userEntity);
-      return  Right(firebaseAuth.currentUser!);
-    }catch(e){
-      return Left("An error occurred $e");
-    }
-  }
-
-  @override
   Future<Either<dynamic, dynamic>> signOut() async {
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      // FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      //
-      // await firebaseFirestore.collection('Users').doc(
-      //     firebaseAuth.currentUser!.uid
-      // ).delete();
-
       await firebaseAuth.signOut();
-
       return const Right("Sign out was Successful");
     }catch(e){
       return Left("An error occurred $e");
@@ -126,4 +102,14 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
 
   }
 
+  Future _createUser(CreateUserReq createuserReq, String uid) async{
+    final response = await sl<NetworkCallHandler>().call(
+            ()=> sl<ApiClient>().post(
+                AppLinks.patient,
+                  body: createuserReq.toJson(uid)
+            )
+    );
+    print("===========================response : ${response.toString()}");
+    return response;
+  }
 }

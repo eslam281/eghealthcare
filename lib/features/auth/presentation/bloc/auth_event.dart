@@ -17,9 +17,13 @@ final class GoogleSignInRequested extends AuthEvent {
 final class RegisterRequested extends AuthEvent {
   final String name;
   final String email;
+  final int age;
+  final String address;
+  final String phoneNumber;
   final String password;
   final UserRole userRole;
-  RegisterRequested(this.name, this.email, this.password,this.userRole);
+  final String gender;
+  RegisterRequested(this.name, this.email, this.password,this.userRole, this.age,this.address, this.phoneNumber, {required this.gender});
 }
 
 final class LogoutRequested extends AuthEvent {}

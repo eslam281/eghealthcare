@@ -7,7 +7,6 @@ import '../../../../core/services/role_service.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/create_user_req.dart';
 import '../../data/models/signin_user_req.dart';
-import '../../domain/usecases/get_user.dart';
 import '../../domain/usecases/signin.dart';
 import '../../domain/usecases/signin_Google.dart';
 import '../../domain/usecases/signup.dart';
@@ -56,6 +55,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email:event.email,
           password:event.password,
           userRole:event.userRole==UserRole.patient?"patient":"doctor",
+          phoneNumber: event.phoneNumber,///
+          age: event.age,
+          address:event.address,
+          gender: event.gender,
         ),
       );
 
@@ -80,17 +83,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (!emit.isDone)emit(AuthInitial());
     });
 
-    on<GetUserRequested>((event, emit) async {
-      emit(AuthLoading());
-      final result = await sl<GetUserUseCase>().call();
-
-      result.fold(
-            (message) => emit(AuthFailure(message)),
-            (re) {
-              print(re);
-              emit(AuthSuccess());
-        } ,
-      );
-    });
   }
 }

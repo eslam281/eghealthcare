@@ -2,11 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
-import '../../../../auth/domain/entities/user.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/doctor_entity.dart';
+import '../../domain/entities/patient_entity.dart';
 import '../../domain/usecases/getDoctor_usecases.dart';
+import '../../domain/usecases/getUser_usecase.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -21,7 +22,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     emit(DashboardLoading());
 
     try {
-      final user = UserEntity(fullName: "John",imageURL:"https://randomuser.me/api/portraits/men/76.jpg");
+      late final UserEntity user;
+      late final List<DoctorEntity> doctors;
+      // UserEntity(fullName: "John",imageURL:"https://randomuser.me/api/portraits/men/76.jpg",
+      //     email: '', age: 20, phoneNumber: '', address: '');
       final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
       final appointments = [
         AppointmentEntity(
@@ -37,7 +41,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           time: "10:30 AM",
         ),
       ];
-      late final List<DoctorEntity> doctors;
+      try{
+        final response = await sl<GetUserUseCase>().call();
+        user = response.fold((l) => l, (r) => r);
+      }catch(e){
+      print(e);
+      emit(DashboardError("$e"));
+       }
+
       try{
        final response = await sl<GetDoctorUseCases>().call();
        doctors = response.fold((l) => [], (r) => r);
