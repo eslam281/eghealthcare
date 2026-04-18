@@ -42,7 +42,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         ),
       ];
       try{
-        final response = await sl<GetUserUseCase>().call();
+        final response = await sl<PGetUserUseCase>().call();
         user = response.fold((l) => l, (r) => r);
       }catch(e){
       print(e);
@@ -50,7 +50,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
        }
 
       try{
-       final response = await sl<GetDoctorUseCases>().call();
+       final response = await sl<GetDoctorsUseCases>().call();
        doctors = response.fold((l) => [], (r) => r);
       }catch(e){
         print(e);

@@ -10,7 +10,7 @@ import '../../../../../core/network/network_call_handler.dart';
 import '../../domain/entities/user_entity.dart';
 import '../models/doctor_model.dart';
 
-abstract class DashboardApi{
+abstract class DocDashboardApi{
   Future <Either> getPatients();
   Future <Either> getPatient(String id);
 
@@ -18,7 +18,7 @@ abstract class DashboardApi{
 
 }
 
-class DashboardApiImpl implements DashboardApi{
+class DocDashboardApiImpl implements DocDashboardApi{
   @override
 
   @override

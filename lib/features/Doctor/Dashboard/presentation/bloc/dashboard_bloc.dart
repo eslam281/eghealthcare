@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../auth/domain/entities/user.dart';
+import '../../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';
+import '../../domain/entities/user_entity.dart' show UserEntity;
+import '../../domain/usecases/getUser_usecase.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -16,8 +18,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   Future<void> _onLoadDashboard(DashboardEvent event, Emitter<DashboardState> emit,)async {
     emit(DashboardLoading());
     try {
+      late final UserEntity user;
       await Future.delayed(const Duration(seconds: 1)); // mock API
-      final user = UserEntity(fullName: "John",imageURL:"https://randomuser.me/api/portraits/men/76.jpg");
       final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
       final appointments = [
         AppointmentEntity(
@@ -62,7 +64,13 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           "High cholesterol levels. On dietary plan and medication.",
         ),
       ];
-
+      try{
+        final response = await sl<DocGetUserUseCase>().call();
+        user = response.fold((l) => l, (r) => r);
+      }catch(e){
+        print(e);
+        emit(DashboardError("$e"));
+      }
       emit(DashboardLoaded(
         user: user,
         summary: summary,

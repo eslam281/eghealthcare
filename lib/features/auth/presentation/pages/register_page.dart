@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmPasswordCtrl = TextEditingController();
   bool isAgree = false;
   late UserRole _role = UserRole.patient;
-  late String selectedGender;
+  String selectedGender = "Male";
 
   @override
   void dispose() {
@@ -116,28 +116,31 @@ class _RegisterPageState extends State<RegisterPage> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   flex: 1,
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: const InputDecoration(
-                                      labelText: "Gender",
-                                      border: OutlineInputBorder(),
+                                  child: Padding(
+                                    padding: const EdgeInsetsGeometry.only(top: 23),
+                                    child: DropdownButtonFormField<String>(
+                                      decoration: const InputDecoration(
+                                        labelText: "Gender",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      initialValue:"Male" ,
+                                      items: const [
+                                        DropdownMenuItem(value: "Male", child: Text("Male")),
+                                        DropdownMenuItem(value: "Female", child: Text("Female")),
+                                        DropdownMenuItem(value: "Other", child: Text("Other")),
+                                      ],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedGender = value!;
+                                        });
+                                      },
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return "Gender is required";
+                                        }
+                                        return null;
+                                      },
                                     ),
-                                    initialValue:"Male" ,
-                                    items: const [
-                                      DropdownMenuItem(value: "Male", child: Text("Male")),
-                                      DropdownMenuItem(value: "Female", child: Text("Female")),
-                                      DropdownMenuItem(value: "Other", child: Text("Other")),
-                                    ],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedGender = value!;
-                                      });
-                                    },
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return "Gender is required";
-                                      }
-                                      return null;
-                                    },
                                   ),
                                 ),
                               ],

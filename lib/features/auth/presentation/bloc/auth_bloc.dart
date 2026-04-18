@@ -50,16 +50,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterRequested>((event, emit) async {
       emit(AuthLoading());
       final result = await sl<SingUpUseCase>().call(
-        params: CreateUserReqPatient(
+        params: event.userRole==UserRole.patient?
+        CreateUserReqPatient(
           fullName:event.name,
           email:event.email,
           password:event.password,
-          userRole:event.userRole==UserRole.patient?"patient":"doctor",
+          userRole:"patient",
           phoneNumber: event.phoneNumber,///
           age: event.age,
           address:event.address,
           gender: event.gender,
-        ),
+        ):
+        CreateUserReqDoctor(
+          fullName:event.name,
+          email:event.email,
+          password:event.password,
+          userRole:"doctor",
+          phoneNumber: event.phoneNumber,///
+          age: event.age,
+          address:event.address,
+          gender: event.gender,
+        )
       );
 
       if (result.isLeft()) {

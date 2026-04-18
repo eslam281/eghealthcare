@@ -113,6 +113,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
                   body: createuserReq.toJson(uid)
             )
     );
+    print("${createuserReq.toJson(uid)}");
     print("===========================response : ${response.toString()}");
     return response;
   }

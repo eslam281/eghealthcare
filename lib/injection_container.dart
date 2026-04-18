@@ -1,5 +1,6 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -11,6 +12,9 @@ import 'core/network/network_call_handler.dart';
 import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
+import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
+import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
+import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
 import 'features/Patient/Dashboard/domain/repository/dashboard_repository.dart';
@@ -29,6 +33,7 @@ Future<void> initializeDependencies() async {
   _initExternal();
   _initServices();
   _initCore();
+  _initSource();
   _initRepository();
   _initUseCase();
 }
@@ -40,8 +45,11 @@ void _initExternal() {
 void _initServices() {
   sl.registerLazySingleton<EncryptionKeyService>(() => EncryptionKeyServiceImpl(sl()));
   sl.registerLazySingleton<RoleService>(() => RoleServiceImpl(sl()));
+}
+void _initSource() {
   sl.registerLazySingleton<AuthFirebaseService>(() => AuthFirebaseServiceImpl());
-  sl.registerLazySingleton<DashboardApi>(() => DashboardApiImpl());
+  sl.registerLazySingleton<PDashboardApi>(() => PDashboardApiImpl());
+  sl.registerLazySingleton<DocDashboardApi>(() => DocDashboardApiImpl());
 
 }
 
@@ -56,14 +64,16 @@ void _initCore() {
 
 void _initRepository() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
-  sl.registerLazySingleton<DashboardRepository>(() => DashboardRepositoryImpl());
+  sl.registerLazySingleton<PDashboardRepository>(() => PDashboardRepositoryImpl());
+  sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
 }
 
 void _initUseCase() {
-  sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
   sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase());
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
-  sl.registerLazySingleton<GetDoctorUseCases>(() => GetDoctorUseCases());
+  sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
+  sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
+  sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());
 }

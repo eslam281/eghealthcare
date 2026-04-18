@@ -5,11 +5,10 @@ import 'package:eghealthcare/core/usecase/usecase.dart';
 import '../../../../../injection_container.dart';
 import '../repository/dashboard_repository.dart';
 
-class GetDoctorsUseCases extends UseCase<Either, int?>{
+class DocGetUserUseCase extends UseCase<Either, int?>{
   @override
   Future<Either> call({params}) async{
-    return await sl<PDashboardRepository>().getDoctors();
-
+    return await sl<DocDashboardRepository>().getUser();
   }
 
 }

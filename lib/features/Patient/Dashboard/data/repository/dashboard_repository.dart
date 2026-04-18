@@ -5,20 +5,20 @@ import '../../../../../injection_container.dart';
 import '../../domain/repository/dashboard_repository.dart';
 import '../source/DashboardApi.dart';
 
-class DashboardRepositoryImpl extends DashboardRepository {
+class PDashboardRepositoryImpl extends PDashboardRepository {
   @override
   Future<Either> getDoctors() async{
-    return await sl<DashboardApi>().getDoctors();
+    return await sl<PDashboardApi>().getDoctors();
   }
 
   @override
   Future<Either> getDoctor(String id) async{
-    return await sl<DashboardApi>().getDoctor(id);
+    return await sl<PDashboardApi>().getDoctor(id);
   }
 
   @override
   Future<Either> getUser() async{
-    return await sl<DashboardApi>().getUser();
+    return await sl<PDashboardApi>().getUser();
   }
 
 }

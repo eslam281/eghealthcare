@@ -12,7 +12,7 @@ import '../../domain/entities/doctor_entity.dart';
 import '../../domain/entities/user_entity.dart' show UserEntity;
 import '../models/doctor_model.dart';
 
-abstract class DashboardApi{
+abstract class PDashboardApi{
   Future <Either> getDoctors();
   Future <Either> getDoctor(String id);
 
@@ -20,7 +20,7 @@ abstract class DashboardApi{
 
 }
 
-class DashboardApiImpl implements DashboardApi{
+class PDashboardApiImpl implements PDashboardApi{
   @override
   Future<Either<Failure, List<DoctorEntity>>> getDoctors() async {
     print("===========================getDoctors");
