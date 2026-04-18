@@ -1,7 +1,7 @@
-import '../../domain/entities/patient_entity.dart';
+import '../../domain/entities/user_entity.dart';
 
 class PatientModel {
-  late int patientID;
+  late String patientID;
   late String name;
   late int age;
   late String gender;

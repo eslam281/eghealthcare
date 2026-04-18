@@ -9,7 +9,7 @@ import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
 import '../../domain/entities/doctor_entity.dart';
-import '../../domain/entities/patient_entity.dart' show UserEntity;
+import '../../domain/entities/user_entity.dart' show UserEntity;
 import '../models/doctor_model.dart';
 
 abstract class DashboardApi{
@@ -55,7 +55,7 @@ class DashboardApiImpl implements DashboardApi{
   Future<Either<Failure,UserEntity>> getUser() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
     final response = await sl<NetworkCallHandler>().call(
-            ()=> sl<ApiClient>().get(AppLinks.patient,queryParameters: {'id':id}));
+            ()=> sl<ApiClient>().get("${AppLinks.patient}/$id"));
     print("===========================response : ${response.toString()}");
 
     return response.fold(

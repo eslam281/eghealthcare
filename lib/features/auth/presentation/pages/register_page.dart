@@ -28,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmPasswordCtrl = TextEditingController();
   bool isAgree = false;
   late UserRole _role = UserRole.patient;
+  late String selectedGender;
 
   @override
   void dispose() {
@@ -93,20 +94,57 @@ class _RegisterPageState extends State<RegisterPage> {
                               },
                             ),
                             const SizedBox(height: 16),
-                            AuthTextField(
-                              label: "age",
-                              controller: ageCtrl,
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return "age is required";
-                                }
-                                if (value.length < 2) {
-                                  return "age is too short";
-                                }
-                                return null;
-                              },
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: AuthTextField(
+                                    label: "age",
+                                    controller: ageCtrl,
+                                    keyboardType: TextInputType.number,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return "age is required";
+                                      }
+                                      if (value.length < 2) {
+                                        return "age is too short";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: const InputDecoration(
+                                      labelText: "Gender",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    initialValue:"Male" ,
+                                    items: const [
+                                      DropdownMenuItem(value: "Male", child: Text("Male")),
+                                      DropdownMenuItem(value: "Female", child: Text("Female")),
+                                      DropdownMenuItem(value: "Other", child: Text("Other")),
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedGender = value!;
+                                      });
+                                    },
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return "Gender is required";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
+
+
+                            const SizedBox(height: 16),
                             AuthTextField(
                               label: "phoneNumber",
                               hint: "+20123456789",
@@ -236,6 +274,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           int.parse(ageCtrl.text),
                                           addressCtrl.text,
                                           phoneCtrl.text,
+                                           selectedGender,/////////////////////////////////
                                         ),
                                       );
                                     },

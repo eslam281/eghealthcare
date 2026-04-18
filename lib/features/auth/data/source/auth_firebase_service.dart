@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/constants/links.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/network_call_handler.dart';
 import '../../../../injection_container.dart';
@@ -50,7 +51,10 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           password: createuserReq.password
       );
       await secureStorage.write(key: 'uid', value: data.user!.uid);
-      _createUser( createuserReq,data.user!.uid);
+      final response = await _createUser( createuserReq,data.user!.uid);
+      if(response.isLeft()) {
+        return Left(response.fold((l) => l.message, (r) => null));
+      }
       return const Right("SignUp was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -64,7 +68,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   }
 
   @override
-  Future<Either<dynamic, dynamic>> signOut() async {
+  Future<Either> signOut() async {
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       await firebaseAuth.signOut();
@@ -75,7 +79,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   }
 
   @override
-  Future<Either<dynamic, dynamic>> singInWithGoogle() async{
+  Future<Either> singInWithGoogle() async{
 
     final GoogleSignIn googleSignIn =GoogleSignIn.instance;
     try{
@@ -102,10 +106,10 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
 
   }
 
-  Future _createUser(CreateUserReq createuserReq, String uid) async{
+  Future <Either<Failure, dynamic>> _createUser(CreateUserReq createuserReq, String uid) async{
     final response = await sl<NetworkCallHandler>().call(
             ()=> sl<ApiClient>().post(
-                AppLinks.patient,
+                createuserReq.userRole=="patient"? AppLinks.patient:AppLinks.doctor,
                   body: createuserReq.toJson(uid)
             )
     );

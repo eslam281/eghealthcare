@@ -1,5 +1,4 @@
 class UserEntity{
-
   String fullName;
   int age;
   String phoneNumber;

@@ -28,8 +28,8 @@ class PatientDashboard extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Welcome back,${stat.user.fullName!}"),
-                        AvatarImage(imageUrl: stat.user.imageURL!, radius: 50),
+                        Text("Welcome back,${stat.user.fullName}"),
+                        AvatarImage(imageUrl: stat.user.imageURL, radius: 50),
                       ],
                     );
                   }
@@ -39,12 +39,7 @@ class PatientDashboard extends StatelessWidget {
             ),
 
             floatingActionButton: FloatingActionButton(onPressed: () {
-              // context.read<AuthBloc>().add(
-              //   GetUserRequested(),
-              // );
-              // context.read<AuthBloc>().add(
-              //   LogoutRequested(),
-              // );
+
             }, shape: const CircleBorder(),
               child: const Icon(Icons.support_agent,
                 color: Colors.white,),),

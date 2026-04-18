@@ -5,7 +5,7 @@ import '../../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/doctor_entity.dart';
-import '../../domain/entities/patient_entity.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/getDoctor_usecases.dart';
 import '../../domain/usecases/getUser_usecase.dart';
 

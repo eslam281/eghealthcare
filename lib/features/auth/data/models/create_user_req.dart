@@ -1,4 +1,4 @@
-class CreateUserReq{
+abstract class CreateUserReq{
   final String fullName;
   final String email;
   final String password;
@@ -10,6 +10,31 @@ class CreateUserReq{
 
   CreateUserReq({required this.fullName, required this.email, required this.password,
     required this.userRole, required this.phoneNumber, required this.age, required this.address, required this.gender});
+  Map<String, dynamic> toJson(String uid);
+}
+class CreateUserReqPatient extends CreateUserReq{
+  CreateUserReqPatient({required super.fullName, required super.email, required super.password, required super.userRole, required super.phoneNumber, required super.age, required super.address, required super.gender});
+
+
+  @override
+  Map<String, dynamic> toJson(String uid) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['patientID'] = uid;
+    data['name'] = fullName;
+    data['age'] = age;
+    data['phoneNumber'] = phoneNumber;
+    data['email'] = email;
+    data['address'] = address;
+    data['role'] = userRole;
+    data['gender'] = gender;
+    return data;
+  }
+}
+class CreateUserReqDoctor extends CreateUserReq{
+  CreateUserReqDoctor({required super.fullName, required super.email, required super.password, required super.userRole, required super.phoneNumber, required super.age, required super.address, required super.gender});
+
+
+  @override
   Map<String, dynamic> toJson(String uid) {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['patientID'] = uid;

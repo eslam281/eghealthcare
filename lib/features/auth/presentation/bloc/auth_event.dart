@@ -23,7 +23,8 @@ final class RegisterRequested extends AuthEvent {
   final String password;
   final UserRole userRole;
   final String gender;
-  RegisterRequested(this.name, this.email, this.password,this.userRole, this.age,this.address, this.phoneNumber, {required this.gender});
+  RegisterRequested(this.name, this.email, this.password,this.userRole,
+      this.age,this.address, this.phoneNumber, this.gender);
 }
 
 final class LogoutRequested extends AuthEvent {}

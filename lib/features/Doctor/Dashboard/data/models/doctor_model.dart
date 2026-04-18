@@ -1,11 +1,16 @@
 
-import 'package:eghealthcare/features/Patient/Dashboard/domain/entities/doctor_entity.dart';
+import 'package:eghealthcare/features/Doctor/Dashboard/domain/entities/user_entity.dart';
 
 class DoctorModel {
   late String doctorID;
   late String name;
-  String? avatar;
   late String specialty;
+  late int age;
+  late String gender;
+  late String phoneNumber;
+  late String email;
+  late String address;
+  String? avatar;
   String? experience;
   String? bio;
   String? availability;
@@ -16,6 +21,11 @@ class DoctorModel {
   DoctorModel(
       {required this.doctorID,
         required this.name,
+        required this.age,
+        required this.gender,
+        required this.phoneNumber,
+        required this.email,
+        required this.address,
         this.avatar,
         required this.specialty,
         this.experience,
@@ -28,6 +38,12 @@ class DoctorModel {
   DoctorModel.fromJson(Map<String, dynamic> json) {
     doctorID = json['doctorID'];
     name = json['name'];
+    age = json['age'];
+    gender = json['gender'];
+    phoneNumber = json['phoneNumber'];
+    avatar = json['avatar'];
+    email = json['email'];
+    address = json['address'];
     avatar = json['avatar'];
     specialty = json['specialty'];
     experience = json['experience'];
@@ -42,6 +58,12 @@ class DoctorModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['doctorID'] = doctorID;
     data['name'] = name;
+    data['age'] = age;
+    data['gender'] = gender;
+    data['phoneNumber'] = phoneNumber;
+    data['email'] = email;
+    data['avatar'] = avatar;
+    data['address'] = address;
     data['avatar'] = avatar;
     data['specialty'] = specialty;
     data['experience'] = experience;
@@ -54,12 +76,14 @@ class DoctorModel {
   }
 }
 extension DoctorModelExtension on DoctorModel{
-  DoctorEntity doctorEntity(){
-    return DoctorEntity(
-      id: doctorID,
-      name: name,
-      specialty: specialty,
-      imageUrl: avatar
+  UserEntity doctorEntity(){
+    return UserEntity(
+      fullName: name,
+      email: email,
+      age: age,
+      address: address,
+      phoneNumber: phoneNumber,
+      imageURL: avatar
     );
   }
 }

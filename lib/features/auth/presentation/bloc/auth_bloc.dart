@@ -50,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterRequested>((event, emit) async {
       emit(AuthLoading());
       final result = await sl<SingUpUseCase>().call(
-        params: CreateUserReq(
+        params: CreateUserReqPatient(
           fullName:event.name,
           email:event.email,
           password:event.password,

@@ -63,7 +63,7 @@ class ApiClientImpl implements ApiClient {
     }) async{
     final uri = Uri.parse(url);
     final response = await _client.post(
-        uri, headers: _getHeaders(headers), body: body);
+        uri, headers: _getHeaders(headers), body: jsonEncode(body));
     return _handleResponse(response);
   }
 }

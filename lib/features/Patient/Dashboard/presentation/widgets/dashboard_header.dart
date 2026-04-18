@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/themes/app_gradients.dart';
-import '../../domain/entities/patient_entity.dart';
+import '../../domain/entities/user_entity.dart';
 
 class DashboardHeader extends StatelessWidget {
   final UserEntity user;
