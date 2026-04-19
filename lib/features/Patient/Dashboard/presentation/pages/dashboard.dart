@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/shared/avatar.dart';
+import '../../../../../core/shared/widget/avatar.dart';
+import '../../../../../core/shared/widget/drawer.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
-import '../../../../../core/shared/drawer.dart';
 import '../widgets/drawer_body.dart';
 import '../widgets/featured_doctors_section.dart';
 import '../widgets/upcoming_appointments_section.dart';

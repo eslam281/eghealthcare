@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/shared/drawer.dart';
-import '../../../../../core/shared/floating_action_button.dart';
+import '../../../../../core/shared/widget/drawer.dart';
+import '../../../../../core/shared/widget/floating_action_button.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/Drawer_body.dart';
 import '../widgets/dashboard_header.dart';
@@ -28,7 +28,7 @@ class DoctorDashboard extends StatelessWidget {
                     children: [
                       Row(children: [
                         Text("Dr.",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
-                        Text("${stat.user.fullName}"),
+                        Text(stat.user.fullName),
                       ],),
 
                       ClipRRect(

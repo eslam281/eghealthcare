@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/constants/routes.dart';
-import '../../../../../core/shared/drawer.dart';
+import '../../../../../core/shared/widget/drawer.dart';
 
 class DrawerBody extends StatelessWidget {
   const DrawerBody({super.key});

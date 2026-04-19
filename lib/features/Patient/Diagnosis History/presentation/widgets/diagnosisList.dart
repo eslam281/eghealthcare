@@ -18,7 +18,7 @@ class DiagnosisList extends StatelessWidget {
   }
 }
 class _DiagnosisItemCard extends StatelessWidget {
-  const _DiagnosisItemCard({super.key});
+  const _DiagnosisItemCard();
 
   @override
   Widget build(BuildContext context) {

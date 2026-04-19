@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../../../core/shared/state_card.dart';
+
+import '../../../../../core/shared/widget/state_card.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 
 class DashboardStatsRow extends StatelessWidget {

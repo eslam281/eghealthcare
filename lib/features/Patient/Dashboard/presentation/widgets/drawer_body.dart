@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/routes.dart';
-import '../../../../../core/shared/drawer.dart';
+import '../../../../../core/shared/widget/drawer.dart';
 
 class DrawerBody extends StatelessWidget {
   const DrawerBody({super.key});

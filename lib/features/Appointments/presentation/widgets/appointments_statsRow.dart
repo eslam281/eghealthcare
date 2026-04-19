@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/shared/state_card.dart';
+import '../../../../core/shared/widget/state_card.dart';
 
 class AppointmentsStatsRow extends StatelessWidget {
   const AppointmentsStatsRow({super.key});

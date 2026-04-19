@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
+import '../../../../../core/shared/model/doctor_model.dart';
 import '../../domain/entities/doctor_entity.dart';
 import '../../domain/entities/user_entity.dart' show UserEntity;
 import '../models/doctor_model.dart';

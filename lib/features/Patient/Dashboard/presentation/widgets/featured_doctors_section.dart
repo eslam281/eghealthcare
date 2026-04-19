@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/shared/avatar.dart';
+import '../../../../../core/shared/widget/avatar.dart';
 import '../../domain/entities/doctor_entity.dart';
 
 class FeaturedDoctorsSection extends StatelessWidget {

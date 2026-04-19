@@ -1,9 +1,8 @@
 
-import 'package:eghealthcare/core/shared/state_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/patient_entity.dart';
+import '../../../../../core/shared/widget/state_card.dart';
 import '../bloc/my_patients_bloc.dart';
 import '../widgets/patient_card.dart' show PatientCard;
 
