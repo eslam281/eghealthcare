@@ -22,4 +22,9 @@ class DocDashboardRepositoryImpl extends DocDashboardRepository {
     return await sl<DocDashboardApi>().getUser();
   }
 
+  @override
+  Future<Either> getAppointment(){
+    return sl<DocDashboardApi>().getAppointment();
+  }
+
 }

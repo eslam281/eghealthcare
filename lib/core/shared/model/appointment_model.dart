@@ -5,6 +5,7 @@ class AppointmentModel {
   late  int appointmentID;
   late  DoctorModel doctor;
   late PatientModel patient;
+  late String type;
   late String date;
   late String time;
   late String status;
@@ -17,6 +18,7 @@ class AppointmentModel {
         required this.patient,
         required this.date,
         required this.time,
+        required this.type,
         required this.status,
         required this.createdAt,
         required this.updatedAt});
@@ -27,6 +29,7 @@ class AppointmentModel {
     patient = PatientModel.fromJson(json['patient']);
     date = json['date'];
     time = json['time'];
+    type = json['type'];
     status = json['status'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -38,6 +41,7 @@ class AppointmentModel {
     data['doctor'] = doctor.toJson();
     data['patient'] = patient.toJson();
     data['date'] = date;
+    data['type'] = type;
     data['time'] = time;
     data['status'] = status;
     data['createdAt'] = createdAt;

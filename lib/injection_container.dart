@@ -14,6 +14,7 @@ import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
+import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
@@ -76,4 +77,5 @@ void _initUseCase() {
   sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());
+  sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
 }

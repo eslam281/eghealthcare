@@ -6,6 +6,7 @@ import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';
 import '../../domain/entities/user_entity.dart' show UserEntity;
+import '../../domain/usecases/getAppointment_usecase.dart';
 import '../../domain/usecases/getUser_usecase.dart';
 
 part 'dashboard_event.dart';
@@ -19,22 +20,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     emit(DashboardLoading());
     try {
       late final UserEntity user;
-      await Future.delayed(const Duration(seconds: 1)); // mock API
+      late final List<AppointmentEntity> appointments;
       final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
-      final appointments = [
-        AppointmentEntity(
-          doctorName: "Dr. Sarah Mitchell",
-          type: "Follow-up Consultation",
-          date: "Jan 27, 2025",
-          time: "09:00 AM",
-        ),
-        AppointmentEntity(
-          doctorName: "Dr. Sarah Mitchell",
-          type: "Annual Checkup",
-          date: "Jan 27, 2025",
-          time: "10:30 AM",
-        ),
-      ];
       final List<PatientEntity> dummyPatients = [
         const PatientEntity(
           id: "1",
@@ -66,11 +53,19 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       ];
       try{
         final response = await sl<DocGetUserUseCase>().call();
-        user = response.fold((l) => l, (r) => r);
+       response.fold((l)=>l, (r) => user=r);
       }catch(e){
         print(e);
         emit(DashboardError("$e"));
       }
+      try{
+        final response = await sl<GetAppointmentUseCase>().call();
+        appointments = response.fold((l) => [], (r) => r);
+      }catch(e){
+        print(e);
+        emit(DashboardError("$e"));
+      }
+
       emit(DashboardLoaded(
         user: user,
         summary: summary,

@@ -4,5 +4,6 @@ abstract class DocDashboardRepository {
   Future<Either> getPatients();
   Future<Either> getUser();
   Future<Either> getPatient(String id);
+  Future<Either> getAppointment();
 
 }
