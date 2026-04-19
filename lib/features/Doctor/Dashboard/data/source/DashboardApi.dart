@@ -1,6 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:eghealthcare/core/constants/links.dart';
+import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:eghealthcare/injection_container.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -59,10 +60,12 @@ class DocDashboardApiImpl implements DocDashboardApi{
   @override
   Future<Either<Failure, List<AppointmentEntity>>> getAppointment() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
+    UserRole? role = await sl<RoleService>().getCurrentRole();
 
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().get(AppLinks.appointment,
-                queryParameters: {'doctorID': id}
+                queryParameters:role==UserRole.doctor?
+                {'doctorID': id} : {'patientID': id}
             ));
     print("===========================response : ${response.toString()}");
 

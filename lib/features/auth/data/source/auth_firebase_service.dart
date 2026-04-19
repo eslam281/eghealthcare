@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +9,8 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/network_call_handler.dart';
 import '../../../../injection_container.dart';
+import '../../../Doctor/Dashboard/data/source/DashboardApi.dart';
+import '../../../Patient/Dashboard/data/source/DashboardApi.dart';
 import '../models/create_user_req.dart';
 import '../models/signin_user_req.dart';
 
@@ -29,7 +32,22 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: signInUserReq.email,
           password: signInUserReq.password
       );
-      await secureStorage.write(key: 'hydrated_key', value: data.user!.uid);
+
+      final UserRole? userRole = await sl<RoleService>().getCurrentRole();
+      late final Either response ;
+      if(userRole==UserRole.patient) {
+       response = await sl<NetworkCallHandler>().call(
+               ()=> sl<ApiClient>().get("${AppLinks.patient}/${data.user!.uid}"));
+        if(response.isLeft()) return const Left("You are not a patient");
+
+      }else{
+        response = await sl<NetworkCallHandler>().call(
+                ()=> sl<ApiClient>().get("${AppLinks.doctor}/${data.user!.uid}"));
+        if(response.isLeft()) return const Left("You are not a doctor");
+
+      }
+
+      await secureStorage.write(key: 'uid', value: data.user!.uid);
       return const Right("Sign in was Successful");
     }on FirebaseAuthException catch (e) {
       String message ='';
@@ -72,6 +90,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       await firebaseAuth.signOut();
+      await secureStorage.delete(key: 'uid');
       return const Right("Sign out was Successful");
     }catch(e){
       return Left("An error occurred $e");

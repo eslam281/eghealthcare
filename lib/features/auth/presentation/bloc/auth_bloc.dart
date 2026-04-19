@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LoginRequested>((event, emit) async {
       emit(AuthLoading());
+      await sl<RoleService>().saveRole(event.userRole);
       final result = await sl<SignInUseCase>().call(
         params: SignInUserReq(
           email: event.email,
@@ -31,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (!emit.isDone) emit(AuthFailure(message!));
         return;
       }
-      await sl<RoleService>().saveRole(event.userRole);
+
       if (!emit.isDone)emit(AuthSuccess());
     });
 

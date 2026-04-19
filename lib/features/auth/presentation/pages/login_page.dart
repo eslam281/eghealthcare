@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
-  bool remember = false;
+  bool remember = true;
   late UserRole _role = UserRole.patient;
 
   @override
