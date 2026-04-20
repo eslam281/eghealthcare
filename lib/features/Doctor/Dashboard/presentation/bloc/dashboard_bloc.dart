@@ -59,7 +59,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         emit(DashboardError("$e"));
       }
       try{
-        final response = await sl<GetAppointmentUseCase>().call();
+        final response = await sl<GetDocAppointmentUseCase>().call();
         appointments = response.fold((l) => [], (r) => r);
       }catch(e){
         print(e);

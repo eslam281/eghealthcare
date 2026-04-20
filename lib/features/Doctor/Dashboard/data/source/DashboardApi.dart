@@ -12,7 +12,7 @@ import '../../../../../core/shared/model/appointment_model.dart';
 import '../../../../../core/shared/model/doctor_model.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/user_entity.dart';
-import '../models/appointment_model.dart';
+import '../models/appointment_mapper.dart';
 import '../models/doctor_model.dart';
 
 abstract class DocDashboardApi{
@@ -64,8 +64,7 @@ class DocDashboardApiImpl implements DocDashboardApi{
 
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().get(AppLinks.appointment,
-                queryParameters:role==UserRole.doctor?
-                {'doctorID': id} : {'patientID': id}
+                queryParameters: {'doctorID': id}
             ));
     print("===========================response : ${response.toString()}");
 

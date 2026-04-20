@@ -20,5 +20,9 @@ class PDashboardRepositoryImpl extends PDashboardRepository {
   Future<Either> getUser() async{
     return await sl<PDashboardApi>().getUser();
   }
+  @override
+  Future<Either> getAppointment()async{
+    return await sl<PDashboardApi>().getAppointment();
+  }
 
 }

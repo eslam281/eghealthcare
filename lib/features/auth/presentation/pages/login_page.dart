@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// استبدل بالمسارات الحقيقية عندك
 import '../../../../core/constants/routes.dart';
 import '../../../../core/services/role_service.dart';
 import '../widgets/auth_button.dart';
@@ -10,7 +9,7 @@ import '../widgets/auth_header.dart';
 import '../widgets/auth_role_selector.dart';
 import '../widgets/auth_text_field.dart';
 import '../bloc/auth_bloc.dart';
-import '../widgets/social_login_section.dart'; // تأكد من المسار
+import '../widgets/social_login_section.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -38,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (context) => AuthBloc(),
       child: Scaffold(
-        backgroundColor: const Color(0xffF5F7F6), // خلفية خفيفة زي الصورة
+        backgroundColor: const Color(0xffF5F7F6),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

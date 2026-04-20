@@ -4,10 +4,12 @@ import '../../../../../core/usecase/usecase.dart';
 import '../../../../../injection_container.dart';
 import '../repository/dashboard_repository.dart';
 
-class GetDocAppointmentUseCase extends UseCase<Either, int?>{
+
+
+class GetPatientAppointmentUseCase extends UseCase<Either, int?>{
   @override
-  Future<Either<dynamic, dynamic>> call({int? params}) async{
-    return await sl<DocDashboardRepository>().getAppointment();
+  Future<Either> call({int? params}) async{
+    return await sl<PDashboardRepository>().getAppointment();
   
   }
   

@@ -1,5 +1,6 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:eghealthcare/features/Appointments/data/source/appointmentApi.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,6 +20,7 @@ import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
 import 'features/Patient/Dashboard/domain/repository/dashboard_repository.dart';
+import 'features/Patient/Dashboard/domain/usecases/getAppointment_usecase.dart';
 import 'features/Patient/Dashboard/domain/usecases/getDoctor_usecases.dart';
 import 'features/Patient/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
@@ -49,7 +51,10 @@ void _initServices() {
 }
 void _initSource() {
   sl.registerLazySingleton<AuthFirebaseService>(() => AuthFirebaseServiceImpl());
+  sl.registerLazySingleton<AppointmentApi>(() => AppointmentApiImpl());
+  ////////////////////////////////////////
   sl.registerLazySingleton<PDashboardApi>(() => PDashboardApiImpl());
+  ///////////////////////////////////////
   sl.registerLazySingleton<DocDashboardApi>(() => DocDashboardApiImpl());
 
 }
@@ -65,7 +70,9 @@ void _initCore() {
 
 void _initRepository() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+  ////////////////////////////
   sl.registerLazySingleton<PDashboardRepository>(() => PDashboardRepositoryImpl());
+  ////////////////////////////////
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
 }
 
@@ -74,8 +81,11 @@ void _initUseCase() {
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
-  sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
+  ///////////////////////////////////
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
+  sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());
+  //////////////////////////////////
+  sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
   sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());
-  sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
+  sl.registerLazySingleton<GetDocAppointmentUseCase>(() => GetDocAppointmentUseCase());
 }
