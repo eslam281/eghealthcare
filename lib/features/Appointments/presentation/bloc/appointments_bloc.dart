@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
+import '../../domain/usecases/getAppointment_usecase.dart';
 
 part 'appointments_event.dart';
 part 'appointments_state.dart';
@@ -15,24 +17,14 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
     emit(AppointmentsLoading());
 
     try {
-      await Future.delayed(const Duration(seconds: 1)); // mock API
-
-      final appointments = [
-        AppointmentEntity(
-          doctorName: "Dr. Sarah Mitchell",
-          type: "Follow-up Consultation",
-          date: "Jan 27, 2025",
-          time: "09:00 AM",
-        ),
-        AppointmentEntity(
-          doctorName: "Dr. Sarah Mitchell",
-          type: "Annual Checkup",
-          date: "Jan 27, 2025",
-          time: "10:30 AM",
-        ),
-      ];
-
-
+      late final List<AppointmentEntity> appointments ;
+      try{
+        final response = await sl<GetAppointmentUseCase>().call();
+        appointments = response.fold((l) => [], (r) => r);
+      }catch(e){
+        print(e);
+        emit(AppointmentsError("$e"));
+      }
       emit(AppointmentsLoaded(
         upcomingAppointments: appointments,
       ));

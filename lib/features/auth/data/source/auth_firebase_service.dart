@@ -9,8 +9,6 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/network_call_handler.dart';
 import '../../../../injection_container.dart';
-import '../../../Doctor/Dashboard/data/source/DashboardApi.dart';
-import '../../../Patient/Dashboard/data/source/DashboardApi.dart';
 import '../models/create_user_req.dart';
 import '../models/signin_user_req.dart';
 
@@ -107,10 +105,8 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
         serverClientId: "318363221520-b2ijh4kl9hrmpdljlkl5h9f3jk6kmslb.apps.googleusercontent.com"
       );
 
-      // يبدأ عملية تسجيل الدخول
       final GoogleSignInAccount account = await googleSignIn.authenticate();
 
-      // نجيب التوكنات
       final GoogleSignInAuthentication auth = account.authentication;
 
       final credential = GoogleAuthProvider.credential(

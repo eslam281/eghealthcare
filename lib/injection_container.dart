@@ -1,6 +1,8 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:eghealthcare/features/Appointments/data/repository/appointment_repository.dart';
 import 'package:eghealthcare/features/Appointments/data/source/appointmentApi.dart';
+import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointment_usecase.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,6 +15,7 @@ import 'core/network/network_call_handler.dart';
 import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
+import 'features/Appointments/domain/repository/appointment_repository.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
@@ -70,6 +73,7 @@ void _initCore() {
 
 void _initRepository() {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+  sl.registerLazySingleton<AppointmentRepository>(() => AppointmentRepositoryImp());
   ////////////////////////////
   sl.registerLazySingleton<PDashboardRepository>(() => PDashboardRepositoryImpl());
   ////////////////////////////////
@@ -81,6 +85,7 @@ void _initUseCase() {
   sl.registerLazySingleton<SingUpUseCase>(() => SingUpUseCase());
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
+  sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
   ///////////////////////////////////
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());

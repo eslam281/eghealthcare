@@ -8,8 +8,8 @@ import '../../../../core/network/network_call_handler.dart';
 import '../../../../core/services/role_service.dart';
 import '../../../../core/shared/model/appointment_model.dart';
 import '../../../../injection_container.dart';
-import '../../../Doctor/Dashboard/data/models/appointment_mapper.dart';
-import '../../../Doctor/Dashboard/domain/entities/appointment_entity.dart';
+import '../../domain/entities/appointment_entity.dart';
+import '../models/appointment_mapper.dart';
 
 abstract class AppointmentApi {
   Future<Either> getAppointment();
