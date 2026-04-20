@@ -8,7 +8,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
-import '../../../../../core/services/role_service.dart';
 import '../../../../../core/shared/model/appointment_model.dart';
 import '../../../../../core/shared/model/doctor_model.dart';
 import '../../../../../core/shared/model/patient_model.dart';
@@ -78,7 +77,6 @@ class PDashboardApiImpl implements PDashboardApi{
   @override
   Future<Either<Failure, List<AppointmentEntity>>> getAppointment() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
-    UserRole? role = await sl<RoleService>().getCurrentRole();
 
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().get(AppLinks.appointment,

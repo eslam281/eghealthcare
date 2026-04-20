@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
+import '../../../../Appointments/domain/usecases/deleteAppointment_usecase.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';
@@ -14,15 +15,20 @@ part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(DashboardInitial()) {
-    on<DashboardEvent>(_onLoadDashboard);
+    on<LoadDashboardRequested>(_onLoadDashboard);
+    on<DeleteAppointments>(_onDeletedAppointments);
   }
+  late final UserEntity user;
+  late final List<AppointmentEntity> appointments;
+  late final DashboardSummary summary;
+  late final List<PatientEntity> dummyPatients;
+
   Future<void> _onLoadDashboard(DashboardEvent event, Emitter<DashboardState> emit,)async {
     emit(DashboardLoading());
     try {
-      late final UserEntity user;
-      late final List<AppointmentEntity> appointments;
-      final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
-      final List<PatientEntity> dummyPatients = [
+
+      summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
+      dummyPatients = [
         const PatientEntity(
           id: "1",
           name: "John Anderson",
@@ -76,4 +82,21 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       emit(DashboardError("Failed to load dashboard"));
     }
   }
+  Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<DashboardState> emit) async {
+    emit(DashboardLoading());
+    try {
+      await sl<DeleteAppointmentUseCase>().call(params: event.id);
+      appointments.removeWhere((element) => element.id == event.id);
+
+    }catch(e){
+      emit(DashboardError("Failed to delete dashboard"));
+    }
+    emit(DashboardLoaded(
+      user: user,
+      summary: summary,
+      upcomingAppointments: appointments,
+      patients: dummyPatients,
+    ));
+  }
+
 }

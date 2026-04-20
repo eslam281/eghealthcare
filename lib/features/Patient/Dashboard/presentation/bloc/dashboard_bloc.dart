@@ -27,6 +27,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());
+    try{
       try{
         final response = await sl<PGetUserUseCase>().call();
         user = response.fold((l) => l, (r) => r);
@@ -55,6 +56,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         upcomingAppointments: appointments,
         featuredDoctors: doctors,
       ));
+    }catch(e){
+      print(e);
+      emit(DashboardError("$e"));
+    }
 
   }
 

@@ -1,6 +1,7 @@
 import 'package:eghealthcare/features/Doctor/Dashboard/presentation/widgets/patient_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../domain/entities/patient_entity.dart';
 
 class PatientsSection extends StatelessWidget {
@@ -31,7 +32,9 @@ class PatientsSection extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(Routes.myPatients);
+                },
                 child: Row(
                   children: [
                     Text(

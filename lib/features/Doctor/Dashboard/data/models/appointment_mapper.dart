@@ -8,10 +8,12 @@ extension AppointmentEntityExtension on AppointmentModel{
   AppointmentEntity toAppointmentEntity() {
     return AppointmentEntity(
       id: appointmentID,
-      doctorName: doctor.name,
+      patientName: patient.name,
       type: type,
       date: date,
       time: time,
+      avatar: patient.avatar,
+      status: status,
     );
   }
 }

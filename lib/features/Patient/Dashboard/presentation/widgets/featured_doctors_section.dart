@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../domain/entities/doctor_entity.dart';
 
@@ -21,7 +22,9 @@ class FeaturedDoctorsSection extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.findDoctor);
+              },
               child: Row(
                 children: [
                   Text(

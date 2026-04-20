@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,14 +32,8 @@ class DoctorDashboard extends StatelessWidget {
                         Text(stat.user.fullName),
                       ],),
 
-                      ClipRRect(
-                        borderRadius: BorderRadiusGeometry.circular(50),
-                        child: CircleAvatar(
-                          child: stat.user.imageURL != null
-                              ? CachedNetworkImage(imageUrl:stat.user.imageURL!)
-                              : const Icon(Icons.person),
-                        ),
-                      ),
+                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50),
+
                     ],
                   );
                 }
@@ -81,22 +76,22 @@ class _DashboardBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 PatientsSection(
-                  patients: state.patients, // من البلوك
+                  patients: state.patients,
                 ),
-                //نصيحه من شات جبتي لو حابب تحسن شكل ديزاين
-                // Container(
-                //   padding: EdgeInsets.all(20),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(20),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         blurRadius: 20,
-                //         color: Colors.black.withOpacity(.05),
-                //       ),
-                //     ],
-                //   ),
-                // )
+
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20,
+                        color: Colors.black.withAlpha(13),
+                      ),
+                    ],
+                  ),
+                )
 
               ],
             ),

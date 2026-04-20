@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../domain/entities/appointment_entity.dart';
@@ -27,7 +28,9 @@ class UpcomingAppointmentsSection extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.myAppointments);
+              },
               child: Row(
                 children: [
                   Text(

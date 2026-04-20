@@ -1,9 +1,12 @@
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../domain/entities/appointment_entity.dart';
+import '../bloc/dashboard_bloc.dart';
 
 class UpcomingAppointmentsSection extends StatelessWidget {
   final List<AppointmentEntity> appointments;
@@ -12,6 +15,8 @@ class UpcomingAppointmentsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+  builder: (context, state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,7 +28,9 @@ class UpcomingAppointmentsSection extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.myAppointments);
+              },
               child: Row(
                 children: [
                   Text(
@@ -40,15 +47,23 @@ class UpcomingAppointmentsSection extends StatelessWidget {
           ],
         ),
 
-        ...appointments.map((a) => AppointmentCard(appointment: a)),
+        ...appointments.map((a) => AppointmentCard(
+            appointment: a,
+            onPressed: () {
+              context.read<DashboardBloc>().add(DeleteAppointments(a.id));
+            }
+        )),
       ],
     );
+  },
+);
   }
 }
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
+  final void Function() onPressed;
 
-  const AppointmentCard({super.key, required this.appointment});
+  const AppointmentCard({super.key, required this.appointment, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +84,7 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(50),
-                  child: CircleAvatar(
-                    radius: 22,
-                    child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
-                  ),
-                ),
+                AvatarImage(imageUrl: appointment.avatar, radius: 50),
                 const SizedBox(width: 12),
 
                 /// Name + Type
@@ -84,7 +93,7 @@ class AppointmentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        appointment.doctorName,
+                        appointment.patientName,
                         style: theme.textTheme.titleMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -107,7 +116,7 @@ class AppointmentCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    "Scheduled",
+                    appointment.status,
                     style: theme.textTheme.labelSmall!.copyWith(
                       color: AppColorsLight.info,
                       fontWeight: FontWeight.w600,
@@ -142,7 +151,7 @@ class AppointmentCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
-                onPressed: () {},
+                onPressed: onPressed,
                 icon: Icon(Icons.close, color: colors.error),
                 label: Text(
                   "Cancel",
