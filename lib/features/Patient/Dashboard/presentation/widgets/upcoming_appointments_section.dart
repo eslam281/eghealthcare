@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../domain/entities/appointment_entity.dart';
+import '../bloc/dashboard_bloc.dart';
 
 class UpcomingAppointmentsSection extends StatelessWidget {
   final List<AppointmentEntity> appointments;
@@ -12,6 +14,8 @@ class UpcomingAppointmentsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+  builder: (context, state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,16 +44,24 @@ class UpcomingAppointmentsSection extends StatelessWidget {
           ],
         ),
 
-        ...appointments.map((a) => AppointmentCard(appointment: a)),
+        ...appointments.map((a) => AppointmentCard(
+            appointment: a,
+          onPressed: () {
+            context.read<DashboardBloc>().add(DeleteAppointments(a.id));
+          }
+        )),
       ],
     );
+  },
+);
   }
 }
 
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
+  final void Function() onPressed;
 
-  const AppointmentCard({super.key, required this.appointment});
+  const AppointmentCard({super.key, required this.appointment, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +149,8 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Cancel Button
             Align(
               alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                onPressed: () {},
+              child: ElevatedButton.icon(
+                onPressed:onPressed,
                 icon: Icon(Icons.close, color: colors.error),
                 label: Text(
                   "Cancel",

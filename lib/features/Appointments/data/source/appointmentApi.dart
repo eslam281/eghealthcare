@@ -14,6 +14,7 @@ import '../models/appointment_mapper.dart';
 abstract class AppointmentApi {
   Future<Either> getAppointment();
   Future<Either> getAppointmentById(int id);
+  Future<Either> deleteAppointment(int id);
 }
 class AppointmentApiImpl implements AppointmentApi {
 
@@ -44,9 +45,31 @@ class AppointmentApiImpl implements AppointmentApi {
   }
 
   @override
-  Future<Either<dynamic, dynamic>> getAppointmentById(int id) {
-    // TODO: implement getAppointmentById
-    throw UnimplementedError();
+  Future<Either> getAppointmentById(int id) async{
+    final response = await sl<NetworkCallHandler>().call(
+            () => sl<ApiClient>().get("${AppLinks.appointment}/$id",));
+    print("===========================response : ${response.toString()}");
+
+    return response.fold(
+          (failure) => Left(failure),
+          (data) {
+        final AppointmentModel appointmentModels = AppointmentModel.fromJson(data);
+        final AppointmentEntity user = appointmentModels.toAppointmentEntity();
+        return Right(user);
+      },
+    );
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> deleteAppointment(int id)async {
+    final response = await sl<NetworkCallHandler>().call(
+            () => sl<ApiClient>().delete("${AppLinks.appointment}/$id",));
+    print("===========================response : ${response.toString()}");
+
+    return response.fold(
+          (failure) => Left(failure),
+          (data) {return Right(data);},
+    );
   }
 
 }

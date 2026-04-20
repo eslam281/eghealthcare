@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
+import '../../../../Appointments/domain/usecases/deleteAppointment_usecase.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/doctor_entity.dart';
@@ -17,17 +18,15 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(DashboardInitial()) {
     on<LoadDashboardRequested>(_onLoadDashboard);
     on<RefreshDashboardRequested>(_onRefreshDashboard);
+    on<DeleteAppointments>(_onDeletedAppointments);
   }
+  late final UserEntity user;
+  late final List<DoctorEntity> doctors;
+  late  List<AppointmentEntity> appointments;
+  final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
 
   Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());
-
-    try {
-      late final UserEntity user;
-      late final List<DoctorEntity> doctors;
-      late final List<AppointmentEntity> appointments;
-      final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
-
       try{
         final response = await sl<PGetUserUseCase>().call();
         user = response.fold((l) => l, (r) => r);
@@ -56,12 +55,28 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         upcomingAppointments: appointments,
         featuredDoctors: doctors,
       ));
-    } catch (e) {
-      emit(DashboardError("Failed to load dashboard"));
-    }
+
   }
 
   Future<void> _onRefreshDashboard(RefreshDashboardRequested event, Emitter<DashboardState> emit,) async {
     add(LoadDashboardRequested());
   }
+  Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<DashboardState> emit) async {
+    emit(DashboardLoading());
+
+    try {
+      await sl<DeleteAppointmentUseCase>().call(params: event.id);
+      appointments.removeWhere((element) => element.id == event.id);
+
+    }catch(e){
+      emit(DashboardError("Failed to delete dashboard"));
+    }
+    emit(DashboardLoaded(
+      upcomingAppointments: appointments,
+      user: user,
+      summary: summary,
+      featuredDoctors: doctors,
+    ));
+  }
+
 }

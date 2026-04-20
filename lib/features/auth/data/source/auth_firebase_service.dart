@@ -100,7 +100,6 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
 
     final GoogleSignIn googleSignIn =GoogleSignIn.instance;
     try{
-      // لازم initialize مرة واحدة
       await googleSignIn.initialize(
         serverClientId: "318363221520-b2ijh4kl9hrmpdljlkl5h9f3jk6kmslb.apps.googleusercontent.com"
       );

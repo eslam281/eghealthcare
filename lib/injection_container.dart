@@ -16,6 +16,7 @@ import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
 import 'features/Appointments/domain/repository/appointment_repository.dart';
+import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
@@ -86,6 +87,7 @@ void _initUseCase() {
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase());
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
   sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
+  sl.registerLazySingleton<DeleteAppointmentUseCase>(() => DeleteAppointmentUseCase());
   ///////////////////////////////////
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());

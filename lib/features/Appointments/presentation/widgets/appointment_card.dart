@@ -7,8 +7,9 @@ import '../../domain/entities/appointment_entity.dart';
 
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
+  final void Function() onPressed;
 
-  const AppointmentCard({super.key, required this.appointment});
+  const AppointmentCard({super.key, required this.appointment, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +102,8 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Cancel Button
             Align(
               alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                onPressed: () {},
+              child: ElevatedButton.icon(
+                onPressed:onPressed,
                 icon: Icon(Icons.close, color: colors.error),
                 label: Text(
                   "Cancel",

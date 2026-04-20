@@ -56,21 +56,26 @@ class MyAppointmentsPage extends StatelessWidget {
                   const AppointmentsFilterTabs(),
         
                   const SizedBox(height: 16),
-        
-                  /// هنا تحط appointment cards بتاعتك القديمة
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.upcomingAppointments.length,
-                    itemBuilder:(context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: AppointmentCard(
-                          appointment: state.upcomingAppointments[index],
-                        ),
-                      );
-                    },
+
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.upcomingAppointments.length,
+                      itemBuilder:(context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: AppointmentCard(
+                            appointment: state.upcomingAppointments[index],
+                            onPressed: () {
+                              context.read<AppointmentsBloc>().add(
+                                  DeleteAppointments(
+                                      state.upcomingAppointments[index].id));
+                            }
+                          ),
+                        );
+                      },
+                    ),
                   ),
-        
+
                 ],
               );
             }

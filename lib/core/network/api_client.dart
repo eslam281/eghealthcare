@@ -16,7 +16,14 @@ abstract class ApiClient {
     Map<String, String>? headers,
     Object? body,
   });
+
+  Future<dynamic> delete(
+    String url, {
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParameters,
+  });
 }
+
 class ApiClientImpl implements ApiClient {
   final http.Client _client;
   ApiClientImpl(this._client);
@@ -64,6 +71,17 @@ class ApiClientImpl implements ApiClient {
     final uri = Uri.parse(url);
     final response = await _client.post(
         uri, headers: _getHeaders(headers), body: jsonEncode(body));
+    return _handleResponse(response);
+  }
+
+  @override
+  Future<dynamic> delete(
+      String url, {
+        Map<String, String>? headers,
+        Map<String, dynamic>? queryParameters,
+      }) async {
+    final uri = Uri.parse(url).replace(queryParameters: queryParameters);
+    final response = await _client.delete(uri, headers: _getHeaders(headers),);
     return _handleResponse(response);
   }
 }

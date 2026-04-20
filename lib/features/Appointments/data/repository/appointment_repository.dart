@@ -11,4 +11,9 @@ class AppointmentRepositoryImp extends AppointmentRepository {
     return await sl<AppointmentApi>().getAppointment();
   }
 
+  @override
+  Future<Either<dynamic, dynamic>> deleteAppointment(int id)async {
+    return await sl<AppointmentApi>().deleteAppointment(id);
+  }
+
 }
