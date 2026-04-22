@@ -9,7 +9,6 @@ class PGetUserUseCase extends UseCase<Either, int?>{
   @override
   Future<Either> call({params}) async{
     return await sl<PDashboardRepository>().getUser();
-
   }
 
 }

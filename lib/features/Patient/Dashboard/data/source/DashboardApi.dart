@@ -29,7 +29,6 @@ abstract class PDashboardApi{
 class PDashboardApiImpl implements PDashboardApi{
   @override
   Future<Either<Failure, List<DoctorEntity>>> getDoctors() async {
-    print("===========================getDoctors");
     final response = await sl<NetworkCallHandler>().call(
             ()=> sl<ApiClient>().get(AppLinks.doctor));
     print("===========================response : ${response.toString()}");

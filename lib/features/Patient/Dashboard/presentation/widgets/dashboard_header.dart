@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/routes.dart';
 import '../../../../../core/themes/app_gradients.dart';
 import '../../domain/entities/user_entity.dart';
 
@@ -33,7 +34,9 @@ class DashboardHeader extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.findDoctor);
+            },
             icon: const Icon(Icons.search),
             label: const Text("Find a Doctor"),
           ),

@@ -1,8 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/doctor_entity.dart';
+
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({super.key});
+  final DoctorEntity doctor;
+
+  const DoctorCard({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +24,23 @@ class DoctorCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(50),
-                child: CircleAvatar(
-                  radius: 22,
-                  child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
-                ),
-              ),
+              AvatarImage(imageUrl: doctor.imageUrl, radius: 50),
+
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Dr. Sarah Mitchell",
-                      style: TextStyle(
+                    Text(
+                      "Dr. ${doctor.name}",
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Color(0xFF0D3B36),
                       ),
                     ),
                     Text(
-                      "Cardiologist",
+                      doctor.specialty,
                       style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                     ),
                   ],
@@ -71,7 +71,7 @@ class DoctorCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 12),
-          // سطر الخبرة والمواعيد
+
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [

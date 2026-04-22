@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/find_doctor_bloc.dart';
 import '../widgets/doctor_card.dart';
 
 class FindDoctorsPage extends StatelessWidget {
@@ -96,13 +98,28 @@ class FindDoctorsPage extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 /// Doctors Grid
-                Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.only(top: 16, bottom: 24),
-                    itemCount: 6,
-                    separatorBuilder: (context, index) => const SizedBox(height: 16),
-                    itemBuilder: (context, index) => const DoctorCard(),
-                  ),
+                BlocBuilder<FindDoctorBloc, FindDoctorState>(
+                  builder: (context, state) {
+                   if(state is FindDoctorLoading){
+                     return const Center(child: CircularProgressIndicator());
+                   }
+                   if(state is FindDoctorLoaded){
+                     return Expanded(
+                       child: ListView.separated(
+                         padding: const EdgeInsets.only(top: 16, bottom: 24),
+                         itemCount: 6,
+                         separatorBuilder: (context, index) =>
+                         const SizedBox(height: 16),
+                         itemBuilder: (context, index) =>
+                             DoctorCard(doctor: state.doctors[index],),
+                       ),
+                     );
+                   }
+                   if(state is FindDoctorError){
+                     return Center(child: Text(state.message));
+                   }
+                   return const SizedBox();
+                  },
                 )
               ],
             ),
