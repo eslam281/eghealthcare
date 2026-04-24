@@ -19,7 +19,6 @@ class FindDoctorBloc extends Bloc<FindDoctorEvent, FindDoctorState> {
     try{
       final response = await sl<FindDoctorUseCase>().call();
       doctors = response.fold((l) => [], (r) => r);
-      emit(FindDoctorLoaded(doctors));
     }catch(e){
       print(e);
       emit(FindDoctorError("$e"));

@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/doctor_entity.dart';
+import 'bookAppointmentDialog.dart';
 
 class DoctorCard extends StatelessWidget {
   final DoctorEntity doctor;
@@ -94,7 +95,14 @@ class DoctorCard extends StatelessWidget {
                     color: Colors.black)),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => BookAppointmentDialog(
+                      doctor: doctor,
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
