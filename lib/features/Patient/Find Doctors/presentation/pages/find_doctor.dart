@@ -21,7 +21,9 @@ class FindDoctorsPage extends StatelessWidget {
             ),
           ),
         ),
-        body: SafeArea(
+        body: BlocProvider(
+          create: (context) => FindDoctorBloc()..add(LoadDoctorRequested()),
+          child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -79,14 +81,16 @@ class FindDoctorsPage extends StatelessWidget {
                                 ),
                                 DropdownMenuItem(
                                   value: "All2",
-                                  child: Text("sad"),
+                                  child: Text("CS"),
                                 ),
                                 DropdownMenuItem(
                                   value: "All3",
-                                  child: Text("sf sfas"),
+                                  child: Text("OS"),
                                 ),
                               ],
-                              onChanged: (value) {},
+                              onChanged: (value) {
+
+                              },
                             ),
                           ],
                         ),
@@ -107,7 +111,7 @@ class FindDoctorsPage extends StatelessWidget {
                      return Expanded(
                        child: ListView.separated(
                          padding: const EdgeInsets.only(top: 16, bottom: 24),
-                         itemCount: 6,
+                         itemCount: state.doctors.length,
                          separatorBuilder: (context, index) =>
                          const SizedBox(height: 16),
                          itemBuilder: (context, index) =>
@@ -125,6 +129,7 @@ class FindDoctorsPage extends StatelessWidget {
             ),
           ),
         ),
+),
       ),
     );
   }

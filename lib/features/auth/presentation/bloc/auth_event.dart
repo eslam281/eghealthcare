@@ -27,5 +27,9 @@ final class RegisterRequested extends AuthEvent {
       this.age,this.address, this.phoneNumber, this.gender);
 }
 
+final class ResetPasswordEvent extends AuthEvent {
+  final String email;
+  ResetPasswordEvent(this.email);
+}
 final class LogoutRequested extends AuthEvent {}
 final class GetUserRequested extends AuthEvent {}

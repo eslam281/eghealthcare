@@ -13,3 +13,7 @@ final class AuthFailure extends AuthState {
   final String message;
   AuthFailure(this.message);
 }
+class ResetSuccess extends AuthState {
+  final String message;
+  ResetSuccess(this.message);
+}

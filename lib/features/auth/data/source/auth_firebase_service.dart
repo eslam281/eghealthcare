@@ -17,6 +17,7 @@ abstract class AuthFirebaseService{
   Future<Either> signin(SignInUserReq signInUserReq);
   Future<Either> singInWithGoogle();
   Future<Either> signOut();
+  Future<Either> resetPassword(String email);
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService{
@@ -28,7 +29,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
     try{
       UserCredential data = await firebaseAuth.signInWithEmailAndPassword(
           email: signInUserReq.email,
-          password: signInUserReq.password
+          password: signInUserReq.password,
       );
 
       final UserRole? userRole = await sl<RoleService>().getCurrentRole();
@@ -64,7 +65,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
     try{
       UserCredential data = await firebaseAuth.createUserWithEmailAndPassword(
           email: createuserReq.email,
-          password: createuserReq.password
+          password: createuserReq.password,
       );
       await secureStorage.write(key: 'uid', value: data.user!.uid);
       final response = await _createUser( createuserReq,data.user!.uid);
@@ -131,4 +132,18 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
     print("===========================response : ${response.toString()}");
     return response;
   }
+
+  @override
+  Future<Either<Failure, dynamic>> resetPassword(String email) async {
+    try{
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return const Right("Password reset email sent");
+    }on FirebaseAuthException catch (e) {
+      return Left(ServerFailure(e.message.toString()));
+    }catch (e) {
+      return const Left(ServerFailure("Unexpected error occurred"));
+    }
+  }
+
+
 }

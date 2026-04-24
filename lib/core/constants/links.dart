@@ -4,4 +4,5 @@ class AppLinks{
   static const String doctor ="$server/doctors";
   static const String patient ="$server/patients";
   static const String appointment ="$server/appointments";
+  static const String aiAnalysis ="$server/ai-analysis";
 }
