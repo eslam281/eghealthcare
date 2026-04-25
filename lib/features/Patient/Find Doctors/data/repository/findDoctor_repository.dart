@@ -10,5 +10,9 @@ class FindDoctorRepositoryImpl implements FindDoctorRepository {
   Future<Either> getDoctors() async{
     return await sl<FindDoctorApi>().getDoctors();
   }
+  @override
+  Future <Either> createAppointment(Map<String,dynamic> appointmentCreate)async{
+    return await sl<FindDoctorApi>().createAppointment(appointmentCreate);
+  }
 
 }

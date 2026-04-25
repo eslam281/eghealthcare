@@ -7,7 +7,10 @@ class BookingInitial extends BookAppointmentState {}
 
 class BookingLoading extends BookAppointmentState {}
 
-class BookingSuccess extends BookAppointmentState {}
+class BookingSuccess extends BookAppointmentState {
+  final AppointmentEntity appointmentEntity;
+  BookingSuccess(this.appointmentEntity);
+}
 
 class BookingError extends BookAppointmentState {
   final String message;

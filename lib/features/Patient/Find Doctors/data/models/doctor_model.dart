@@ -9,7 +9,9 @@ extension DoctorModelExtensionToDoctorEntity on DoctorModel{
       id: doctorID,
       name: name,
       specialty: specialty,
-      imageUrl: avatar
+      imageUrl: avatar,
+      bio: bio,
+      experience: experience
     );
   }
 }

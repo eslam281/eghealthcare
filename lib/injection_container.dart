@@ -30,6 +30,7 @@ import 'features/Patient/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Patient/Find Doctors/data/repository/findDoctor_repository.dart';
 import 'features/Patient/Find Doctors/data/source/findDoctor_api.dart';
 import 'features/Patient/Find Doctors/domain/repository/findDoctor_repository.dart';
+import 'features/Patient/Find Doctors/domain/usecases/createAppointment_usecase.dart';
 import 'features/Patient/Find Doctors/domain/usecases/findDoctor_usecase.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
@@ -98,6 +99,7 @@ void _initUseCase() {
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());
   sl.registerLazySingleton<FindDoctorUseCase>(() => FindDoctorUseCase());
+  sl.registerLazySingleton<CreateAppointmentUseCase>(() => CreateAppointmentUseCase());
   //////////////////////////////////
   sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
   sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());

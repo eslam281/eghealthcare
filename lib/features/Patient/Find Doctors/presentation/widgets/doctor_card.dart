@@ -1,8 +1,11 @@
 
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/doctor_entity.dart';
+import '../bloc/book_appointment_bloc.dart';
+import '../pages/doctorProfile.dart';
 import 'bookAppointmentDialog.dart';
 
 class DoctorCard extends StatelessWidget {
@@ -90,7 +93,14 @@ class DoctorCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DoctorProfile(doctor: doctor),
+                    ),
+                  );
+                },
                 child: const Text("View Profile →", style: TextStyle(
                     color: Colors.black)),
               ),
@@ -98,8 +108,11 @@ class DoctorCard extends StatelessWidget {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => BookAppointmentDialog(
-                      doctor: doctor,
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<BookAppointmentBloc>(),
+                      child: BookAppointmentDialog(
+                        doctor: doctor,
+                      ),
                     ),
                   );
                 },

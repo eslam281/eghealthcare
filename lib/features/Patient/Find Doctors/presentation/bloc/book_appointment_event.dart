@@ -5,7 +5,7 @@ sealed class BookAppointmentEvent {}
 
 class SubmitBooking extends BookAppointmentEvent {
   final String doctorId;
-  final DateTime date;
+  final String date;
   final String time;
 
   SubmitBooking({

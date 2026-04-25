@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/book_appointment_bloc.dart';
 import '../bloc/find_doctor_bloc.dart';
 import '../widgets/doctor_card.dart';
 
@@ -11,8 +12,9 @@ class FindDoctorsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      body: Scaffold(
+    return BlocProvider(
+      create: (context) => BookAppointmentBloc(),
+      child: Scaffold(
         appBar: AppBar(
           title: Text(
             "Find a Doctor",
@@ -128,8 +130,8 @@ class FindDoctorsPage extends StatelessWidget {
               ],
             ),
           ),
+          ),
         ),
-),
       ),
     );
   }
