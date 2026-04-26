@@ -6,13 +6,9 @@ sealed class AuthEvent {}
 final class LoginRequested extends AuthEvent {
   final String email;
   final String password;
-  final UserRole userRole;
-  LoginRequested(this.email, this.password, this.userRole);
+  LoginRequested(this.email, this.password);
 }
-final class GoogleSignInRequested extends AuthEvent {
-  final UserRole userRole;
-  GoogleSignInRequested(this.userRole);
-}
+final class GoogleSignInRequested extends AuthEvent {}
 
 final class RegisterRequested extends AuthEvent {
   final String name;

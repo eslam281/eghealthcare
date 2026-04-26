@@ -37,7 +37,7 @@ class AppointmentApiImpl implements AppointmentApi {
         (data as List).map((e) => AppointmentModel.fromJson(e)).toList();
 
         final List<AppointmentEntity> user =
-        appointmentModels.map((e) => e.toAppointmentEntity()).toList();
+        appointmentModels.map((e) => e.toAppointmentEntity(role!)).toList();
 
         return Right(user);
       },
@@ -46,6 +46,7 @@ class AppointmentApiImpl implements AppointmentApi {
 
   @override
   Future<Either> getAppointmentById(int id) async{
+    final role = await sl<RoleService>().getCurrentRole();
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().get("${AppLinks.appointment}/$id",));
     print("===========================response : ${response.toString()}");
@@ -54,7 +55,7 @@ class AppointmentApiImpl implements AppointmentApi {
           (failure) => Left(failure),
           (data) {
         final AppointmentModel appointmentModels = AppointmentModel.fromJson(data);
-        final AppointmentEntity user = appointmentModels.toAppointmentEntity();
+        final AppointmentEntity user = appointmentModels.toAppointmentEntity(role!);
         return Right(user);
       },
     );

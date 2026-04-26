@@ -32,11 +32,16 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           password: signInUserReq.password,
       );
 
-      late final Either response;
-
-      response = await sl<NetworkCallHandler>().call(() =>
+       final Either response = await sl<NetworkCallHandler>().call(() =>
               sl<ApiClient>().get("${AppLinks.user}/${data.user!.uid}"));
+
       if (response.isLeft()) return const Left("You are not a user");
+
+      response.fold((l) => l, (r) async{
+        print(r["role"]);
+        final role = r["role"]=='patient'?UserRole.patient:UserRole.doctor;
+        await sl<RoleService>().saveRole(role);
+      },);
 
       await secureStorage.write(key: 'uid', value: data.user!.uid);
       return const Right("Sign in was Successful");
@@ -121,8 +126,6 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
                   body: createuserReq.toJson(uid)
             )
     );
-    print("${createuserReq.toJson(uid)}");
-    print("===========================response : ${response.toString()}");
     return response;
   }
 

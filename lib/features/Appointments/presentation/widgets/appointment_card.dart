@@ -31,7 +31,7 @@ class AppointmentCard extends StatelessWidget {
             Row(
               children: [
                 //////////////////////
-                AvatarImage(imageUrl: appointment.doctorName, radius: 50, name: appointment.doctorName),
+                AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name),
 
                 const SizedBox(width: 12),
 
@@ -41,7 +41,7 @@ class AppointmentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        appointment.doctorName,
+                        appointment.name,
                         style: theme.textTheme.titleMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),

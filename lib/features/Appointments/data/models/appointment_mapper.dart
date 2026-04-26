@@ -1,17 +1,20 @@
 
 import 'package:eghealthcare/core/shared/model/appointment_model.dart';
 
+import '../../../../core/services/role_service.dart';
+import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 
 
 extension AppointmentEntityExtension on AppointmentModel{
-  AppointmentEntity toAppointmentEntity() {
+  AppointmentEntity toAppointmentEntity(UserRole role) {
     return AppointmentEntity(
       id: appointmentID,
-      doctorName: doctor.name,
+      name:role == UserRole.patient?doctor.name: patient.name,
       type: type,
       date: date,
       time: time,
+      avtar: role == UserRole.patient?doctor.avatar:patient.avatar ,
     );
   }
 }

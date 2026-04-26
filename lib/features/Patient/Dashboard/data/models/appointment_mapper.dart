@@ -12,7 +12,7 @@ extension AppointmentEntityExtension on AppointmentModel{
       type: type,
       date: date,
       time: time,
-      avatar:patient.avatar
+      avatar:doctor.avatar
     );
   }
 }

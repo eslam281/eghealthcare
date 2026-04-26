@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   bool remember = true;
-  late UserRole _role = UserRole.patient;
 
   @override
   void dispose() {
@@ -83,15 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 18),
-                            RoleSelector(
-                              selectedRole: _role,
-                              onChanged: (role) {
-                                setState(() {
-                                  _role = role;
-                                });
-                              },
-                            ),
 
                             const SizedBox(height: 20),
                             Row(
@@ -131,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             if (state is AuthSuccess) {
                               Navigator.pushReplacementNamed(
-                                context,_role==UserRole.patient?
+                                context,state.userRole == UserRole.patient?
                               Routes.patientDashboard:Routes.doctorDashboard
                               );
                             }
@@ -154,9 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                                       context.read<AuthBloc>().add(
                                         LoginRequested(
                                           emailCtrl.text.trim(),
-                                          passwordCtrl.text,
-                                          _role,
-                                        ),
+                                          passwordCtrl.text),
                                       );
                                     },
                                   ),
@@ -166,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                                   SocialLoginSection(
                                     onGooglePressed: () {
                                       context.read<AuthBloc>().add(
-                                        GoogleSignInRequested(_role,),
+                                        GoogleSignInRequested(),
                                       );
                                     },
                                   ),
