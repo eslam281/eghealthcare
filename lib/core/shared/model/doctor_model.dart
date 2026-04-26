@@ -7,12 +7,11 @@ class DoctorModel {
   late String phoneNumber;
   late String email;
   late String address;
-  late String role;
   String? avatar;
   String? experience;
   String? bio;
-  String? availability;
-  String? reviews;
+  List? availability;
+  List? reviews;
   String? createdAt;
   String? updatedAt;
 
@@ -24,7 +23,6 @@ class DoctorModel {
         required this.phoneNumber,
         required this.email,
         required this.address,
-        required this.role,
         this.avatar,
         required this.specialty,
         this.experience,
@@ -40,7 +38,6 @@ class DoctorModel {
     age = json['age'];
     gender = json['gender'];
     phoneNumber = json['phoneNumber'];
-    role = json['role'];
     avatar = json['avatar'];
     email = json['email'];
     address = json['address'];
@@ -60,7 +57,6 @@ class DoctorModel {
     data['name'] = name;
     data['age'] = age;
     data['gender'] = gender;
-    data['role'] = role;
     data['phoneNumber'] = phoneNumber;
     data['email'] = email;
     data['avatar'] = avatar;

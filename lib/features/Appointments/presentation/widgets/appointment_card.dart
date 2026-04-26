@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 
 
@@ -30,13 +30,9 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(50),
-                  child: CircleAvatar(
-                    radius: 22,
-                    child: CachedNetworkImage(imageUrl: "https://randomuser.me/api/portraits/men/32.jpg"),
-                  ),
-                ),
+                //////////////////////
+                AvatarImage(imageUrl: appointment.doctorName, radius: 50, name: appointment.doctorName),
+
                 const SizedBox(width: 12),
 
                 /// Name + Type

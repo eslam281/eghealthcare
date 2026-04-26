@@ -122,7 +122,7 @@ class ConfirmBookingDialog extends StatelessWidget {
                             return ElevatedButton(
                               onPressed: isLoading ? null : () {
                                 final formattedDate =
-                                date.toIso8601String();
+                                date.toString();
 
                                 context.read<BookAppointmentBloc>().add(
                                   SubmitBooking(

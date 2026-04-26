@@ -6,7 +6,6 @@ class PatientModel {
   late String phoneNumber;
   late String email;
   late String address;
-  late String role;
   String? avatar;
   String? medicalHistory;
   String? medicalSummary;
@@ -24,7 +23,6 @@ class PatientModel {
         required this.phoneNumber,
         required this.email,
         required this.address,
-        required this.role,
         this.avatar,
         this.medicalHistory,
         this.medicalSummary,
@@ -39,7 +37,6 @@ class PatientModel {
     name = json['name'];
     age = json['age'];
     gender = json['gender'];
-    role = json['role'];
     phoneNumber = json['phoneNumber'];
     avatar = json['avatar'];
     email = json['email'];
@@ -60,7 +57,6 @@ class PatientModel {
     data['age'] = age;
     data['gender'] = gender;
     data['phoneNumber'] = phoneNumber;
-    data['role'] = role;
     data['email'] = email;
     data['avatar'] = avatar;
     data['address'] = address;

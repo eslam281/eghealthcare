@@ -26,7 +26,7 @@ class CreateUserReqPatient extends CreateUserReq{
     data['phoneNumber'] = phoneNumber;
     data['email'] = email;
     data['address'] = address;
-    data['role'] = userRole;
+    // data['role'] = userRole; are not use now
     data['gender'] = gender;
     return data;
   }
@@ -44,7 +44,7 @@ class CreateUserReqDoctor extends CreateUserReq{
     data['phoneNumber'] = phoneNumber;
     data['email'] = email;
     data['address'] = address;
-    data['role'] = userRole;
+    // data['role'] = userRole; are not use now
     data['gender'] = gender;
     return data;
   }

@@ -91,7 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (!emit.isDone) emit(AuthFailure(message!));
         return;
       }
-      await sl<RoleService>().clearRole();
+
       if (!emit.isDone)emit(AuthInitial());
     });
 

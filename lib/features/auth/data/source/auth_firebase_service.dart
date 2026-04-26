@@ -32,19 +32,11 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           password: signInUserReq.password,
       );
 
-      final UserRole? userRole = await sl<RoleService>().getCurrentRole();
-      late final Either response ;
-      if(userRole==UserRole.patient) {
-       response = await sl<NetworkCallHandler>().call(
-               ()=> sl<ApiClient>().get("${AppLinks.patient}/${data.user!.uid}"));
-        if(response.isLeft()) return const Left("You are not a patient");
+      late final Either response;
 
-      }else{
-        response = await sl<NetworkCallHandler>().call(
-                ()=> sl<ApiClient>().get("${AppLinks.doctor}/${data.user!.uid}"));
-        if(response.isLeft()) return const Left("You are not a doctor");
-
-      }
+      response = await sl<NetworkCallHandler>().call(() =>
+              sl<ApiClient>().get("${AppLinks.user}/${data.user!.uid}"));
+      if (response.isLeft()) return const Left("You are not a user");
 
       await secureStorage.write(key: 'uid', value: data.user!.uid);
       return const Right("Sign in was Successful");
@@ -67,8 +59,8 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: createuserReq.email,
           password: createuserReq.password,
       );
-      await secureStorage.write(key: 'uid', value: data.user!.uid);
       final response = await _createUser( createuserReq,data.user!.uid);
+      await secureStorage.write(key: 'uid', value: data.user!.uid);
       if(response.isLeft()) {
         return Left(response.fold((l) => l.message, (r) => null));
       }
@@ -90,6 +82,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       await firebaseAuth.signOut();
       await secureStorage.delete(key: 'uid');
+      await sl<RoleService>().clearRole();
       return const Right("Sign out was Successful");
     }catch(e){
       return Left("An error occurred $e");
