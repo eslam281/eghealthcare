@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/book_appointment_bloc.dart';
-import 'bookAppointmentDialog.dart';
+import 'confirmBookingDialog.dart';
 
 class TimeSelectionDialog extends StatefulWidget {
   final DoctorEntity doctor;
