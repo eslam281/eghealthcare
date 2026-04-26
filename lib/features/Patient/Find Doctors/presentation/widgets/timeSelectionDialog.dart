@@ -1,8 +1,10 @@
+import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widgets/doctorInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/book_appointment_bloc.dart';
+import 'bookAppointmentDialog.dart';
 import 'confirmBookingDialog.dart';
 
 class TimeSelectionDialog extends StatefulWidget {
@@ -66,12 +68,7 @@ class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
             const SizedBox(height: 10),
 
             /// Doctor Info
-            ListTile(
-              leading: CircleAvatar(
-                child: Text(widget.doctor.name[0]),
-              ),
-              title: Text("Dr. ${widget.doctor.name}"),
-            ),
+            DoctorInfo(name: widget.doctor.name,),
 
             const SizedBox(height: 10),
 
@@ -135,7 +132,17 @@ class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
+                      final bloc = context.read<BookAppointmentBloc>();
                       Navigator.pop(context);
+                      showDialog(
+                        context: context,
+                        builder: (_) => BlocProvider.value(
+                          value: bloc,
+                          child: BookAppointmentDialog(
+                            doctor:widget.doctor,
+                          ),
+                        ),
+                      );
                     },
                     child: const Text("Back"),
                   ),
@@ -145,12 +152,13 @@ class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
                   child: ElevatedButton(
                     onPressed: selectedTime == null ? null
                         : () {
+                      final bloc = context.read<BookAppointmentBloc>();
                       Navigator.pop(context);
                       showDialog(
                         context: context,
                         builder: (_) {
                           return BlocProvider.value(
-                            value: context.read<BookAppointmentBloc>(),
+                            value:bloc,
                             child: ConfirmBookingDialog(
                               doctor: widget.doctor,
                               date: widget.date,

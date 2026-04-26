@@ -85,7 +85,7 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                const AvatarImage(imageUrl:"https://randomuser.me/api/portraits/men/32.jpg", radius: 55),
+                AvatarImage(imageUrl:appointment.avatar,name:appointment.doctorName, radius: 55),
 
                 const SizedBox(width: 12),
 

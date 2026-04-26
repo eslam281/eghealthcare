@@ -1,3 +1,5 @@
+import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widgets/doctorInfo.dart';
+import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widgets/timeSelectionDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,13 +68,7 @@ class ConfirmBookingDialog extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   /// Doctor Info
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: CircleAvatar(
-                      child: Text(doctor.name[0]),
-                    ),
-                    title: Text("Dr. ${doctor.name}"),
-                  ),
+                  DoctorInfo(name: doctor.name,),
 
                   const SizedBox(height: 10),
 
@@ -99,7 +95,21 @@ class ConfirmBookingDialog extends StatelessWidget {
                     children: [
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            final bloc = context.read<BookAppointmentBloc>();
+                            Navigator.pop(context);
+
+                            showDialog(
+                              context: context,
+                              builder: (_) => BlocProvider.value(
+                                value: bloc,
+                                child: TimeSelectionDialog(
+                                  doctor: doctor,
+                                  date: date,
+                                ),
+                              ),
+                            );
+                          },
                           child: const Text("Back"),
                         ),
                       ),

@@ -28,7 +28,7 @@ class PatientDashboard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Welcome back,${stat.user.fullName}"),
-                        AvatarImage(imageUrl: stat.user.imageURL, radius: 50),
+                        AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,),
                       ],
                     );
                   }

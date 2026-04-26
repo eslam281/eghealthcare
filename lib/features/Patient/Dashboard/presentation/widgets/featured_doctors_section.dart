@@ -79,7 +79,7 @@ class _DoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AvatarImage(imageUrl: doctor.imageUrl, radius: 50),
+          AvatarImage(imageUrl: doctor.imageUrl, radius: 50,name:doctor.name,),
 
           const SizedBox(width: 12),
           Column(

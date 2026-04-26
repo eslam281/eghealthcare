@@ -31,7 +31,7 @@ class DoctorDashboard extends StatelessWidget {
                         Text(stat.user.fullName),
                       ],),
 
-                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50),
+                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName),
 
                     ],
                   );

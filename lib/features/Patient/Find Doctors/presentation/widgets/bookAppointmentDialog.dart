@@ -1,4 +1,5 @@
 
+import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widgets/doctorInfo.dart';
 import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widgets/timeSelectionDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,20 +48,7 @@ class _BookAppointmentDialogState extends State<BookAppointmentDialog> {
               const SizedBox(height: 10),
 
               /// Doctor Info
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey.shade100,
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.greenAccent.withAlpha(30),
-                    child: Text(widget.doctor.name[0],style:
-                    TextStyle(color: Colors.green.withGreen(190)),),
-                  ),
-                  title: Text("Dr. ${widget.doctor.name}"),
-                ),
-              ),
+              DoctorInfo(name: widget.doctor.name,),
 
               const SizedBox(height: 10),
 
@@ -68,7 +56,7 @@ class _BookAppointmentDialogState extends State<BookAppointmentDialog> {
               CalendarDatePicker(
                 initialDate: selectedDate,
                 firstDate: DateTime.now(),
-                lastDate: DateTime(2030),
+                lastDate: DateTime(DateTime.now().year+2,),
                 onDateChanged: (date) {
                   setState(() {
                     selectedDate = date;
@@ -83,14 +71,15 @@ class _BookAppointmentDialogState extends State<BookAppointmentDialog> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor:
-                  Colors.greenAccent.withAlpha(100)),
+                  Colors.greenAccent.withAlpha(200)),
                   onPressed:() {
+                    final bloc = context.read<BookAppointmentBloc>();
                     Navigator.pop(context);
 
                     showDialog(
                       context: context,
                       builder: (_) => BlocProvider.value(
-                        value: context.read<BookAppointmentBloc>(),
+                        value: bloc,
                         child: TimeSelectionDialog(
                           doctor: widget.doctor,
                           date: selectedDate,

@@ -28,7 +28,7 @@ class DoctorCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AvatarImage(imageUrl: doctor.imageUrl, radius: 50),
+              AvatarImage(imageUrl: doctor.imageUrl, radius: 50, name: doctor.name,),
 
               const SizedBox(width: 12),
               Expanded(

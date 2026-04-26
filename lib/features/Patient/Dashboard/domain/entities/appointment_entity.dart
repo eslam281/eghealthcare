@@ -4,6 +4,7 @@ class AppointmentEntity {
   final String type;
   final String date;
   final String time;
+  final String? avatar;
 
   AppointmentEntity({
     required this.doctorName,
@@ -11,5 +12,6 @@ class AppointmentEntity {
     required this.date,
     required this.time,
     required this.id,
+    required this.avatar,
   });
 }
