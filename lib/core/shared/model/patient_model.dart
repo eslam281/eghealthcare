@@ -8,8 +8,8 @@ class PatientModel {
   late String address;
   String? avatar;
   String? medicalHistory;
-  String? medicalSummary;
-  String? patientStats;
+  Map<String,dynamic>? medicalSummary;
+  Map<String,dynamic>? patientStats;
   String? currentCondition;
   String? medications;
   String? createdAt;

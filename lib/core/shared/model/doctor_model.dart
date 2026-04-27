@@ -10,8 +10,8 @@ class DoctorModel {
   String? avatar;
   String? experience;
   String? bio;
-  List? availability;
-  List? reviews;
+  List<Availability>? availability;
+  List<Review>? reviews;
   String? createdAt;
   String? updatedAt;
 
@@ -45,8 +45,17 @@ class DoctorModel {
     specialty = json['specialty'];
     experience = json['experience'];
     bio = json['bio'];
-    availability = json['availability'];
-    reviews = json['reviews'];
+    if (json['availability'] != null) {
+      availability = (json['availability'] as List)
+          .map((e) => Availability.fromJson(e))
+          .toList();
+    }
+
+    if (json['reviews'] != null) {
+      reviews = (json['reviews'] as List)
+          .map((e) => Review.fromJson(e))
+          .toList();
+    }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -65,10 +74,74 @@ class DoctorModel {
     data['specialty'] = specialty;
     data['experience'] = experience;
     data['bio'] = bio;
-    data['availability'] = availability;
-    data['reviews'] = reviews;
+    if (availability != null) {
+      data['availability'] =
+          availability!.map((e) => e.toJson()).toList();
+    }
+
+    if (reviews != null) {
+      data['reviews'] =
+          reviews!.map((e) => e.toJson()).toList();
+    }
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+class Availability {
+  late String day;
+  late String from;
+  late String to;
+
+  Availability({required this.day, required this.from, required this.to});
+
+  Availability.fromJson(Map<String, dynamic> json) {
+    day = json['day'];
+    from = json['from'];
+    to = json['to'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['day'] = day;
+    data['from'] = from;
+    data['to'] = to;
+    return data;
+  }
+}
+class Review {
+  late String id;
+  late String patientId;
+  late String patientName;
+  late int rating;
+  late String comment;
+  late String date;
+
+  Review(
+      {required this.id,
+        required this.patientId,
+        required this.patientName,
+        required this.rating,
+        required this.comment,
+        required this.date});
+
+  Review.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    patientId = json['patientId'];
+    patientName = json['patientName'];
+    rating = json['rating'];
+    comment = json['comment'];
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['patientId'] = patientId;
+    data['patientName'] = patientName;
+    data['rating'] = rating;
+    data['comment'] = comment;
+    data['date'] = date;
     return data;
   }
 }
