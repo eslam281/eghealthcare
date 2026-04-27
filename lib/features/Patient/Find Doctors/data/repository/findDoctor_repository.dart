@@ -14,5 +14,7 @@ class FindDoctorRepositoryImpl implements FindDoctorRepository {
   Future <Either> createAppointment(Map<String,dynamic> appointmentCreate)async{
     return await sl<FindDoctorApi>().createAppointment(appointmentCreate);
   }
-
+  Future <Either> search(String query) async {
+    return await sl<FindDoctorApi>().search(query);
+  }
 }

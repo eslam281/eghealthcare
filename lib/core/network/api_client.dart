@@ -36,7 +36,6 @@ class ApiClientImpl implements ApiClient {
     };
   }
   dynamic _handleResponse(http.Response response) {
-    print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
         return jsonDecode(response.body);
@@ -70,7 +69,6 @@ class ApiClientImpl implements ApiClient {
     Object? body
     }) async{
     final uri = Uri.parse(url);
-    print("jsonEncode(body)================${jsonEncode(body)}");
     final response = await _client.post(
         uri, headers: _getHeaders(headers), body: jsonEncode(body));
     return _handleResponse(response);

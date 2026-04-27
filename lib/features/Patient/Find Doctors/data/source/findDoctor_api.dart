@@ -13,6 +13,7 @@ import '../models/appointment_mapper.dart';
 
 abstract class FindDoctorApi {
   Future <Either> getDoctors();
+  Future <Either> search(String query);
   Future <Either> createAppointment(Map<String,dynamic> appointmentCreate);
 }
 
@@ -51,6 +52,27 @@ class FindDoctorApiImpl implements FindDoctorApi{
         final AppointmentEntity appointmentEntity= appointmentModel.toAppointmentEntity();
 
         return Right(appointmentEntity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> search(String query) async {
+
+    final response = await sl<NetworkCallHandler>().call(
+            ()=> sl<ApiClient>().get(AppLinks.doctor,
+            queryParameters:{"search":query} ));
+    print("===========================response : ${response.toString()}");
+    return response.fold(
+          (failure) => Left(failure),
+          (data) {
+        final List<DoctorModel> doctorModels =
+        (data as List).map((e) => DoctorModel.fromJson(e)).toList();
+
+        final List<DoctorEntity> doctors =
+        doctorModels.map((e) => e.doctorEntity()).toList();
+
+        return Right(doctors);
       },
     );
   }

@@ -12,8 +12,13 @@ class FindDoctorsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return BlocProvider(
-      create: (context) => BookAppointmentBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => BookAppointmentBloc()),
+        BlocProvider(
+          create: (_) => FindDoctorBloc()..add(LoadDoctorRequested()),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -23,9 +28,7 @@ class FindDoctorsPage extends StatelessWidget {
             ),
           ),
         ),
-        body: BlocProvider(
-          create: (context) => FindDoctorBloc()..add(LoadDoctorRequested()),
-          child: SafeArea(
+        body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -47,17 +50,25 @@ class FindDoctorsPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search by name or specialty...",
-                          prefixIcon: const Icon(Icons.search),
-                          filled: true,
-                          fillColor: colors.surfaceContainerHighest,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
+                      child: Builder(
+                        builder: (context) {
+                          return TextField(
+                            decoration: InputDecoration(
+                              hintText: "Search by name or specialty...",
+                              prefixIcon: const Icon(Icons.search),
+                              filled: true,
+                              fillColor: colors.surfaceContainerHighest,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              context.read<FindDoctorBloc>().add(
+                                  SearchRequested(value));
+                            },
+                          );
+                        }
                       ),
                     ),
 
@@ -132,7 +143,6 @@ class FindDoctorsPage extends StatelessWidget {
           ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
