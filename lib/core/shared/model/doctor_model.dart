@@ -12,8 +12,8 @@ class DoctorModel {
   String? bio;
   List<Availability>? availability;
   List<Review>? reviews;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   DoctorModel(
       {required this.doctorID,
@@ -56,8 +56,8 @@ class DoctorModel {
           .map((e) => Review.fromJson(e))
           .toList();
     }
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
+    createdAt = DateTime.parse(json['createdAt']);
+    updatedAt = DateTime.parse(json['updatedAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -83,8 +83,8 @@ class DoctorModel {
       data['reviews'] =
           reviews!.map((e) => e.toJson()).toList();
     }
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
+    data['createdAt'] = createdAt?.toIso8601String();
+    data['updatedAt'] = updatedAt?.toIso8601String();
     return data;
   }
 }

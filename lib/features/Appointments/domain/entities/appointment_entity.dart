@@ -2,7 +2,7 @@ class AppointmentEntity {
   final int id;
   final String name;
   final String type;
-  final String date;
+  final DateTime date;
   final String time;
   final String? avtar;
 

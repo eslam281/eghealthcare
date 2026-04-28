@@ -4,6 +4,7 @@ import 'package:eghealthcare/features/Appointments/data/repository/appointment_r
 import 'package:eghealthcare/features/Appointments/data/source/appointmentApi.dart';
 import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointment_usecase.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
+import 'package:eghealthcare/features/Doctor/My%20Patients/data/repository/doctorPatients_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +22,9 @@ import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
+import 'features/Doctor/My Patients/data/source/doctorPatientsApi.dart';
+import 'features/Doctor/My Patients/domain/repository/doctorPatients_repository.dart';
+import 'features/Doctor/My Patients/domain/usecases/getPatientDoctor_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
 import 'features/Patient/Dashboard/domain/repository/dashboard_repository.dart';
@@ -72,11 +76,12 @@ void _initCore() {
 void _initSource() {
   sl.registerLazySingleton<AuthFirebaseService>(() => AuthFirebaseServiceImpl());
   sl.registerLazySingleton<AppointmentApi>(() => AppointmentApiImpl());
-  sl.registerLazySingleton<FindDoctorApi>(() => FindDoctorApiImpl());
   ////////////////////////////////////////
   sl.registerLazySingleton<PDashboardApi>(() => PDashboardApiImpl());
+  sl.registerLazySingleton<FindDoctorApi>(() => FindDoctorApiImpl());
   ///////////////////////////////////////
   sl.registerLazySingleton<DocDashboardApi>(() => DocDashboardApiImpl());
+  sl.registerLazySingleton<DoctorPatientsApi>(() => DoctorPatientsApiImpl());
 }
 
 void _initRepository() {
@@ -87,6 +92,7 @@ void _initRepository() {
   sl.registerLazySingleton<FindDoctorRepository>(() => FindDoctorRepositoryImpl());
   ////////////////////////////////
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
+  sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
 }
 
 void _initUseCase() {
@@ -105,5 +111,6 @@ void _initUseCase() {
   //////////////////////////////////
   sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
   sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());
+  sl.registerLazySingleton<GetPatientDoctorUseCase>(() => GetPatientDoctorUseCase());
   sl.registerLazySingleton<GetDocAppointmentUseCase>(() => GetDocAppointmentUseCase());
 }

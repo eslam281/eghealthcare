@@ -3,7 +3,7 @@ class AppointmentEntity {
   final String patientName;
   final String? avatar;
   final String type;
-  final String date;
+  final DateTime date;
   final String status;
   final String time;
 

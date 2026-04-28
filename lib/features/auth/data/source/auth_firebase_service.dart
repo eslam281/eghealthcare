@@ -64,6 +64,16 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: createuserReq.email,
           password: createuserReq.password,
       );
+      await sl<NetworkCallHandler>().call(()=> sl<ApiClient>().post(
+              AppLinks.user,
+              body: {
+                "userID":data.user?.uid,
+                "username":createuserReq.fullName,
+                "email":createuserReq.email,
+                "role":createuserReq.userRole
+              }
+      ));
+
       final response = await _createUser( createuserReq,data.user!.uid);
       await secureStorage.write(key: 'uid', value: data.user!.uid);
       if(response.isLeft()) {

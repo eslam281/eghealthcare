@@ -55,6 +55,7 @@ dependencies:
   connectivity_plus: ^7.1.1
   emoji_picker_flutter: ^4.4.0
   file_picker: ^10.3.10
+  intl: ^0.20.2
 
 
 dev_dependencies:

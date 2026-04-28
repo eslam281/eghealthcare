@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BookingSuccessDialog extends StatelessWidget {
-  final String date;
+  final DateTime date;
   final String time;
 
   const BookingSuccessDialog({
@@ -89,7 +90,7 @@ class BookingSuccessDialog extends StatelessWidget {
 
             /// Date + Time (Dynamic 🔥)
             Text(
-              _formatDateTime(date, time),
+              _formatDateTime(DateFormat('yyyy-MM-dd').format(date), time),
               style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
 

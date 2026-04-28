@@ -6,11 +6,11 @@ class AppointmentModel {
   late  DoctorModel doctor;
   late PatientModel patient;
   late String type;
-  late String date;
+  late DateTime date;
   late String time;
   late String status;
-  late String createdAt;
-  late String updatedAt;
+  late DateTime createdAt;
+  late DateTime updatedAt;
 
   AppointmentModel(
       {required this.appointmentID,
@@ -27,12 +27,12 @@ class AppointmentModel {
     appointmentID = json['appointmentID'];
     doctor = DoctorModel.fromJson(json['doctor']);
     patient = PatientModel.fromJson(json['patient']);
-    date = json['date'];
+    date = DateTime.parse(json['date']);
     time = json['time'];
     type = json['type'];
     status = json['status'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
+    createdAt = DateTime.parse(json['createdAt']);
+    updatedAt = DateTime.parse(json['updatedAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -40,12 +40,12 @@ class AppointmentModel {
     data['appointmentID'] = appointmentID;
     data['doctor'] = doctor.toJson();
     data['patient'] = patient.toJson();
-    data['date'] = date;
+    data['date'] = date.toIso8601String();
     data['type'] = type;
     data['time'] = time;
     data['status'] = status;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
+    data['createdAt'] = createdAt.toIso8601String();
+    data['updatedAt'] = updatedAt.toIso8601String();
     return data;
   }
 }

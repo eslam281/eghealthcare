@@ -1,5 +1,6 @@
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 import '../../../../core/themes/app_colors_light.dart';
@@ -82,7 +83,7 @@ class AppointmentCard extends StatelessWidget {
                 Icon(Icons.calendar_today_outlined,
                     size: 18, color: colors.onSurfaceVariant),
                 const SizedBox(width: 6),
-                Text(appointment.date, style: theme.textTheme.bodyMedium),
+                Text(DateFormat('yyyy-MM-dd').format(appointment.date), style: theme.textTheme.bodyMedium),
                 const SizedBox(width: 16),
                 Icon(Icons.access_time,
                     size: 18, color: colors.onSurfaceVariant),

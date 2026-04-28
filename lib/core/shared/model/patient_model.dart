@@ -8,12 +8,12 @@ class PatientModel {
   late String address;
   String? avatar;
   String? medicalHistory;
-  Map<String,dynamic>? medicalSummary;
-  Map<String,dynamic>? patientStats;
+  MedicalSummary? medicalSummary;
+  PatientStats? patientStats;
   String? currentCondition;
   String? medications;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   PatientModel(
       {required this.patientID,
@@ -42,12 +42,12 @@ class PatientModel {
     email = json['email'];
     address = json['address'];
     medicalHistory = json['medicalHistory'];
-    medicalSummary = json['medicalSummary'];
-    patientStats = json['patientStats'];
+    medicalSummary = MedicalSummary.fromJson(json['medicalHistory']);
+    patientStats = PatientStats.fromJson( json['patientStats']);
     currentCondition = json['currentCondition'];
     medications = json['medications'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
+    createdAt =  DateTime.parse(json['createdAt']);
+    updatedAt =  DateTime.parse(json['updatedAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -61,12 +61,59 @@ class PatientModel {
     data['avatar'] = avatar;
     data['address'] = address;
     data['medicalHistory'] = medicalHistory;
-    data['medicalSummary'] = medicalSummary;
-    data['patientStats'] = patientStats;
+    data['medicalSummary'] = medicalSummary?.toJson();
+    data['patientStats'] = patientStats?.toJson();
     data['currentCondition'] = currentCondition;
     data['medications'] = medications;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
+    data['createdAt'] = createdAt?.toIso8601String();
+    data['updatedAt'] = updatedAt?.toIso8601String();
+    return data;
+  }
+}
+class MedicalSummary {
+  String? bloodType;
+  String? allergies;
+  String? lastVisit;
+  String? nextAppointment;
+
+  MedicalSummary(
+      {this.bloodType, this.allergies, this.lastVisit, this.nextAppointment});
+
+  MedicalSummary.fromJson(Map<String, dynamic> json) {
+    bloodType = json['bloodType'];
+    allergies = json['allergies'];
+    lastVisit = json['lastVisit'];
+    nextAppointment = json['nextAppointment'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bloodType'] = bloodType;
+    data['allergies'] = allergies;
+    data['lastVisit'] = lastVisit;
+    data['nextAppointment'] = nextAppointment;
+    return data;
+  }
+}
+
+class PatientStats {
+  int? totalVisits;
+  int? completed;
+  int? upcoming;
+
+  PatientStats({this.totalVisits, this.completed, this.upcoming});
+
+  PatientStats.fromJson(Map<String, dynamic> json) {
+    totalVisits = json['totalVisits'];
+    completed = json['completed'];
+    upcoming = json['upcoming'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['totalVisits'] = totalVisits;
+    data['completed'] = completed;
+    data['upcoming'] = upcoming;
     return data;
   }
 }
