@@ -25,8 +25,13 @@ class DoctorPatientsApiImpl implements DoctorPatientsApi{
     return response.fold(
           (failure) => Left(failure),
           (data) {
-        final PatientModel patientModel =PatientModel.fromJson(data);
-        final PatientEntity patientEntity = patientModel.toPatientEntity();
+
+        final List<PatientModel> patientModel =
+        (data as List).map((e) => PatientModel.fromJson(e)).toList();
+
+        final List<PatientEntity> patientEntity =
+        patientModel.map((e) => e.toPatientEntity()).toList();
+
         return Right(patientEntity);
       },
     );

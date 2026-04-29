@@ -15,12 +15,12 @@ class MyPatientsBloc extends Bloc<MyPatientsEvent, MyPatientsState> {
   Future<void> _onMyPatientsRequested(MyPatientsRequested event, Emitter<MyPatientsState> emit) async {
     emit(MyPatientsLoading());
     try {
-      late final List<PatientEntity> dummyPatients ;
+      late final List<PatientEntity> patients ;
       final response =await sl<GetPatientDoctorUseCase>().call();
       response.fold((l) => l, (r) {
-        dummyPatients =r;
+        patients =r;
       },);
-      emit(MyPatientsLoaded(dummyPatients));
+      emit(MyPatientsLoaded(patients));
     } catch (e) {
       emit(MyPatientsError(e.toString()));
     }

@@ -7,7 +7,7 @@ import '../source/doctorPatientsApi.dart';
 class DoctorPatientsRepositoryImpl implements DoctorPatientsRepository{
   @override
   Future<Either<dynamic, dynamic>> getPatients() async{
-   return await sl<DoctorPatientsApiImpl>().getPatients();
+   return await sl<DoctorPatientsApi>().getPatients();
   }
 
 }

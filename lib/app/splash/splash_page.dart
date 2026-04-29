@@ -1,4 +1,5 @@
 import 'package:eghealthcare/app/splash/splash_cubit.dart';
+import 'package:eghealthcare/core/constants/images.dart';
 import 'package:eghealthcare/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,44 +31,41 @@ class SplashScreen extends StatelessWidget {
           backgroundColor: context.isDarkMode ? AppColorsDark.background : AppColorsLight.background,
           body: Container(
             alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: AppColorsLight.primary,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      LucideIcons.stethoscope,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                RichText(
-                  text: const TextSpan(
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    children: [
-                      TextSpan(text: 'EG'),
-                      TextSpan(
-                        text: 'healthcare',
-                        style: TextStyle(color:AppColorsLight.primary,
-                            fontWeight:FontWeight.bold ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+            padding:const EdgeInsets.only(bottom: 50),
+            child: Image.asset(AppImages.logo, filterQuality: FilterQuality.high,)
+                // Container(
+                //   height: 80,
+                //   width: 80,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(24),
+                //     color: AppColorsLight.primary,
+                //   ),
+                //   child: const Center(
+                //     child: Icon(
+                //       LucideIcons.stethoscope,
+                //       size: 50,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(width: 8),
+                // RichText(
+                //   text: const TextSpan(
+                //     style: TextStyle(
+                //       fontSize: 30,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.black,
+                //     ),
+                //     children: [
+                //       TextSpan(text: 'EG'),
+                //       TextSpan(
+                //         text: 'healthcare',
+                //         style: TextStyle(color:AppColorsLight.primary,
+                //             fontWeight:FontWeight.bold ),
+                //       ),
+                //     ],
+                //   ),
+                // )
           )
 
         ),

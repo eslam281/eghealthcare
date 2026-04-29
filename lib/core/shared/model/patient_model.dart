@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class PatientModel {
   late String patientID;
   late String name;
@@ -42,8 +44,14 @@ class PatientModel {
     email = json['email'];
     address = json['address'];
     medicalHistory = json['medicalHistory'];
-    medicalSummary = MedicalSummary.fromJson(json['medicalHistory']);
-    patientStats = PatientStats.fromJson( json['patientStats']);
+    medicalSummary = json['medicalSummary'] != null
+        ? MedicalSummary.fromJson(json['medicalSummary'])
+        : null;
+
+    patientStats = json['patientStats'] != null
+        ? PatientStats.fromJson(json['patientStats'])
+        : null;
+
     currentCondition = json['currentCondition'];
     medications = json['medications'];
     createdAt =  DateTime.parse(json['createdAt']);

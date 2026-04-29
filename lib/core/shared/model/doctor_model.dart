@@ -47,13 +47,13 @@ class DoctorModel {
     bio = json['bio'];
     if (json['availability'] != null) {
       availability = (json['availability'] as List)
-          .map((e) => Availability.fromJson(e))
+          .map((e) => Availability.fromJson(e as Map<String, dynamic>))
           .toList();
     }
 
     if (json['reviews'] != null) {
       reviews = (json['reviews'] as List)
-          .map((e) => Review.fromJson(e))
+          .map((e) => Review.fromJson(e as Map<String, dynamic>))
           .toList();
     }
     createdAt = DateTime.parse(json['createdAt']);

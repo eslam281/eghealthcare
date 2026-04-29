@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../constants/images.dart';
 import '../../constants/routes.dart';
 
 
@@ -77,43 +78,44 @@ class _DrawerHeader extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: colors.primary,
-            ),
-            child: const Center(
-              child: Icon(
-                LucideIcons.stethoscope,
-                size: 25,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          RichText(
-            text: TextSpan(
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              children: [
-                const TextSpan(text: 'EG'),
-                TextSpan(
-                  text: 'healthcare',
-                  style: TextStyle(color:colors.primary,
-                      fontWeight:FontWeight.bold ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+      child:  Image.asset(AppImages.logo, filterQuality: FilterQuality.high,)
+      // Row(
+      //   children: [
+      //     Container(
+      //       height: 50,
+      //       width: 50,
+      //       decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(12),
+      //         color: colors.primary,
+      //       ),
+      //       child: const Center(
+      //         child: Icon(
+      //           LucideIcons.stethoscope,
+      //           size: 25,
+      //           color: Colors.white,
+      //         ),
+      //       ),
+      //     ),
+      //     const SizedBox(width: 8),
+      //     RichText(
+      //       text: TextSpan(
+      //         style: const TextStyle(
+      //           fontSize: 30,
+      //           fontWeight: FontWeight.bold,
+      //           color: Colors.black,
+      //         ),
+      //         children: [
+      //           const TextSpan(text: 'EG'),
+      //           TextSpan(
+      //             text: 'healthcare',
+      //             style: TextStyle(color:colors.primary,
+      //                 fontWeight:FontWeight.bold ),
+      //           ),
+      //         ],
+      //       ),
+      //     )
+      //   ],
+      // ),
     );
   }
 }
