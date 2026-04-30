@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import '../../../../core/shared/widget/state_card.dart';
 
 class AppointmentsStatsRow extends StatelessWidget {
-  const AppointmentsStatsRow({super.key});
+  final List<(String, int)> tabs;
+  const AppointmentsStatsRow({super.key, required this.tabs});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return  Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal:20),
+          padding: const EdgeInsets.symmetric(horizontal:20),
           child: StateCard(
-            title: "Pending",
-            count: 1,
+            title: tabs[0].$1,
+            count: tabs[0].$2,
             color: Colors.orange,
             icon: Icons.pending,
           ),
@@ -22,30 +23,30 @@ class AppointmentsStatsRow extends StatelessWidget {
           children: [
             Expanded(
               child: StateCard(
-                title: "Scheduled",
-                count: 3,
+                title: tabs[1].$1,
+                count: tabs[1].$2,
                 color: Colors.blue,
                 icon: Icons.schedule,
               ),
             ),
 
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
 
             Expanded(
               child: StateCard(
-                title: "Completed",
-                count: 1,
+                title: tabs[2].$1,
+                count: tabs[2].$2,
                 color: Colors.green,
                 icon: Icons.check_circle,
               ),
             ),
 
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
 
             Expanded(
               child: StateCard(
-                title: "Cancelled",
-                count: 0,
+                title: tabs[3].$1,
+                count: tabs[3].$2,
                 color: Colors.red,
                 icon: Icons.cancel,
               ),

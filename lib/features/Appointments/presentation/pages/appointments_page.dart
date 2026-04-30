@@ -48,12 +48,12 @@ class MyAppointmentsPage extends StatelessWidget {
                   const SizedBox(height: 16),
         
                   /// Stats
-                  const AppointmentsStatsRow(),
+                  AppointmentsStatsRow(tabs:context.read<AppointmentsBloc>().tabs),
         
                   const SizedBox(height: 16),
         
                   /// Tabs
-                  const AppointmentsFilterTabs(),
+                  AppointmentsFilterTabs(tabs:context.read<AppointmentsBloc>().tabs ,),
         
                   const SizedBox(height: 16),
 

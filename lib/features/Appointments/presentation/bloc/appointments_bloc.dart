@@ -13,7 +13,14 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   AppointmentsBloc() : super(AppointmentsInitial()) {
     on<LoadAppointments>(_onLoadAppointments);
     on<DeleteAppointments>(_onDeletedAppointments);
+    on<ChoiceFilter>(_onChoiceFilter);
   }
+  List<(String, int)> tabs = [
+    ("Pending", 0),
+    ("Scheduled", 0),
+    ("Completed", 0),
+    ("Cancelled", 0),
+  ];
   late List<AppointmentEntity> appointments ;
   Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit) async {
     emit(AppointmentsLoading());
@@ -24,10 +31,18 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
         print(e);
         emit(AppointmentsError("$e"));
       }
-        final pending=appointments.where((element) {
+      for (int index=0 ;index<tabs.length;index++) {
+          final pending=appointments.where((element) {
+            return element.status == tabs[index].$1;
+          },).toList();
+          tabs[index]=(tabs[index].$1,pending.length);
+        }
+        final filteredAppointments=appointments.where((element) {
           return element.status == "Pending";
         },).toList();
-      emit(AppointmentsLoaded(upcomingAppointments: pending,));
+
+
+      emit(AppointmentsLoaded(upcomingAppointments: filteredAppointments,));
   }
   Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<AppointmentsState> emit) async {
     emit(AppointmentsLoading());
@@ -40,6 +55,15 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
       emit(AppointmentsError("Failed to delete dashboard"));
     }
     emit(AppointmentsLoaded(upcomingAppointments: appointments,));
+  }
+
+  Future<void> _onChoiceFilter(ChoiceFilter event, Emitter<AppointmentsState> emit) async {
+    emit(AppointmentsLoading());
+    final filteredAppointments=appointments.where((element) {
+      return element.status == tabs[event.index].$1;
+    },).toList();
+    tabs[event.index]=(tabs[event.index].$1,filteredAppointments.length);
+    emit(AppointmentsLoaded(upcomingAppointments: filteredAppointments,));
   }
 
 }

@@ -65,7 +65,7 @@ class AppointmentCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    "Scheduled",
+                    appointment.status,
                     style: theme.textTheme.labelSmall!.copyWith(
                       color: AppColorsLight.info,
                       fontWeight: FontWeight.w600,

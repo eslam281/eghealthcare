@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/appointments_bloc.dart';
 
 class AppointmentsFilterTabs extends StatefulWidget {
-  const AppointmentsFilterTabs({super.key});
+ final List<(String, int)> tabs;
+   const AppointmentsFilterTabs({super.key, required this.tabs});
 
   @override
   State<AppointmentsFilterTabs> createState() =>
@@ -13,52 +17,47 @@ class _AppointmentsFilterTabsState
 
   int selectedIndex = 0;
 
-  final tabs = const [
-    ("Scheduled", 3),
-    ("Completed", 1),
-    ("Cancelled", 0),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Row(
       children: List.generate(
-        tabs.length,
+        widget.tabs.length,
             (index) {
 
           final isSelected = selectedIndex == index;
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                  context.read<AppointmentsBloc>().add(ChoiceFilter(index));
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
 
-                /// هنا بعد كده تنادي Bloc
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? Colors.blue.withAlpha(25)
-                      : Colors.grey.shade100,
-
-                  borderRadius: BorderRadius.circular(20),
-                ),
-
-                child: Text(
-                  "${tabs[index].$1} (${tabs[index].$2})",
-                  style: TextStyle(
+                  decoration: BoxDecoration(
                     color: isSelected
-                        ? Colors.blue
-                        : Colors.grey,
-                    fontWeight: FontWeight.w500,
+                        ? Colors.blue.withAlpha(25)
+                        : Colors.grey.shade100,
+
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+
+                  child: Text(
+                    "${widget.tabs[index].$1} (${widget.tabs[index].$2})",
+                    style: TextStyle(
+                      color: isSelected
+                          ? Colors.blue
+                          : Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
