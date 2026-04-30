@@ -1,4 +1,5 @@
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
+import 'package:eghealthcare/features/Doctor/profile/presentation/pages/doctorProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +32,9 @@ class DoctorDashboard extends StatelessWidget {
                         Text(stat.user.fullName),
                       ],),
 
-                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName),
+                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,
+                      onTap:() => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => DoctorProfile(doctor: ),)),),
 
                     ],
                   );

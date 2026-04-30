@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/book_appointment_bloc.dart';
-import '../pages/doctorProfile.dart';
+import '../../../../Doctor/profile/presentation/pages/doctorProfile.dart';
 import 'bookAppointmentDialog.dart';
 
 class DoctorCard extends StatelessWidget {
@@ -28,7 +28,8 @@ class DoctorCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AvatarImage(imageUrl: doctor.imageUrl, radius: 50, name: doctor.name,),
+              AvatarImage(imageUrl: doctor.imageUrl, radius: 50, name: doctor.name, onTap:() => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DoctorProfile(id: doctor.id),)),),
 
               const SizedBox(width: 12),
               Expanded(
@@ -94,12 +95,8 @@ class DoctorCard extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorProfile(doctor: doctor),
-                    ),
-                  );
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DoctorProfile(id: doctor.id),),);
                 },
                 child: const Text("View Profile →", style: TextStyle(
                     color: Colors.black)),

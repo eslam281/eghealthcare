@@ -32,7 +32,7 @@ class AppointmentCard extends StatelessWidget {
             Row(
               children: [
                 //////////////////////
-                AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name),
+                AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name,),
 
                 const SizedBox(width: 12),
 
