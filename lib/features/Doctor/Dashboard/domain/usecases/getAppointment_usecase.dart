@@ -7,8 +7,22 @@ import '../repository/dashboard_repository.dart';
 class GetDocAppointmentUseCase extends UseCase<Either, int?>{
   @override
   Future<Either<dynamic, dynamic>> call({int? params}) async{
-    return await sl<DocDashboardRepository>().getAppointment();
-  
+    final response =  await sl<DocDashboardRepository>().getAppointment();
+    return response.fold(
+          (l) => Left(l),
+          (appointments) {
+        final today = DateTime.now().toLocal();
+
+        final filtered = appointments.where((a) {
+          final d = a.date.toLocal();
+          return d.year == today.year &&
+              d.month == today.month &&
+              d.day == today.day;
+        }).toList();
+
+        return Right(filtered);
+      },
+    );
   }
   
 } 

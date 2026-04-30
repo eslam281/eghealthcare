@@ -1,17 +1,19 @@
+import '../../../../../core/shared/model/patient_model.dart';
+
 class PatientEntity {
   final String id;
   final String name;
   final int age;
   final String gender;
-  final String image;
-  final String medicalSummary;
+  final String? image;
+  final MedicalSummary? medicalSummary;
 
   const PatientEntity({
     required this.id,
     required this.name,
     required this.age,
     required this.gender,
-    required this.image,
-    required this.medicalSummary,
+    this.image,
+    this.medicalSummary,
   });
 }

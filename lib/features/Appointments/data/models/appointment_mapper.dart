@@ -14,6 +14,7 @@ extension AppointmentEntityExtension on AppointmentModel{
       type: type,
       date: date,
       time: time,
+      status: status,
       avtar: role == UserRole.patient?doctor.avatar:patient.avatar ,
     );
   }

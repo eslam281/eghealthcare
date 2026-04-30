@@ -24,7 +24,10 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
         print(e);
         emit(AppointmentsError("$e"));
       }
-      emit(AppointmentsLoaded(upcomingAppointments: appointments,));
+        final pending=appointments.where((element) {
+          return element.status == "Pending";
+        },).toList();
+      emit(AppointmentsLoaded(upcomingAppointments: pending,));
   }
   Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<AppointmentsState> emit) async {
     emit(AppointmentsLoading());

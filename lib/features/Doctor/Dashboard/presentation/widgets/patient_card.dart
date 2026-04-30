@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/patient_entity.dart';
@@ -28,10 +29,7 @@ class PatientCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundImage: CachedNetworkImageProvider(patient.image),
-              ),
+              AvatarImage(imageUrl: patient.image, radius: 25, name: patient.name),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +77,7 @@ class PatientCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  patient.medicalSummary,
+                  " ${patient.medicalSummary?.allergies}",
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],

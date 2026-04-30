@@ -21,6 +21,7 @@ import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
+import 'features/Doctor/Dashboard/domain/usecases/getPatientDoctor_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Doctor/My Patients/data/source/doctorPatientsApi.dart';
 import 'features/Doctor/My Patients/domain/repository/doctorPatients_repository.dart';
@@ -93,6 +94,7 @@ void _initRepository() {
   ////////////////////////////////
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
   sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
+  sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
 }
 
 void _initUseCase() {

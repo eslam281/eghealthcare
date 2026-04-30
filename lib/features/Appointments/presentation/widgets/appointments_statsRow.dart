@@ -7,37 +7,50 @@ class AppointmentsStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return const Column(
       children: [
-        Expanded(
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal:20),
           child: StateCard(
-            title: "Scheduled",
-            count: 3,
-            color: Colors.blue,
-            icon: Icons.schedule,
-          ),
-        ),
-
-        SizedBox(width: 12),
-
-        Expanded(
-          child: StateCard(
-            title: "Completed",
+            title: "Pending",
             count: 1,
-            color: Colors.green,
-            icon: Icons.check_circle,
+            color: Colors.orange,
+            icon: Icons.pending,
           ),
         ),
+        Row(
+          children: [
+            Expanded(
+              child: StateCard(
+                title: "Scheduled",
+                count: 3,
+                color: Colors.blue,
+                icon: Icons.schedule,
+              ),
+            ),
 
-        SizedBox(width: 12),
+            SizedBox(width: 12),
 
-        Expanded(
-          child: StateCard(
-            title: "Cancelled",
-            count: 0,
-            color: Colors.red,
-            icon: Icons.cancel,
-          ),
+            Expanded(
+              child: StateCard(
+                title: "Completed",
+                count: 1,
+                color: Colors.green,
+                icon: Icons.check_circle,
+              ),
+            ),
+
+            SizedBox(width: 12),
+
+            Expanded(
+              child: StateCard(
+                title: "Cancelled",
+                count: 0,
+                color: Colors.red,
+                icon: Icons.cancel,
+              ),
+            ),
+          ],
         ),
       ],
     );

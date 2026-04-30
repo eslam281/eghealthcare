@@ -9,6 +9,7 @@ import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';
 import '../../domain/entities/user_entity.dart' show UserEntity;
 import '../../domain/usecases/getAppointment_usecase.dart';
+import '../../domain/usecases/getPatientDoctor_usecase.dart';
 import '../../domain/usecases/getUser_usecase.dart';
 
 part 'dashboard_event.dart';
@@ -20,9 +21,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DeleteAppointments>(_onDeletedAppointments);
   }
   late final UserEntity user;
+  late final List<PatientEntity> patients;
   late final List<AppointmentEntity> appointments;
   late final DashboardSummary summary;
-  late final List<PatientEntity> patients;
 
   Future<void> _onLoadDashboard(DashboardEvent event, Emitter<DashboardState> emit,)async {
     emit(DashboardLoading());
@@ -35,21 +36,23 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         emit(DashboardError("$e"));
       }
       try{
+        final response =await sl<GetPatientDoctorDashboardUseCase>().call();
+         response.fold((l) => l, (r) {
+          patients =r;
+        },);
+      }catch(e){
+        emit(DashboardError("$e"));
+      }
+      try{
         final response = await sl<GetDocAppointmentUseCase>().call();
         appointments = response.fold((l) => [], (r) => r);
       }catch(e){
         emit(DashboardError("$e"));
       }
-      try{
-        final response =await sl<GetPatientDoctorUseCase>().call();
-        response.fold((l) => l, (r) {
-          patients =r;
-        },);
-        summary = DashboardSummary(appointments: appointments.length, patients: patients.length, completed: 0);
-      }catch(e){
-        emit(DashboardError("$e"));
-      }
-
+      final completed=appointments.where((element) {
+        return element.status == "Completed";
+      },);
+      summary = DashboardSummary(appointments: appointments.length, patients: patients.length, completed: completed.length);
       emit(DashboardLoaded(
         user: user,
         summary: summary,
@@ -57,7 +60,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         patients: patients,
       ));
     } catch (e) {
-      emit(DashboardError("Failed to load dashboard"));
+      emit(DashboardError("Failed to load dashboard $e"));
     }
   }
   Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<DashboardState> emit) async {

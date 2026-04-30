@@ -5,6 +5,7 @@ class AppointmentEntity {
   final DateTime date;
   final String time;
   final String? avtar;
+  final String status;
 
   AppointmentEntity({
     required this.name,
@@ -12,6 +13,6 @@ class AppointmentEntity {
     required this.date,
     required this.time,
     required this.id,
-    this.avtar
+    this.avtar, required this.status
   });
 }

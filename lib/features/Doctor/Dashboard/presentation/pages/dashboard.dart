@@ -27,7 +27,7 @@ class DoctorDashboard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        Text("Dr.",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
+                        Text("Dr. ",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
                         Text(stat.user.fullName),
                       ],),
 
@@ -59,7 +59,6 @@ class _DashboardBody extends StatelessWidget {
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is DashboardLoaded) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -96,8 +95,10 @@ class _DashboardBody extends StatelessWidget {
             ),
           );
         }
-
-        return const Center(child: Text("Something went wrong"));
+        if (state is DashboardError) {
+          return Center(child: Text("Something went wrong ${state.message}"));
+        }
+        return const SizedBox();
       },
     );
   }

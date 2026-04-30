@@ -10,10 +10,13 @@ import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
 import '../../../../../core/shared/model/appointment_model.dart';
 import '../../../../../core/shared/model/doctor_model.dart';
+import '../../../../../core/shared/model/patient_model.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/user_entity.dart';
+import '../../domain/entities/patient_entity.dart';
 import '../models/appointment_mapper.dart';
 import '../models/doctor_model.dart';
+import '../models/doctorPatientModel.dart';
 
 abstract class DocDashboardApi{
   Future <Either> getPatients();
@@ -25,13 +28,27 @@ abstract class DocDashboardApi{
 }
 
 class DocDashboardApiImpl implements DocDashboardApi{
-  @override
 
   @override
-  Future<Either<dynamic, dynamic>> getPatients() async{
-    final String id = await sl<FlutterSecureStorage>().read(key: 'uid')??'';
-    return await sl<NetworkCallHandler>().call(()=> sl<ApiClient>().get(
-        "${AppLinks.appointment}/$id",));
+  Future<Either> getPatients() async{
+    String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
+    final response = await sl<NetworkCallHandler>().call(
+            ()=> sl<ApiClient>().get("${AppLinks.appointment}/doctors/$id/patients"));
+    print("===========================response : ${response.toString()}");
+
+    return response.fold(
+          (failure) => Left(failure),
+          (data) {
+
+        final List<PatientModel> patientModel =
+        (data as List).map((e) => PatientModel.fromJson(e)).toList();
+
+        final List<PatientEntity> patientEntity =
+        patientModel.map((e) => e.toPatientEntity()).toList();
+
+        return Right(patientEntity);
+      },
+    );
   }
 
   @override
