@@ -14,13 +14,13 @@ class DashboardStatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: StateCard(title: "Today's Appointments", count: summary.upcoming,
+        Expanded(child: StateCard(title: "Today's Appointments", count: summary.appointments,
           icon: LucideIcons.calendar, color: Colors.blue)),
         const SizedBox(width: 12),
-        Expanded(child: StateCard(title: "Total Patients", count: summary.visits,
+        Expanded(child: StateCard(title: "Total Patients", count: summary.patients,
           icon: LucideIcons.users600, color: Colors.greenAccent)),
         const SizedBox(width: 12),
-        Expanded(child: StateCard(title: "Completed Today", count: summary.doctors,
+        Expanded(child: StateCard(title: "Completed Today", count: summary.completed,
           icon: LucideIcons.trendingUp600, color: Colors.green.shade500)),
       ],
     );

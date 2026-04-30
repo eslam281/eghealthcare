@@ -38,7 +38,6 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
       if (response.isLeft()) return const Left("You are not a user");
 
       response.fold((l) => l, (r) async{
-        print(r["role"]);
         final role = r["role"]=='patient'?UserRole.patient:UserRole.doctor;
         await sl<RoleService>().saveRole(role);
       },);

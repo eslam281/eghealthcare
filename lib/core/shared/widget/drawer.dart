@@ -14,7 +14,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Drawer(width: 270,
       child: SafeArea(
         child: Column(
           children: [
@@ -74,48 +74,11 @@ class _DrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child:  Image.asset(AppImages.logo, filterQuality: FilterQuality.high,)
-      // Row(
-      //   children: [
-      //     Container(
-      //       height: 50,
-      //       width: 50,
-      //       decoration: BoxDecoration(
-      //         borderRadius: BorderRadius.circular(12),
-      //         color: colors.primary,
-      //       ),
-      //       child: const Center(
-      //         child: Icon(
-      //           LucideIcons.stethoscope,
-      //           size: 25,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     ),
-      //     const SizedBox(width: 8),
-      //     RichText(
-      //       text: TextSpan(
-      //         style: const TextStyle(
-      //           fontSize: 30,
-      //           fontWeight: FontWeight.bold,
-      //           color: Colors.black,
-      //         ),
-      //         children: [
-      //           const TextSpan(text: 'EG'),
-      //           TextSpan(
-      //             text: 'healthcare',
-      //             style: TextStyle(color:colors.primary,
-      //                 fontWeight:FontWeight.bold ),
-      //           ),
-      //         ],
-      //       ),
-      //     )
-      //   ],
-      // ),
+      padding: const EdgeInsets.all(10),
+      child:  Image.asset(AppImages.logo, filterQuality: FilterQuality.high,
+      fit: BoxFit.contain,)
     );
   }
 }

@@ -1,11 +1,11 @@
 class DashboardSummary {
-  final int upcoming;
-  final int visits;
-  final int doctors;
+  final int appointments;
+  final int patients;
+  final int completed;
 
   DashboardSummary({
-    required this.upcoming,
-    required this.visits,
-    required this.doctors,
+    required this.appointments,
+    required this.patients,
+    required this.completed,
   });
 }
