@@ -4,67 +4,65 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../../../../core/themes/components_style.dart';
-import '../bloc/doctor_profile_bloc.dart';
+import '../../domain/entities/doctor_entity.dart';
 
-Widget buildAboutSection() {
+Widget buildAboutSection(DoctorEntity doctorEntity) {
   return Container(
-    padding: const EdgeInsets.all(24),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: AppStyle.borderRadius,
-      border: Border.all(color: AppColorsLight.border.withAlpha(155)),
-    ),
-    child: BlocBuilder<DoctorProfileBloc, DoctorProfileState>(
-      builder: (context, state) {
-        if (state is DoctorProfileLoaded){
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: AppStyle.borderRadius,
+        border: Border.all(color: AppColorsLight.border.withAlpha(155)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
             children: [
-              const Row(
-                children: [
-                  Icon(LucideIcons.user, size: 20, color: AppColorsLight.primary),
-                  SizedBox(width: 10),
-                  Text(
-                    'About',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Icon(LucideIcons.user, size: 20, color: AppColorsLight.primary),
+              SizedBox(width: 10),
+              Text(
+                'About',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 16),
-              const Divider(color: AppColorsLight.border),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(child: _buildInfoBox('Specialty', state.doctorEntity.specialty)),
-                  const SizedBox(width: 16),
-                  Expanded(child: _buildInfoBox('Experience', state.doctorEntity.experience ?? 'N/A')),
-                ],
-              ),
-              if (state.doctorEntity.bio != null && state.doctorEntity.bio!.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                Text(
-                  state.doctorEntity.bio!,
-                  style: const TextStyle(
-                    color: AppColorsLight.mutedForeground,
-                    height: 1.6,
-                    fontSize: 15,
-                  ),
-                ),
-              ] else ...[
-                const SizedBox(height: 24),
-                const Text(
-                  'This doctor has not provided a biography yet.',
-                  style: TextStyle(
-                    color: AppColorsLight.mutedForeground,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ],
             ],
-          );}
-        return const SizedBox();
-      },
-    ),
+          ),
+          const SizedBox(height: 16),
+          const Divider(color: AppColorsLight.border),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                  child: _buildInfoBox('Specialty', doctorEntity.specialty)),
+              const SizedBox(width: 16),
+              Expanded(child: _buildInfoBox(
+                  'Experience', doctorEntity.experience ?? 'N/A')),
+            ],
+          ),
+          if (doctorEntity.bio != null && doctorEntity.bio!.isNotEmpty) ...[
+            const SizedBox(height: 24),
+            Text(
+              doctorEntity.bio!,
+              style: const TextStyle(
+                color: AppColorsLight.mutedForeground,
+                height: 1.6,
+                fontSize: 15,
+              ),
+            ),
+          ] else
+            ...[
+              const SizedBox(height: 24),
+              const Text(
+                'This doctor has not provided a biography yet.',
+                style: TextStyle(
+                  color: AppColorsLight.mutedForeground,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
+        ],
+      )
+
   );
 }
 Widget _buildInfoBox(String title, String value) {

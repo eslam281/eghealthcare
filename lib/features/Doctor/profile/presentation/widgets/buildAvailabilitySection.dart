@@ -3,9 +3,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../../../../core/themes/components_style.dart';
+import '../../domain/entities/doctor_entity.dart';
 
-Widget buildAvailabilitySection() {
-  final days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+Widget buildAvailabilitySection(DoctorEntity doctorEntity) {
   return Container(
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
@@ -27,13 +27,13 @@ Widget buildAvailabilitySection() {
           ],
         ),
         const SizedBox(height: 20),
-        ...days.map((day) => Padding(
+        ...doctorEntity.availability!.map((day) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                day,
+                day.day,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppColorsLight.foreground,
@@ -46,9 +46,9 @@ Widget buildAvailabilitySection() {
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: AppColorsLight.border.withAlpha(150)),
                 ),
-                child: const Text(
-                  'Unavailable',
-                  style: TextStyle(
+                child: Text(
+                  'from ${day.from}     to ${day.to}',
+                  style: const TextStyle(
                     fontSize: 11,
                     color: AppColorsLight.mutedForeground,
                     fontWeight: FontWeight.bold,

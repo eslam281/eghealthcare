@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/shared/widget/avatar.dart';
@@ -8,79 +7,76 @@ import '../../../../../core/themes/components_style.dart';
 import '../../../../Patient/Find Doctors/domain/entities/doctor_entity.dart'as find_entity;
 import '../../../../Patient/Find Doctors/presentation/widgets/bookAppointmentDialog.dart';
 import '../../domain/entities/doctor_entity.dart';
-import '../bloc/doctor_profile_bloc.dart';
 
-Widget buildHeaderCard(BuildContext context) {
-  return BlocBuilder<DoctorProfileBloc,DoctorProfileState>(
-    builder: (context, state) {
-      if (state is DoctorProfileLoaded){
-        return Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: AppStyle.borderRadius,
-            border: Border.all(color: AppColorsLight.border.withAlpha(150)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(8),
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
+  return Container(
+    padding: const EdgeInsets.all(24),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: AppStyle.borderRadius,
+      border: Border.all(color: AppColorsLight.border.withAlpha(150)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withAlpha(8),
+          blurRadius: 15,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AvatarImage(
+                imageUrl: doctorEntity.avatar,
+                radius: 30,
+                name: doctorEntity.name,
+                onTap: () {}),
+            const SizedBox(width: 24),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AvatarImage(
-                      imageUrl:state.doctorEntity.avatar, radius: 30, name: state.doctorEntity.name, onTap: () {}),
-                  const SizedBox(width: 24),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          state.doctorEntity.name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: AppColorsLight.foreground,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 12,
-                          runSpacing: 8,
-                          children: [
-                            _buildTag(LucideIcons.briefcase,
-                                '${state.doctorEntity.experience ?? 'N/A'} experience'),
-                            _buildTag(LucideIcons.star, '0 reviews',
-                                color: AppColorsLight.warning),
-                          ],
-                        ),
-                      ],
+                  Text(
+                    doctorEntity.name,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColorsLight.foreground,
                     ),
                   ),
-                  ...[
-                    const SizedBox(width: 24),
-                    _buildBookButton(context,state.doctorEntity),
-                  ],
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
+                    children: [
+                      _buildTag(LucideIcons.briefcase,
+                          '${doctorEntity.experience ?? 'N/A'} experience'),
+                      _buildTag(LucideIcons.star, '0 reviews',
+                          color: AppColorsLight.warning),
+                    ],
+                  ),
                 ],
               ),
-              ...[
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: _buildBookButton(context,state.doctorEntity),
-                ),
-              ],
+            ),
+            ...[
+              const SizedBox(width: 24),
+              _buildBookButton(context, doctorEntity),
             ],
+          ],
+        ),
+        ...[
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: _buildBookButton(context, doctorEntity),
           ),
-        );
-      }
-      return const SizedBox();
-    },
+        ],
+      ],
+    ),
+
+
   );
 }
 Widget _buildBookButton(BuildContext context,DoctorEntity doctorEntity) {

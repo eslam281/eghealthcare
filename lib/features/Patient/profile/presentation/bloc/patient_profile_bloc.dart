@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
-import '../../../../Doctor/profile/domain/usecases/getPatientProfile_usecase.dart';
+import '../../domain/usecases/getPatientProfile_usecase.dart';
 
 part 'patient_profile_event.dart';
 part 'patient_profile_state.dart';

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../domain/entities/doctor_entity.dart';
 import '../bloc/doctor_profile_bloc.dart';
 import '../widgets/buildAboutSection.dart';
 import '../widgets/buildAvailabilitySection.dart';
@@ -38,47 +39,60 @@ class DoctorProfile extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildHeaderCard(context),
-            const SizedBox(height: 24),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 900) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(flex: 2, child: buildAboutSection()),
-                      const SizedBox(width: 24),
-                      Expanded(flex: 1, child: buildAvailabilitySection()),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      buildAboutSection(),
-                      const SizedBox(height: 24),
-                      buildAvailabilitySection(),
-                    ],
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 24),
-            _buildReviewsSection(),
-          ],
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: BlocBuilder<DoctorProfileBloc, DoctorProfileState>(
+            builder: (context, state) {
+              if (state is DoctorProfileLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is DoctorProfileError) {
+                return Center(child: Text(state.message));
+              }
+              if (state is DoctorProfileLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildHeaderCard(context, state.doctorEntity),
+                    const SizedBox(height: 24),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        if (constraints.maxWidth > 900) {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(flex: 2,
+                                  child: buildAboutSection(state.doctorEntity)),
+                              const SizedBox(width: 24),
+                              Expanded(
+                                  flex: 1, child: buildAvailabilitySection(state.doctorEntity)),
+                            ],
+                          );
+                        } else {
+                          return Column(
+                            children: [
+                              buildAboutSection(state.doctorEntity),
+                              const SizedBox(height: 24),
+                              buildAvailabilitySection(state.doctorEntity),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _buildReviewsSection(state.doctorEntity),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
+          ),
         ),
-      ),
       ),
     );
   }
 
-
-
-  Widget _buildReviewsSection() {
+  Widget _buildReviewsSection(DoctorEntity doctorEntity) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(32),
@@ -90,13 +104,13 @@ class DoctorProfile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+           Row(
             children: [
-              Icon(LucideIcons.messageSquare, size: 20, color: AppColorsLight.primary),
-              SizedBox(width: 10),
+              const Icon(LucideIcons.messageSquare, size: 20, color: AppColorsLight.primary),
+              const SizedBox(width: 10),
               Text(
-                'Patient Reviews (0)',
-                style: TextStyle(
+                'Patient Reviews (${doctorEntity.reviews?.length})',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColorsLight.foreground,
@@ -122,22 +136,94 @@ class DoctorProfile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'No reviews yet',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColorsLight.foreground,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Be the first to leave a review for this doctor.',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColorsLight.mutedForeground,
-                  ),
-                ),
+                (doctorEntity.reviews == null || doctorEntity.reviews!.isEmpty)
+                    ? const Column(
+                  children: [
+                    Text(
+                      'No reviews yet',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColorsLight.foreground,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Be the first to leave a review for this doctor.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColorsLight.mutedForeground,
+                      ),
+                    ),
+                  ],
+                )
+                    : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: doctorEntity.reviews!.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    final review = doctorEntity.reviews![index];
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColorsLight.background,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColorsLight.border),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          /// 🔹 Header (Name + Date)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                review.patientName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: AppColorsLight.foreground,
+                                ),
+                              ),
+                              Text(
+                                review.date,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColorsLight.mutedForeground,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          /// 🔹 Rating Stars
+                          Row(
+                            children: List.generate(5, (i) {
+                              return Icon(
+                                i < review.rating ? Icons.star : Icons.star_border,
+                                size: 16,
+                                color: Colors.amber,
+                              );
+                            }),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          /// 🔹 Comment
+                          Text(
+                            review.comment,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColorsLight.foreground,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
