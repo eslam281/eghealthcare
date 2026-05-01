@@ -1,3 +1,4 @@
+import 'package:eghealthcare/features/Doctor/profile/presentation/pages/doctorProfile.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/routes.dart';
@@ -79,7 +80,9 @@ class _DoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AvatarImage(imageUrl: doctor.imageUrl, radius: 50,name:doctor.name,),
+          AvatarImage(imageUrl: doctor.imageUrl, radius: 50,name:doctor.name,onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorProfile(id: doctor.id),));
+          },),
 
           const SizedBox(width: 12),
           Column(

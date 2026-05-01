@@ -1,9 +1,13 @@
+import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
+import 'package:eghealthcare/features/Doctor/profile/presentation/pages/doctorProfile.dart';
+import 'package:eghealthcare/features/Patient/profile/presentation/pages/patientProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
 import '../../../../core/themes/app_colors_light.dart';
+import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 
 class AppointmentCard extends StatelessWidget {
@@ -32,7 +36,14 @@ class AppointmentCard extends StatelessWidget {
             Row(
               children: [
                 //////////////////////
-                AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name,),
+                AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name,onTap:() async{
+                  final UserRole? role = await sl<RoleService>().getCurrentRole();
+                   Navigator.push(context, MaterialPageRoute(builder:
+                      (context) {
+                        return role==UserRole.doctor? PatientProfile(id: appointment.patientID):
+                        DoctorProfile(id: appointment.doctorID);}
+                    ,));
+                } ,),
 
                 const SizedBox(width: 12),
 

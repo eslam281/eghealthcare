@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../../core/constants/routes.dart';
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../../../../core/themes/app_colors_light.dart';
+import '../../../../Doctor/profile/presentation/pages/doctorProfile.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../bloc/dashboard_bloc.dart';
 
@@ -86,7 +87,9 @@ class AppointmentCard extends StatelessWidget {
             /// 🔹 Top Row (Doctor + Status)
             Row(
               children: [
-                AvatarImage(imageUrl:appointment.avatar,name:appointment.doctorName, radius: 55),
+                AvatarImage(imageUrl:appointment.avatar,name:appointment.doctorName, radius: 55,onTap: () {Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DoctorProfile(id: appointment.doctorID),));
+                },),
 
                 const SizedBox(width: 12),
 

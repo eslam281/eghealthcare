@@ -12,7 +12,8 @@ extension AppointmentEntityExtension on AppointmentModel{
       type: type,
       date: date,
       time: time,
-      avatar:doctor.avatar
+      avatar:doctor.avatar,
+      doctorID: doctor.doctorID
     );
   }
 }

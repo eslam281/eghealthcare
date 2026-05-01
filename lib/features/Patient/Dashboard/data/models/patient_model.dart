@@ -11,6 +11,7 @@ extension PatientModelX on PatientModel{
       address: address,
       phoneNumber: phoneNumber,
       imageURL: avatar,
+      id: patientID
     );
   }
 }

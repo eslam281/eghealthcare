@@ -1,11 +1,13 @@
 class UserEntity{
-  String fullName;
-  int age;
-  String phoneNumber;
-  String email;
-  String address;
-  String? imageURL;
+ final String fullName;
+ final  String id;
+ final int age;
+ final String phoneNumber;
+ final String email;
+ final String address;
+ final String? imageURL;
   UserEntity({
+    required this.id,
     required this.fullName,
     required this.age,
     required this.phoneNumber,

@@ -14,6 +14,7 @@ extension AppointmentEntityExtension on AppointmentModel{
       time: time,
       avatar: patient.avatar,
       status: status,
+      patientID: patient.patientID
     );
   }
 }

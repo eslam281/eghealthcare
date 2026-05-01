@@ -7,6 +7,7 @@ import '../../../../../core/shared/model/doctor_model.dart';
 extension DoctorModelExtensionToUserEntity on DoctorModel{
   UserEntity toUserEntity(){
     return UserEntity(
+        id: doctorID,
       fullName: name,
       email: email,
       age: age,

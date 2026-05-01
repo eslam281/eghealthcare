@@ -16,6 +16,8 @@ extension AppointmentEntityExtension on AppointmentModel{
       time: time,
       status: status,
       avtar: role == UserRole.patient?doctor.avatar:patient.avatar ,
+      patientID: patient.patientID ,
+      doctorID: doctor.doctorID ,
     );
   }
 }

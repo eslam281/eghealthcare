@@ -1,4 +1,5 @@
 class UserEntity{
+  String id;
   String fullName;
   int age;
   String phoneNumber;
@@ -6,6 +7,7 @@ class UserEntity{
   String address;
   String? imageURL;
   UserEntity({
+    required this.id,
     required this.fullName,
     required this.age,
     required this.phoneNumber,

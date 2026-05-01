@@ -34,7 +34,7 @@ class DoctorDashboard extends StatelessWidget {
 
                       AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,
                       onTap:() => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DoctorProfile(doctor: ),)),),
+                          MaterialPageRoute(builder: (context) => DoctorProfile(id:stat.user.id ),)),),
 
                     ],
                   );

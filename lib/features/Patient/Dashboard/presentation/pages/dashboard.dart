@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../../../../core/shared/widget/drawer.dart';
+import '../../../profile/presentation/pages/patientProfile.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_stats_row.dart';
@@ -28,7 +29,9 @@ class PatientDashboard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Welcome back, ${stat.user.fullName}"),
-                        AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,),
+                        AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,onTap: () =>
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PatientProfile(id: stat.user.id),))
+                        ),
                       ],
                     );
                   }
