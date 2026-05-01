@@ -30,7 +30,7 @@ class PatientDashboard extends StatelessWidget {
                       children: [
                         Text("Welcome back, ${stat.user.fullName}"),
                         AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,onTap: () =>
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PatientProfile(id: stat.user.id),))
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PatientProfilePage(id: stat.user.id),))
                         ),
                       ],
                     );

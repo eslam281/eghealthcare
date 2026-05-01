@@ -6,7 +6,6 @@ import '../../../../core/services/role_service.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
-import '../widgets/auth_role_selector.dart';
 import '../widgets/auth_text_field.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/social_login_section.dart';

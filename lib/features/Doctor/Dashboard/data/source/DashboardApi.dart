@@ -77,7 +77,6 @@ class DocDashboardApiImpl implements DocDashboardApi{
   @override
   Future<Either<Failure, List<AppointmentEntity>>> getAppointment() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
-    UserRole? role = await sl<RoleService>().getCurrentRole();
 
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().get(AppLinks.appointment,

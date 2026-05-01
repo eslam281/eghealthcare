@@ -2,7 +2,6 @@
 import 'package:eghealthcare/core/shared/model/appointment_model.dart';
 
 import '../../../../core/services/role_service.dart';
-import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 
 

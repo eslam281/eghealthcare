@@ -88,7 +88,7 @@ class AppointmentCard extends StatelessWidget {
               children: [
                 AvatarImage(imageUrl: appointment.avatar, radius: 50,name:appointment.patientName,onTap: () =>
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        PatientProfile(id: appointment.patientID),))
+                        PatientProfilePage(id: appointment.patientID),))
                 ),
                 const SizedBox(width: 12),
 

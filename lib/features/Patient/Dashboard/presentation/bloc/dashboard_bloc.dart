@@ -22,8 +22,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
   late final UserEntity user;
   late final List<DoctorEntity> doctors;
-  late  List<AppointmentEntity> appointments;
-  final summary = DashboardSummary(upcoming: 3, visits: 1, doctors: 6);
+  late List<AppointmentEntity> appointments;
+  late final DashboardSummary summary ;
 
   Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());
@@ -50,6 +50,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         print(e);
         emit(DashboardError("$e"));
       }
+      summary = DashboardSummary(upcoming: user.patientStats?.upcoming, visits: user.patientStats?.completed, doctors: doctors.length);
       emit(DashboardLoaded(
         user: user,
         summary: summary,

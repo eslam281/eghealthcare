@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:eghealthcare/features/Patient/profile/domain/entities/patientProfile_entities.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
@@ -12,18 +13,18 @@ class PatientProfileBloc extends Bloc<PatientProfileEvent, PatientProfileState> 
   PatientProfileBloc() : super(PatientProfileInitial()) {
     on<LoadedPatientProfileRequest>(_onLoadedRequest);
   }
+  late final String userID;
   Future<void> _onLoadedRequest (LoadedPatientProfileRequest event ,Emitter<PatientProfileState> emit)async{
     emit(PatientProfileLoading());
-    late final PatientProfileEntities patientProfileEntities;
     try{
       final response=await sl<GetPatientProfileUserUseCase>().call(params:event.id);
-      response.fold((l) => l, (r) {
-        patientProfileEntities =r;
-      },);
+      userID= (await sl<FlutterSecureStorage>().read(key: 'uid'))!;
+      response.fold((l) => emit(PatientProfileError(l.toString())),
+              (r) => emit(PatientProfileLoaded(r,userID: userID))
+      );
     }catch(e){
       emit(PatientProfileError(e.toString()));
     }
-    emit(PatientProfileLoaded(patientProfileEntities));
 
   }
 }

@@ -7,7 +7,8 @@ final class PatientProfileInitial extends PatientProfileState {}
 final class PatientProfileLoading extends PatientProfileState {}
 final class PatientProfileLoaded extends PatientProfileState {
   final PatientProfileEntities patientProfileEntities;
-  PatientProfileLoaded(this.patientProfileEntities);
+  final String userID;
+  PatientProfileLoaded(this.patientProfileEntities, {required this.userID});
 }
 final class PatientProfileError extends PatientProfileState {
   final String message;

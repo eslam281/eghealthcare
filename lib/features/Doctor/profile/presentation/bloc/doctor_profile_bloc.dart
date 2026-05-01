@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../../injection_container.dart';
 import '../../domain/entities/doctor_entity.dart';
 
 part 'doctor_profile_event.dart';

@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../../../../../injection_container.dart';
 import '../../../../Appointments/domain/usecases/deleteAppointment_usecase.dart';
-import '../../../My Patients/domain/usecases/getPatientDoctor_usecase.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';

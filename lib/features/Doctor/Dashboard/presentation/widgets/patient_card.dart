@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:eghealthcare/features/Patient/profile/presentation/pages/patientProfile.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class PatientCard extends StatelessWidget {
           Row(
             children: [
               AvatarImage(imageUrl: patient.image, radius: 25, name: patient.name,onTap: () =>
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PatientProfile(id: patient.id),))
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PatientProfilePage(id: patient.id),))
                 ),
               const SizedBox(width: 12),
               Column(

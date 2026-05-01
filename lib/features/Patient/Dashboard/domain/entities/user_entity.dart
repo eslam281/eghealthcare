@@ -1,3 +1,5 @@
+import '../../../../../core/shared/model/patient_model.dart';
+
 class UserEntity{
  final String fullName;
  final  String id;
@@ -6,6 +8,7 @@ class UserEntity{
  final String email;
  final String address;
  final String? imageURL;
+final PatientStats? patientStats;
   UserEntity({
     required this.id,
     required this.fullName,
@@ -13,6 +16,6 @@ class UserEntity{
     required this.phoneNumber,
     required this.address,
     required this.email,
-    this.imageURL
+    this.imageURL, this.patientStats
   });
 }

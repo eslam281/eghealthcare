@@ -40,7 +40,7 @@ class AppointmentCard extends StatelessWidget {
                   final UserRole? role = await sl<RoleService>().getCurrentRole();
                    Navigator.push(context, MaterialPageRoute(builder:
                       (context) {
-                        return role==UserRole.doctor? PatientProfile(id: appointment.patientID):
+                        return role==UserRole.doctor? PatientProfilePage(id: appointment.patientID):
                         DoctorProfile(id: appointment.doctorID);}
                     ,));
                 } ,),
