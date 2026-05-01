@@ -5,6 +5,8 @@ import 'package:eghealthcare/features/Appointments/data/source/appointmentApi.da
 import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointment_usecase.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/Doctor/My%20Patients/data/repository/doctorPatients_repository.dart';
+import 'package:eghealthcare/features/Patient/profile/data/repository/patientProfile_repository.dart';
+import 'package:eghealthcare/features/Patient/profile/domain/repository/patientProfile_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -26,6 +28,7 @@ import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Doctor/My Patients/data/source/doctorPatientsApi.dart';
 import 'features/Doctor/My Patients/domain/repository/doctorPatients_repository.dart';
 import 'features/Doctor/My Patients/domain/usecases/getPatientDoctor_usecase.dart';
+import 'features/Doctor/profile/domain/usecases/getPatientProfile_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
 import 'features/Patient/Dashboard/domain/repository/dashboard_repository.dart';
@@ -38,6 +41,7 @@ import 'features/Patient/Find Doctors/domain/repository/findDoctor_repository.da
 import 'features/Patient/Find Doctors/domain/usecases/createAppointment_usecase.dart';
 import 'features/Patient/Find Doctors/domain/usecases/findDoctor_usecase.dart';
 import 'features/Patient/Find Doctors/domain/usecases/search_usecase.dart';
+import 'features/Patient/profile/data/source/patientProfile_Api.dart';
 import 'features/auth/data/source/auth_firebase_service.dart';
 import 'features/auth/domain/repository/auth_reepository.dart';
 import 'features/auth/domain/usecases/signin.dart';
@@ -83,6 +87,7 @@ void _initSource() {
   ///////////////////////////////////////
   sl.registerLazySingleton<DocDashboardApi>(() => DocDashboardApiImpl());
   sl.registerLazySingleton<DoctorPatientsApi>(() => DoctorPatientsApiImpl());
+  sl.registerLazySingleton<PatientProfileApi>(() => PatientProfileApiImpl());
 }
 
 void _initRepository() {
@@ -94,7 +99,7 @@ void _initRepository() {
   ////////////////////////////////
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
   sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
-  sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
+  sl.registerLazySingleton<PatientProfileRepository>(() => PatientProfileRepositoryImpl());
 }
 
 void _initUseCase() {
@@ -110,9 +115,12 @@ void _initUseCase() {
   sl.registerLazySingleton<FindDoctorUseCase>(() => FindDoctorUseCase());
   sl.registerLazySingleton<CreateAppointmentUseCase>(() => CreateAppointmentUseCase());
   sl.registerLazySingleton<SearchUseCase>(() => SearchUseCase());
+  sl.registerLazySingleton<GetPatientProfileUserUseCase>(() => GetPatientProfileUserUseCase());
   //////////////////////////////////
   sl.registerLazySingleton<GetDoctorsUseCases>(() => GetDoctorsUseCases());
   sl.registerLazySingleton<DocGetUserUseCase>(() => DocGetUserUseCase());
   sl.registerLazySingleton<GetPatientDoctorUseCase>(() => GetPatientDoctorUseCase());
   sl.registerLazySingleton<GetDocAppointmentUseCase>(() => GetDocAppointmentUseCase());
+  sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
+
 }
