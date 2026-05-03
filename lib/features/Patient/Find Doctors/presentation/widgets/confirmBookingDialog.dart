@@ -110,7 +110,7 @@ class ConfirmBookingDialog extends StatelessWidget {
                               ),
                             );
                           },
-                          child: const Text("Back"),
+                          child: const Text("Back",style: TextStyle(color: Colors.black),),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -120,6 +120,8 @@ class ConfirmBookingDialog extends StatelessWidget {
                             final isLoading = state is BookingLoading;
 
                             return ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor:
+                              Colors.greenAccent.withAlpha(200)),
                               onPressed: isLoading ? null : () {
                                 final formattedDate =
                                 date.toString();
@@ -141,7 +143,7 @@ class ConfirmBookingDialog extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                                  : const Text("Confirm Booking"),
+                                  : const Text("Confirm Booking",style:TextStyle(color:Colors.white),),
                             );
                           },
                         ),

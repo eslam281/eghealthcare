@@ -101,6 +101,7 @@ class DoctorCard extends StatelessWidget {
                 child: const Text("View Profile →", style: TextStyle(
                     color: Colors.black)),
               ),
+              if (doctor.availability != null || doctor.availability!.isNotEmpty)
               ElevatedButton(
                 onPressed: () {
                   showDialog(

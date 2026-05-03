@@ -2,6 +2,8 @@ import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/utils/generateTimeSlots.dart';
+import '../../../../../core/utils/getWeekdayNumber.dart';
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/book_appointment_bloc.dart';
 import 'bookAppointmentDialog.dart';
@@ -24,20 +26,20 @@ class TimeSelectionDialog extends StatefulWidget {
 class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
   String? selectedTime;
 
-  final List<String> timeSlots = [
-    "09:00 AM",
-    "09:30 AM",
-    "10:00 AM",
-    "10:30 AM",
-    "11:00 AM",
-    "11:30 AM",
-    "02:00 PM",
-    "02:30 PM",
-    "03:00 PM",
-    "03:30 PM",
-    "04:00 PM",
-    "04:30 PM",
-  ];
+  late List<String> timeSlots;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final selectedWeekday = widget.date.weekday;
+
+    final availability = widget.doctor.availability!.firstWhere(
+          (a) => getWeekdayNumber(a.day) == selectedWeekday,
+    );
+
+    timeSlots = generateTimeSlots(availability.from, availability.to);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +146,14 @@ class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
                         ),
                       );
                     },
-                    child: const Text("Back"),
+                    child: const Text("Back",style: TextStyle(color: Colors.black),),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor:
+                    Colors.greenAccent.withAlpha(200)),
                     onPressed: selectedTime == null ? null
                         : () {
                       final bloc = context.read<BookAppointmentBloc>();
@@ -168,7 +172,7 @@ class _TimeSelectionDialogState extends State<TimeSelectionDialog> {
                         },
                       );
                     },
-                    child: const Text("Continue"),
+                    child: const Text("Continue",style: TextStyle(color: Colors.white),),
                   ),
                 ),
               ],

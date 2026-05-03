@@ -4,6 +4,8 @@ import 'package:eghealthcare/features/Patient/Find%20Doctors/presentation/widget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/utils/getFirstAvailableDate.dart';
+import '../../../../../core/utils/getWeekdayNumber.dart';
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/book_appointment_bloc.dart';
 
@@ -17,7 +19,15 @@ class BookAppointmentDialog extends StatefulWidget {
 }
 
 class _BookAppointmentDialogState extends State<BookAppointmentDialog> {
-  DateTime selectedDate = DateTime.now();
+  late final Set<int> availableDays;
+  late DateTime selectedDate;
+  @override
+  void initState() {
+    availableDays = widget.doctor.availability!
+        .map((e) => getWeekdayNumber(e.day)).toSet();
+    selectedDate = getFirstAvailableDate(availableDays);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +67,9 @@ class _BookAppointmentDialogState extends State<BookAppointmentDialog> {
                 initialDate: selectedDate,
                 firstDate: DateTime.now(),
                 lastDate: DateTime(DateTime.now().year+2,),
+                selectableDayPredicate: (date) {
+                  return availableDays.contains(date.weekday);
+                },
                 onDateChanged: (date) {
                   setState(() {
                     selectedDate = date;

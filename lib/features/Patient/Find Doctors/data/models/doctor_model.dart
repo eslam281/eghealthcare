@@ -11,7 +11,8 @@ extension DoctorModelExtensionToDoctorEntity on DoctorModel{
       specialty: specialty,
       imageUrl: avatar,
       bio: bio,
-      experience: experience
+      experience: experience,
+      availability: availability
     );
   }
 }
