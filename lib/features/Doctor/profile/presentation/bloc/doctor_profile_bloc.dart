@@ -14,14 +14,20 @@ class DoctorProfileBloc extends Bloc<DoctorProfileEvent, DoctorProfileState> {
     on<LoadedDoctorProfileRequest>(_onLoadedRequest);
   }
   late final String userID;
+  late final double avgRating;
   Future<void> _onLoadedRequest(LoadedDoctorProfileRequest event,Emitter<DoctorProfileState> emit)async{
     emit(DoctorProfileLoading());
     try{
       final response=await sl<GetDoctorProfileUseCase>().call(params:event.id);
       userID= (await sl<FlutterSecureStorage>().read(key: 'uid'))!;
       response.fold((l) => emit(DoctorProfileError(l.toString())),
-              (r) => emit(DoctorProfileLoaded(r,userID: userID))
-      );
+              (r) {
+                 avgRating = r.reviews!
+                    .map((e) => e.rating)
+                    .reduce((a, b) => a + b) /
+                    r.reviews!.length;
+        emit(DoctorProfileLoaded(r,userID: userID));
+      });
     }catch(e){
       emit(DoctorProfileError(e.toString()));
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/shared/widget/avatar.dart';
@@ -7,6 +8,7 @@ import '../../../../../core/themes/components_style.dart';
 import '../../../../Patient/Find Doctors/domain/entities/doctor_entity.dart'as find_entity;
 import '../../../../Patient/Find Doctors/presentation/widgets/bookAppointmentDialog.dart';
 import '../../domain/entities/doctor_entity.dart';
+import '../bloc/doctor_profile_bloc.dart';
 
 Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
   return Container(
@@ -53,17 +55,13 @@ Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
                     children: [
                       _buildTag(LucideIcons.briefcase,
                           '${doctorEntity.experience ?? 'N/A'} experience'),
-                      _buildTag(LucideIcons.star, '0 reviews',
+                      _buildTag(LucideIcons.star, '${context.read<DoctorProfileBloc>().avgRating} reviews',
                           color: AppColorsLight.warning),
                     ],
                   ),
                 ],
               ),
             ),
-            ...[
-              const SizedBox(width: 24),
-              _buildBookButton(context, doctorEntity),
-            ],
           ],
         ),
         ...[

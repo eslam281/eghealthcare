@@ -115,7 +115,7 @@ class Review {
   late String patientName;
   late int rating;
   late String comment;
-  late String date;
+  late DateTime date;
 
   Review(
       {required this.id,
@@ -131,7 +131,7 @@ class Review {
     patientName = json['patientName'];
     rating = json['rating'];
     comment = json['comment'];
-    date = json['date'];
+    date = DateTime.parse(json['date']);
   }
 
   Map<String, dynamic> toJson() {
@@ -141,7 +141,7 @@ class Review {
     data['patientName'] = patientName;
     data['rating'] = rating;
     data['comment'] = comment;
-    data['date'] = date;
+    data['date'] = date.toIso8601String();
     return data;
   }
 }
