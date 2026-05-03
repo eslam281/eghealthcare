@@ -8,11 +8,9 @@ class XRayInitial extends XRayState {}
 class XRayLoading extends XRayState {}
 
 class XRaySuccess extends XRayState {
-  final String diagnosis;
-  final double confidence;
-  final File image;
+  final XrayAnalysisModel model;
 
-  XRaySuccess({required this.diagnosis, required this.confidence, required this.image});
+  XRaySuccess({required this.model});
 }
 
 class XRayError extends XRayState {

@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -115,7 +116,10 @@ class ResultSection extends StatelessWidget {
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.file(state.image, fit: BoxFit.cover),
+                    child: Image.file(
+                      context.read<XRayCubit>().selectedImage!,
+                      fit: BoxFit.cover,
+                    )
                   ),
                 ),
 
@@ -131,9 +135,9 @@ class ResultSection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Preliminary Diagnosis: ${state.diagnosis}"),
+                      Text("Preliminary Diagnosis: ${state.model.top}"),
                       const SizedBox(height: 5),
-                      Text("Confidence: ${state.confidence.toStringAsFixed(1)}%"),
+                      Text("Confidence: ${(state.model.confidence! * 100).toStringAsFixed(1)}%"),
                     ],
                   ),
                 ),

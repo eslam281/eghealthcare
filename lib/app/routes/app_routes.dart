@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../core/constants/routes.dart';
 import '../../features/Appointments/presentation/pages/appointments_page.dart';
+import '../../features/Doctor/Al Analysis/presentation/pages/xrayAnalysis.dart';
 import '../../features/Doctor/Dashboard/presentation/pages/dashboard.dart';
 import '../../features/Doctor/My Patients/presentation/pages/my_patients.dart';
 import '../../features/Messages/presentation/pages/chat_page.dart';
@@ -26,4 +27,5 @@ Map<String, Widget Function(BuildContext)> routes={
   /////
   Routes.doctorDashboard:(context) => const DoctorDashboard(),
   Routes.myPatients:(context) => const MyPatients(),
+  Routes.aiAnalysis:(context) => const XRayAnalysisPage(),
 };

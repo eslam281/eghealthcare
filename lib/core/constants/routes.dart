@@ -13,6 +13,7 @@
   ////////
   static const String doctorDashboard = '/doctor_dashboard';
   static const String myPatients = '/doctor_myPatients';
+  static const String aiAnalysis = '/aiAnalysis';
   ////////
 
  }

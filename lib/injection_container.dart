@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eghealthcare/features/Appointments/data/repository/appointment_repository.dart';
 import 'package:eghealthcare/features/Appointments/data/source/appointmentApi.dart';
 import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointment_usecase.dart';
+import 'package:eghealthcare/features/Doctor/Al%20Analysis/data/repository/aiAnalysis_repository.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/Doctor/My%20Patients/data/repository/doctorPatients_repository.dart';
 import 'package:eghealthcare/features/Doctor/profile/data/repository/doctorProfile_repository.dart';
@@ -23,6 +24,7 @@ import 'core/services/role_service.dart';
 import 'features/Appointments/domain/repository/appointment_repository.dart';
 import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
 import 'features/Doctor/Al Analysis/data/source/aiAnalysis_api.dart';
+import 'features/Doctor/Al Analysis/domain/repository/aiAnalysis_repository.dart';
 import 'features/Doctor/Al Analysis/domain/usecases/aiAnalysis_usecase.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
@@ -108,7 +110,7 @@ void _initRepository() {
   ////////////////////////////////
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
   sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
-  sl.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepositoryImpl());
+  sl.registerLazySingleton<AiAnalysisRepository>(() => AiAnalysisRepositoryImpl());
 }
 
 void _initUseCase() {

@@ -1,4 +1,5 @@
  import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,11 @@ abstract class ApiClient {
       });
 
   Future<dynamic> post(
+    String url, {
+    Map<String, String>? headers,
+    Object? body,
+  });
+  Future<dynamic> postWithFile(
     String url, {
     Map<String, String>? headers,
     Object? body,
@@ -82,6 +88,19 @@ class ApiClientImpl implements ApiClient {
       }) async {
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
     final response = await _client.delete(uri, headers: _getHeaders(headers),);
+    return _handleResponse(response);
+  }
+
+  @override
+  Future<dynamic> postWithFile(
+      String url, {Map<String, String>? headers, Object? body,
+        File? file,
+        String fileField = 'file', // اسم الفيلد في الباك
+        Map<String, String>? fields,
+      }) async{
+    final uri = Uri.parse(url);
+    final response = await _client.post(
+        uri, headers: _getHeaders(headers), body: jsonEncode(body));
     return _handleResponse(response);
   }
 }

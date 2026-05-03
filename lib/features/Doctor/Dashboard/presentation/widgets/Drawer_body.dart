@@ -48,7 +48,7 @@ class DrawerBody extends StatelessWidget {
             icon: Icons.support_agent_rounded,
             title: "Al Analysis",
             onTap: () {
-              // Navigator.of(context).pushNamed( Routes.chatPage);
+              Navigator.of(context).pushNamed( Routes.aiAnalysis);
             },
           ),
         ],

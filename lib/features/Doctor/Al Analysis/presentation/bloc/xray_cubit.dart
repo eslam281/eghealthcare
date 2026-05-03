@@ -4,6 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../injection_container.dart';
+import '../../data/models/xrayAnalysis_model.dart';
+import '../../domain/usecases/aiAnalysis_usecase.dart';
+
 part 'xray_state.dart';
 
 class XRayCubit extends Cubit<XRayState> {
@@ -12,12 +16,12 @@ class XRayCubit extends Cubit<XRayState> {
   File? selectedImage;
 
   final ImagePicker picker = ImagePicker();
-
+  late  XFile?  picked ;
   Future<void> pickImage() async {
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+    picked = await picker.pickImage(source: ImageSource.gallery);
 
     if (picked != null) {
-      selectedImage = File(picked.path);
+      selectedImage = File(picked!.path);
       emit(XRayInitial());
     }
   }
@@ -28,16 +32,13 @@ class XRayCubit extends Cubit<XRayState> {
     emit(XRayLoading());
 
     try {
-      // TODO: replace with API
-      await Future.delayed(const Duration(seconds: 2));
+      final response= await sl<AiAnalysisUseCase>().call(params: picked);
+      response.fold((l) =>  emit(XRayError("Something went wrong $l")),
+          (r) => emit(XRaySuccess(model: r))
+      );
 
-      emit(XRaySuccess(
-        diagnosis: "12",
-        confidence: 99.3,
-        image: selectedImage!,
-      ));
     } catch (e) {
-      emit(XRayError("Something went wrong"));
+      emit(XRayError("Something went wrong $e"));
     }
   }
 }
