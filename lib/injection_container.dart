@@ -22,6 +22,8 @@ import 'core/services/cipher_key.dart';
 import 'core/services/role_service.dart';
 import 'features/Appointments/domain/repository/appointment_repository.dart';
 import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
+import 'features/Doctor/Al Analysis/data/source/aiAnalysis_api.dart';
+import 'features/Doctor/Al Analysis/domain/usecases/aiAnalysis_usecase.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
@@ -66,6 +68,7 @@ Future<void> initializeDependencies() async {
 
 void _initExternal() {
   sl.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
+  sl.registerLazySingleton<Client>(() => Client());
 }
 
 void _initServices() {
@@ -75,7 +78,6 @@ void _initServices() {
 
 void _initCore() {
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
-  sl.registerLazySingleton<Client>(() => Client());
   sl.registerLazySingleton<AppStartDecider>(() => AppStartDecider(sl()));
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<NetworkCallHandler>(() => NetworkCallHandler(sl()));
@@ -93,6 +95,7 @@ void _initSource() {
   sl.registerLazySingleton<DocDashboardApi>(() => DocDashboardApiImpl());
   sl.registerLazySingleton<DoctorPatientsApi>(() => DoctorPatientsApiImpl());
   sl.registerLazySingleton<DoctorProfileApi>(() => DoctorProfileApiImpl());
+  sl.registerLazySingleton<AiAnalysisApi>(() => AiAnalysisApiImpl());
 }
 
 void _initRepository() {
@@ -129,5 +132,6 @@ void _initUseCase() {
   sl.registerLazySingleton<GetDocAppointmentUseCase>(() => GetDocAppointmentUseCase());
   sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
   sl.registerLazySingleton<GetDoctorProfileUseCase>(() => GetDoctorProfileUseCase());
+  sl.registerLazySingleton<AiAnalysisUseCase>(() => AiAnalysisUseCase());
 
 }

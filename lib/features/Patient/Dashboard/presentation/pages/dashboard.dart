@@ -1,3 +1,4 @@
+import 'package:eghealthcare/core/shared/widget/floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,11 +41,7 @@ class PatientDashboard extends StatelessWidget {
               ),
             ),
 
-            floatingActionButton: FloatingActionButton(onPressed: () {
-
-            }, shape: const CircleBorder(),
-              child: const Icon(Icons.support_agent,
-                color: Colors.white,),),
+            floatingActionButton: const FloatingAction(),
 
             drawer: const AppDrawer(body: DrawerBody(),),
 

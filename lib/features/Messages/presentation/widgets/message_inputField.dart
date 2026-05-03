@@ -30,8 +30,7 @@ class _MessageInputFieldState extends State<MessageInputField> {
   /// pick file
   Future<void> pickFile() async {
 
-    FilePickerResult? result =
-    await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.pickFiles();
 
     if (result != null) {
 
