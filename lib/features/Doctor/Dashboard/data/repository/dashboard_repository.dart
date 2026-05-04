@@ -27,4 +27,9 @@ class DocDashboardRepositoryImpl extends DocDashboardRepository {
     return sl<DocDashboardApi>().getAppointment();
   }
 
+  @override
+  Future<Either<dynamic, dynamic>> getChatbot(String message) {
+    return sl<DocDashboardApi>().getChatbot(message);
+  }
+
 }

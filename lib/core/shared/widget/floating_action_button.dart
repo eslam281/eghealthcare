@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../features/Doctor/Dashboard/presentation/bloc/dashboard_bloc.dart';
 import '../../themes/app_colors_light.dart';
 
 class FloatingAction extends StatelessWidget {
@@ -28,30 +30,55 @@ class ChatBotDialog extends StatefulWidget {
 }
 
 class _ChatBotDialogState extends State<ChatBotDialog> {
-  final List<Map<String, dynamic>> _messages = [
-    {"text": "waht is reques in fron end", "isMe": true},
-    {"text": "AI service is temporarily unavailable due to high demand. Please try again shortly.", "isMe": false},
-    {"text": "waht is request in front end", "isMe": true},
-    {"text": "Thinking...", "isMe": false, "isThinking": true},
-  ];
+  late List<Map<String, dynamic>> _messages ;
   final TextEditingController _controller = TextEditingController();
 
+  @override
+  void initState() {
+    _messages=[] ;
+    super.initState();
+  }
   void _sendMessage() {
     if (_controller.text.trim().isEmpty) return;
+
     setState(() {
       _messages.add({"text": _controller.text, "isMe": true});
-      _controller.clear();
-      // Simulate thinking
       _messages.add({"text": "Thinking...", "isMe": false, "isThinking": true});
     });
+
+    context.read<DashboardBloc>().add(Chatbot(_controller.text));
+
+    _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return BlocListener<DashboardBloc, DashboardState>(
+      listener: (context, state) {
+        if (state is ChatbotSuccess) {
+          setState(() {
+            _messages.removeLast(); // remove thinking
+            _messages.add({
+              "text": state.message,
+              "isMe": false,
+            });
+          });
+        }
+
+        if (state is ChatbotError) {
+          setState(() {
+            _messages.removeLast();
+            _messages.add({
+              "text": state.message,
+              "isMe": false,
+            });
+          });
+        }
+      },
+    child:Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-      alignment: Alignment.bottomRight, // Align to bottom right like a chat widget
+      alignment: Alignment.bottomRight, 
       child: Container(
         width: 400,
         height: 550,
@@ -190,6 +217,7 @@ class _ChatBotDialogState extends State<ChatBotDialog> {
           ],
         ),
       ),
-    );
+    ),
+);
   }
 }

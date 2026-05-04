@@ -18,6 +18,15 @@ final class DashboardLoaded extends DashboardState {
     required this.patients,
   });
 }
+class ChatbotLoading extends DashboardState {}
+final class ChatbotSuccess extends DashboardState{
+  final String message;
+  ChatbotSuccess(this.message);
+}
+final class ChatbotError extends DashboardState{
+  final String message;
+  ChatbotError(this.message);
+}
 final class DashboardError extends DashboardState{
   final String message;
   DashboardError(this.message);

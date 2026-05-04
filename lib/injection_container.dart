@@ -28,6 +28,7 @@ import 'features/Doctor/Al Analysis/domain/repository/aiAnalysis_repository.dart
 import 'features/Doctor/Al Analysis/domain/usecases/aiAnalysis_usecase.dart';
 import 'features/Doctor/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Doctor/Dashboard/data/source/DashboardApi.dart';
+import 'features/Doctor/Dashboard/domain/usecases/chatbot_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getAppointment_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getPatientDoctor_usecase.dart';
 import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
@@ -135,5 +136,6 @@ void _initUseCase() {
   sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
   sl.registerLazySingleton<GetDoctorProfileUseCase>(() => GetDoctorProfileUseCase());
   sl.registerLazySingleton<AiAnalysisUseCase>(() => AiAnalysisUseCase());
+  sl.registerLazySingleton<ChatbotUseCase>(() => ChatbotUseCase());
 
 }

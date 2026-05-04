@@ -9,4 +9,8 @@ final class DeleteAppointments extends DashboardEvent {
   final int id;
   DeleteAppointments(this.id);
 }
+final class Chatbot extends DashboardEvent {
+  final String message;
+  Chatbot(this.message);
+}
 

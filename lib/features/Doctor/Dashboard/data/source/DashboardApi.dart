@@ -1,7 +1,6 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:eghealthcare/core/constants/links.dart';
-import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:eghealthcare/injection_container.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -22,8 +21,8 @@ abstract class DocDashboardApi{
   Future <Either> getPatients();
   Future <Either> getPatient(String id);
   Future <Either> getAppointment();
-
   Future<Either> getUser();
+  Future <Either> getChatbot(String message);
 
 }
 
@@ -95,6 +94,18 @@ class DocDashboardApiImpl implements DocDashboardApi{
 
         return Right(user);
       },
+    );
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> getChatbot(String message) async{
+    final response = await sl<NetworkCallHandler>().call(
+            ()=> sl<ApiClient>().post(AppLinks.chatbot, body: {"message":message}));
+
+    print("===========================response : ${response.toString()}");
+    return response.fold(
+          (failure) => Left(failure),
+          (r) => Right(r),
     );
   }
 }
