@@ -18,7 +18,7 @@ class XrayAnalysisModel {
     }
 
     top = json['top'];
-    confidence = json['confidence'];
+    confidence = (json['confidence'] as num?)?.toDouble();;
   }
 
   Map<String, dynamic> toJson() {
@@ -69,8 +69,8 @@ class Predictions {
   Predictions({this.x, this.y, this.width, this.height, this.confidence, this.kind, this.classId, this.detectionId});
 
   Predictions.fromJson(Map<String, dynamic> json) {
-  x = json['x'];
-  y = json['y'];
+  x = (json['x'] as num?)?.toDouble();
+  y = (json['y'] as num?)?.toDouble();
   width = json['width'];
   height = json['height'];
   confidence = json['confidence'];

@@ -21,6 +21,9 @@ abstract class ApiClient {
     String url, {
     Map<String, String>? headers,
     Object? body,
+    File? file,
+    String fileField = 'file',
+    Map<String, String>? fields,
   });
 
   Future<dynamic> delete(
@@ -95,12 +98,32 @@ class ApiClientImpl implements ApiClient {
   Future<dynamic> postWithFile(
       String url, {Map<String, String>? headers, Object? body,
         File? file,
-        String fileField = 'file', // اسم الفيلد في الباك
+        String fileField = 'file',
         Map<String, String>? fields,
       }) async{
     final uri = Uri.parse(url);
-    final response = await _client.post(
-        uri, headers: _getHeaders(headers), body: jsonEncode(body));
+    final request = http.MultipartRequest('POST', uri);
+
+    // headers
+    request.headers.addAll({
+      'Accept': 'application/json',
+      ...?headers,
+    });
+
+    if (fields != null) {
+      request.fields.addAll(fields);
+    }
+    if (file != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          fileField,
+          file.path,
+        ),
+      );
+    }
+
+    final streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
     return _handleResponse(response);
   }
 }

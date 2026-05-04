@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/xray_cubit.dart';
+import '../widgets/fullScreenImage.dart';
 
 class XRayAnalysisPage extends StatelessWidget {
   const XRayAnalysisPage({super.key});
@@ -16,10 +17,10 @@ class XRayAnalysisPage extends StatelessWidget {
         appBar: AppBar(title: const Text("AI X-Ray Analysis")),
         body: const Padding(
           padding: EdgeInsets.all(16),
-          child: Row(
+          child: Column(
             children: [
-              Expanded(child: UploadSection()),
-              SizedBox(width: 16),
+              UploadSection(),
+              SizedBox(height: 15),
               Expanded(child: ResultSection()),
             ],
           ),
@@ -114,12 +115,80 @@ class ResultSection extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.file(
-                      context.read<XRayCubit>().selectedImage!,
-                      fit: BoxFit.cover,
-                    )
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                      PageRouteBuilder(
+                        pageBuilder: (_,_,_) =>
+                            BlocProvider.value(
+                              value: context.read<XRayCubit>(),
+                              child: FullScreenImagePage(model: state.model),
+                            ),
+                        transitionDuration: const Duration(milliseconds: 300),
+                      )
+                      );
+                    },
+                    child: Hero(
+                      tag: "xray_image",
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final model = state.model;
+                            final image = context.read<XRayCubit>().selectedImage!;
+
+                            final imgWidth = model.image?.width ?? 1;
+                            final imgHeight = model.image?.height ?? 1;
+
+                            return Stack(
+                              children: [
+                                // الصورة
+                                Positioned.fill(
+                                  child: Image.file(
+                                    image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+
+                                // رسم الـ boxes
+                                ...?model.predictions?.map((pred) {
+                                  final left = (pred.x! / imgWidth) * constraints.maxWidth;
+                                  final top = (pred.y! / imgHeight) * constraints.maxHeight;
+                                  final width = (pred.width! / imgWidth) * constraints.maxWidth;
+                                  final height = (pred.height! / imgHeight) * constraints.maxHeight;
+
+                                  return Positioned(
+                                    left: left - width / 2,
+                                    top: top - height / 2,
+                                    child: Container(
+                                      width: width,
+                                      height: height,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: pred.confidence! > 0.8 ? Colors.red : Colors.orange
+                                            , width: 2),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          color: Colors.black,
+                                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+                                          child: Text(
+                                            "[${pred.kind}] ${(pred.confidence! * 100).toStringAsFixed(0)}%",
+                                            style: const TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            );
+                          },
+                        )
+                      ),
+                    ),
                   ),
                 ),
 
