@@ -1,23 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/xray_cubit.dart';
 
 class FullScreenImagePage extends StatelessWidget {
   final dynamic model;
-  final File? image;
+  final File image;
 
-  const FullScreenImagePage({super.key, required this.model, this.image});
+  const FullScreenImagePage({super.key, required this.model, required this.image});
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<XRayCubit>();
-    final image = cubit.selectedImage;
-
-    if (image == null) return const SizedBox();
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -33,7 +25,6 @@ class FullScreenImagePage extends StatelessWidget {
 
                   return Stack(
                     children: [
-                      // الصورة
                       Positioned.fill(
                         child: Hero(
                           tag: "xray_image",

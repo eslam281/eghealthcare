@@ -108,6 +108,8 @@ class ResultSection extends StatelessWidget {
           }
 
           if (state is XRaySuccess) {
+            final cubit = context.read<XRayCubit>();
+            final image = cubit.selectedImage;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -122,8 +124,9 @@ class ResultSection extends StatelessWidget {
                       PageRouteBuilder(
                         pageBuilder: (_,_,_) =>
                             BlocProvider.value(
-                              value: context.read<XRayCubit>(),
-                              child: FullScreenImagePage(model: state.model),
+                              value: cubit,
+                              child: FullScreenImagePage(model: state.model,
+                              image: image!,),
                             ),
                         transitionDuration: const Duration(milliseconds: 300),
                       )
@@ -136,8 +139,6 @@ class ResultSection extends StatelessWidget {
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             final model = state.model;
-                            final image = context.read<XRayCubit>().selectedImage!;
-
                             final imgWidth = model.image?.width ?? 1;
                             final imgHeight = model.image?.height ?? 1;
 
@@ -146,7 +147,7 @@ class ResultSection extends StatelessWidget {
                                 // الصورة
                                 Positioned.fill(
                                   child: Image.file(
-                                    image,
+                                    image!,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
