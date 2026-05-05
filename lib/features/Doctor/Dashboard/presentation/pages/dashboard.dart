@@ -19,34 +19,38 @@ class DoctorDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DashboardBloc()..add(LoadDashboardRequested()),
-      child: Scaffold(
-        appBar:  AppBar(
-          title: BlocBuilder<DashboardBloc, DashboardState>(
-              builder: (context,stat) {
-                if(stat is DashboardLoaded) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        Text("Dr. ",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
-                        Text(stat.user.fullName),
-                      ],),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            appBar:  AppBar(
+              title: BlocBuilder<DashboardBloc, DashboardState>(
+                  builder: (context,stat) {
+                    if(stat is DashboardLoaded) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(children: [
+                            Text("Dr. ",style:TextStyle(color:Theme.of(context).colorScheme.primary )),
+                            Text(stat.user.fullName),
+                          ],),
 
-                      AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,
-                      onTap:() => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DoctorProfile(id:stat.user.id ),)),),
+                          AvatarImage(imageUrl: stat.user.imageURL, radius: 50,name: stat.user.fullName,
+                          onTap:() => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => DoctorProfile(id:stat.user.id ),)),),
 
-                    ],
-                  );
-                }
-                return const SizedBox();
-              }
-          ),
-        ),
-        drawer: const AppDrawer(body: DrawerBody(),),
-        floatingActionButton: const FloatingAction(),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  }
+              ),
+            ),
+            drawer: const AppDrawer(body: DrawerBody(),),
+            floatingActionButton: const FloatingAction(),
 
-        body: const _DashboardBody(),
+            body: const _DashboardBody(),
+          );
+        }
       ),
     );
   }

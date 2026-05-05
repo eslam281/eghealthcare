@@ -19,15 +19,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(DashboardInitial()) {
     on<LoadDashboardRequested>(_onLoadDashboard);
     on<DeleteAppointments>(_onDeletedAppointments);
-    on<Chatbot>(_onChatbot);
   }
   late final UserEntity user;
   late final List<PatientEntity> patients;
   late final List<AppointmentEntity> appointments;
   late final DashboardSummary summary;
-  late List<Map<String, dynamic>> messages=[
-    {"text": "Hello, how can I help you today?", "isMe": false,}
-  ];
 
   Future<void> _onLoadDashboard(DashboardEvent event, Emitter<DashboardState> emit,)async {
     emit(DashboardLoading());
@@ -83,21 +79,5 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       patients: patients,
     ));
   }
-  Future<void> _onChatbot(Chatbot event, Emitter<DashboardState> emit,)async {
-      messages.add( {"text": "waht is reques in fron end", "isMe": true});
-    emit(ChatbotLoading());
-      messages.add( {"text": "Thinking...", "isMe": false, "isThinking": true},);
-    try {
-      final response = await sl<ChatbotUseCase>().call(params: event.message);
-      response.fold((l)=>emit(ChatbotError("Failed to load chatbot $l")),
-              (r) {
-        messages.removeLast();
-        messages.add( {"text": r, "isMe": false});
-            emit(ChatbotSuccess(r));
-          });
 
-    } catch (e) {
-      emit(ChatbotError("Failed to load chatbot $e"));
-    }
-  }
 }

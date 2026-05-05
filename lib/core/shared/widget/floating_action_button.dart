@@ -1,23 +1,25 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/Doctor/Dashboard/presentation/bloc/dashboard_bloc.dart';
-import '../../themes/app_colors_light.dart';
+import '../../../features/Doctor/Dashboard/presentation/bloc/chatbot_bloc.dart';
 
 class FloatingAction extends StatelessWidget {
   const FloatingAction({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(onPressed: () {
-      showDialog(
-        context: context,
-        barrierColor: Colors.transparent, // Keeps the background visible
-        builder: (context) => const ChatBotDialog(),
-      );
-    }, shape: const CircleBorder(),
-      child: const Icon(Icons.support_agent, color: Colors.white,),
+    return FloatingActionButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          barrierColor: Colors.black54,
+          builder: (_) => BlocProvider(
+            create: (_) => ChatbotBloc(),
+            child: const ChatBotDialog(),
+          ),
+        );
+      },
+      child: const Icon(Icons.support_agent),
     );
   }
 }
@@ -30,173 +32,179 @@ class ChatBotDialog extends StatefulWidget {
 }
 
 class _ChatBotDialogState extends State<ChatBotDialog> {
-  late List<Map<String, dynamic>> _messages ;
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   @override
-  void initState() {
-    _messages=[] ;
-    super.initState();
+  void dispose() {
+    controller.dispose();
+    scrollController.dispose();
+    super.dispose();
   }
+
   void _sendMessage() {
-    if (_controller.text.trim().isEmpty) return;
+    final text = controller.text.trim();
+    if (text.isEmpty) return;
 
-    setState(() {
-      _messages.add({"text": _controller.text, "isMe": true});
-      _messages.add({"text": "Thinking...", "isMe": false, "isThinking": true});
-    });
+    context.read<ChatbotBloc>().add(Chatbot(text));
+    controller.clear();
 
-    context.read<DashboardBloc>().add(Chatbot(_controller.text));
 
-    _controller.clear();
+  }
+  void scrollToBottom() {
+    if (!scrollController.hasClients) return;
+
+    final maxScroll = scrollController.position.maxScrollExtent;
+
+    scrollController.animateTo(
+      maxScroll,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DashboardBloc, DashboardState>(
-      listener: (context, state) {
-        if (state is ChatbotSuccess) {
-          setState(() {
-            _messages.removeLast(); // remove thinking
-            _messages.add({
-              "text": state.message,
-              "isMe": false,
-            });
-          });
-        }
-
-        if (state is ChatbotError) {
-          setState(() {
-            _messages.removeLast();
-            _messages.add({
-              "text": state.message,
-              "isMe": false,
-            });
-          });
-        }
-      },
-    child:Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-      alignment: Alignment.bottomRight, 
+    return Dialog(
+      insetPadding: const EdgeInsets.all(16),
       child: Container(
         width: 400,
-        height: 550,
+        height: 520,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 5,
-            ),
-          ],
         ),
         child: Column(
           children: [
-            // Header
+
+            /// Header
             Container(
               padding: const EdgeInsets.all(16),
               decoration: const BoxDecoration(
-                color: AppColorsLight.primary,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
+                color: Color(0xff2DD4BF),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CircleAvatar(
-                    backgroundColor: Colors.white24,
-                    child: Icon(Icons.support_agent, color: Colors.white),
-                  ),
-                  const SizedBox(width: 12),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                  const Row(
                     children: [
+                      Icon(Icons.support_agent, color: Colors.white),
+                      SizedBox(width: 10),
                       Text(
                         "Help Assistant",
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Always here to help",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
-                  const Spacer(),
+
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                    icon: const Icon(Icons.delete, color: Colors.white),
+                    onPressed: () {
+                      context.read<ChatbotBloc>().add(ClearChat());
+                    },
+                  )
                 ],
               ),
             ),
-            // Messages List
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  final msg = _messages[index];
-                  final isMe = msg['isMe'] ?? false;
-                  final isThinking = msg['isThinking'] ?? false;
 
-                  return Align(
-                    alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
-                      decoration: BoxDecoration(
-                        color: isMe ? AppColorsLight.primary : const Color(0xffF1F5F9),
-                        borderRadius: BorderRadius.circular(15).copyWith(
-                          bottomRight: isMe ? const Radius.circular(0) : null,
-                          bottomLeft: !isMe ? const Radius.circular(0) : null,
+            /// Messages
+            Expanded(
+              child: BlocBuilder<ChatbotBloc, ChatbotState>(
+                builder: (context, state) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+                  return ListView.builder(
+                    controller: scrollController,
+                    padding: const EdgeInsets.all(12),
+                    itemCount: state.messages.length,
+                    itemBuilder: (context, index) {
+                      final msg = state.messages[index];
+                      final isMe = msg.isMe;
+
+                      return Align(
+                        alignment:
+                        isMe ? Alignment.centerRight : Alignment.centerLeft,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 10),
+                          constraints: const BoxConstraints(maxWidth: 260),
+                          decoration: BoxDecoration(
+                            color: isMe
+                                ? const Color(0xff2DD4BF)
+                                : Colors.grey.shade200,
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16),
+                              topRight: const Radius.circular(16),
+                              bottomLeft:
+                              isMe ? const Radius.circular(16) : Radius.zero,
+                              bottomRight:
+                              isMe ? Radius.zero : const Radius.circular(16),
+                            ),
+                          ),
+                          child: Text(
+                            msg.text,
+                            style: TextStyle(
+                              color:
+                              isMe ? Colors.white : Colors.black87,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        msg['text'],
-                        style: TextStyle(
-                          color: isMe ? Colors.white : Colors.black87,
-                          fontStyle: isThinking ? FontStyle.italic : FontStyle.normal,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
             ),
-            // Input Field
+
+            /// Thinking
+            BlocBuilder<ChatbotBloc, ChatbotState>(
+              builder: (context, state) {
+                if (!state.isThinking) return const SizedBox();
+
+                return const Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Thinking...",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            /// Input
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(top: BorderSide(color: Colors.grey.shade200)),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+                border: Border(top: BorderSide(color: Colors.grey.shade300)),
               ),
               child: Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _controller,
+                      controller: controller,
                       decoration: InputDecoration(
                         hintText: "Type your question...",
-                        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
                         filled: true,
-                        fillColor: const Color(0xffF8FAFC),
+                        fillColor: Colors.grey.shade100,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       ),
+                      onSubmitted: (_) => _sendMessage(),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -205,19 +213,19 @@ class _ChatBotDialogState extends State<ChatBotDialog> {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
-                        color: Color(0xff2DD4BF), // Light teal for send button
+                        color: Color(0xff2DD4BF),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.send, color: Colors.white, size: 18),
+                      child: const Icon(Icons.send,
+                          color: Colors.white, size: 18),
                     ),
-                  ),
+                  )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
-    ),
-);
+    );
   }
 }
