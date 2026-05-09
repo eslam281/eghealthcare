@@ -8,14 +8,12 @@ class NotificationService {
 
   static Future<void> init() async {
 
-    const androidSettings =
-    AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const settings =
     InitializationSettings(
-      android: androidSettings,
+      android: initializationSettingsAndroid,
     );
 
     await flutterLocalNotificationsPlugin.initialize(
@@ -31,6 +29,7 @@ class NotificationService {
       'Appointments',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
     );
 
     const details =

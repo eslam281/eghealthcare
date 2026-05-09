@@ -11,19 +11,7 @@ class FCMService {
       FirebaseMessaging.instance;
 
   Future<void> init() async {
-
     await _messaging.requestPermission();
-
-    final token = await _messaging.getToken();
-
-    _messaging.onTokenRefresh.listen((newToken) async {
-      print("NEW TOKEN => $newToken");
-      // sl<NetworkCallHandler>().call(() =>
-      //     sl<ApiClient>().post("${AppLinks.user}/${data.user!.uid}",
-      //   body: {
-      //     "fcmToken": newToken,
-      //   },));
-    });
     FirebaseMessaging.onMessage.listen((message) {
 
       final notification = message.notification;
@@ -37,19 +25,34 @@ class FCMService {
         );
       }
     });
-    FirebaseMessaging.onMessageOpenedApp
-        .listen((message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
 
       print('Notification clicked');
 
     });
     final initialMessage = await _messaging.getInitialMessage();
-
     if (initialMessage != null) {
 
       print('App opened from terminated');
     }
+  }
 
-    print('FCM TOKEN: $token');
+  Future<String?> getToken(String id) async{
+    final String? token = await _messaging.getToken();
+    sl<NetworkCallHandler>().call(() =>
+        sl<ApiClient>().post("${AppLinks.user}/save-fcm-token/$id",
+          body: {"token": token,},
+        ));
+    return token;
+  }
+
+  Future onRefreshToken(String id) async{
+    _messaging.onTokenRefresh.listen((newToken) async {
+      print("NEW TOKEN => $newToken");
+      sl<NetworkCallHandler>().call(() =>
+          sl<ApiClient>().post("${AppLinks.user}/save-fcm-token/$id",
+            body: {"token": newToken,},
+          ));
+    });
   }
 }

@@ -2,11 +2,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:eghealthcare/core/constants/links.dart';
 import 'package:eghealthcare/injection_container.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
+import '../../../../../core/services/fcm_service.dart';
 import '../../../../../core/shared/model/appointment_model.dart';
 import '../../../../../core/shared/model/doctor_model.dart';
 import '../../../../../core/shared/model/patient_model.dart';
@@ -27,7 +29,7 @@ abstract class DocDashboardApi{
 }
 
 class DocDashboardApiImpl implements DocDashboardApi{
-
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   @override
   Future<Either> getPatients() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');
@@ -82,6 +84,11 @@ class DocDashboardApiImpl implements DocDashboardApi{
                 queryParameters: {'doctorID': id}
             ));
     print("===========================response : ${response.toString()}");
+
+    final  token = await sl<FCMService>().getToken(id!);
+    print("=============================== token : $token");
+    final  newToken = await sl<FCMService>().onRefreshToken(id);
+    print("=============================== new token : $newToken");
 
     return response.fold(
           (failure) => Left(failure),

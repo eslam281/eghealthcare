@@ -29,16 +29,16 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());
     try{
-      final token = await FirebaseMessaging.instance.getToken();
-
-      print("FCM TOKEN => $token");
-      FirebaseMessaging.onMessage.listen((message) {
-
-        print(message.notification?.title);
-
-        print(message.notification?.body);
-
-      });
+      // final token = await FirebaseMessaging.instance.getToken();
+      //
+      // print("FCM TOKEN => $token");
+      // FirebaseMessaging.onMessage.listen((message) {
+      //
+      //   print(message.notification?.title);
+      //
+      //   print(message.notification?.body);
+      //
+      // });
       try{
         final response = await sl<PGetUserUseCase>().call();
         user = response.fold((l) => l, (r) => r);
