@@ -1,10 +1,8 @@
 import 'package:eghealthcare/core/themes/app_colors_light.dart';
-import 'package:eghealthcare/core/themes/components_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../domain/entities/doctor_entity.dart';
 import '../bloc/doctor_profile_bloc.dart';
 import '../widgets/buildAboutSection.dart';
 import '../widgets/buildAvailabilitySection.dart';

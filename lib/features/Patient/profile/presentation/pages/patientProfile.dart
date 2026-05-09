@@ -1,9 +1,7 @@
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../../injection_container.dart';
 import '../../domain/entities/patientProfile_entities.dart';
 import '../bloc/patient_profile_bloc.dart';
 

@@ -7,7 +7,6 @@ import '../../domain/entities/appointment_entity.dart';
 import '../../domain/entities/dashboard_summary_entity.dart';
 import '../../domain/entities/patient_entity.dart';
 import '../../domain/entities/user_entity.dart' show UserEntity;
-import '../../domain/usecases/chatbot_usecase.dart';
 import '../../domain/usecases/getAppointment_usecase.dart';
 import '../../domain/usecases/getPatientDoctor_usecase.dart';
 import '../../domain/usecases/getUser_usecase.dart';

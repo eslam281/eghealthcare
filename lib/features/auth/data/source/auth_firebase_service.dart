@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -93,7 +94,8 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
   @override
   Future<Either> signOut() async {
     try {
-      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseMessaging messaging = FirebaseMessaging.instance;
+      await messaging.deleteToken();
       await firebaseAuth.signOut();
       await secureStorage.delete(key: 'uid');
       await sl<RoleService>().clearRole();

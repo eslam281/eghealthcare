@@ -6,7 +6,6 @@ import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointmen
 import 'package:eghealthcare/features/Doctor/Al%20Analysis/data/repository/aiAnalysis_repository.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/Doctor/My%20Patients/data/repository/doctorPatients_repository.dart';
-import 'package:eghealthcare/features/Doctor/profile/data/repository/doctorProfile_repository.dart';
 import 'package:eghealthcare/features/Doctor/profile/data/source/doctorProfile_api.dart';
 import 'package:eghealthcare/features/Patient/profile/data/repository/patientProfile_repository.dart';
 import 'package:eghealthcare/features/Patient/profile/domain/repository/patientProfile_repository.dart';
@@ -20,6 +19,7 @@ import 'core/network/api_client.dart';
 import 'core/network/network_call_handler.dart';
 import 'core/network/network_info.dart';
 import 'core/services/cipher_key.dart';
+import 'core/services/fcm_service.dart';
 import 'core/services/role_service.dart';
 import 'features/Appointments/domain/repository/appointment_repository.dart';
 import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
@@ -35,7 +35,6 @@ import 'features/Doctor/Dashboard/domain/usecases/getUser_usecase.dart';
 import 'features/Doctor/My Patients/data/source/doctorPatientsApi.dart';
 import 'features/Doctor/My Patients/domain/repository/doctorPatients_repository.dart';
 import 'features/Doctor/My Patients/domain/usecases/getPatientDoctor_usecase.dart';
-import 'features/Doctor/profile/domain/repository/doctorProfile_repository.dart';
 import 'features/Doctor/profile/domain/usecases/getDoctorProfile_usecase.dart';
 import 'features/Patient/profile/domain/usecases/getPatientProfile_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
@@ -77,6 +76,7 @@ void _initExternal() {
 void _initServices() {
   sl.registerLazySingleton<EncryptionKeyService>(() => EncryptionKeyServiceImpl(sl()));
   sl.registerLazySingleton<RoleService>(() => RoleServiceImpl(sl()));
+  sl.registerLazySingleton<FCMService>(() => FCMService());
 }
 
 void _initCore() {

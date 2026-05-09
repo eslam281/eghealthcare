@@ -20,6 +20,7 @@ class XRayAnalysisPage extends StatelessWidget {
           child: Column(
             children: [
               UploadSection(),
+
               SizedBox(height: 15),
               Expanded(child: ResultSection()),
             ],
