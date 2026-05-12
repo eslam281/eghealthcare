@@ -3,68 +3,64 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/appointments_bloc.dart';
 
-class AppointmentsFilterTabs extends StatefulWidget {
- final List<(String, int)> tabs;
-   const AppointmentsFilterTabs({super.key, required this.tabs});
+class AppointmentsFilterTabs extends StatelessWidget {
+  final Map<AppointmentFilter, int> counts;
 
-  @override
-  State<AppointmentsFilterTabs> createState() =>
-      _AppointmentsFilterTabsState();
-}
+  final AppointmentFilter selectedFilter;
 
-class _AppointmentsFilterTabsState
-    extends State<AppointmentsFilterTabs> {
-
-  int selectedIndex = 0;
+  const AppointmentsFilterTabs({
+    super.key,
+    required this.counts,
+    required this.selectedFilter,
+  });
 
   @override
   Widget build(BuildContext context) {
+    const filters = AppointmentFilter.values;
+
     return Row(
-      children: List.generate(
-        widget.tabs.length,
-            (index) {
+      children: List.generate(filters.length, (index) {
+        final filter = filters[index];
 
-          final isSelected = selectedIndex == index;
+        final isSelected = selectedFilter == filter;
 
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                  context.read<AppointmentsBloc>().add(ChoiceFilter(index));
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8),
+
+            child: GestureDetector(
+              onTap: () {
+                context.read<AppointmentsBloc>().add(ChoiceFilter(filter));
+              },
+
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+
+                decoration: BoxDecoration(
+                  color: isSelected ? Colors.blue.withAlpha(25) : Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected ? Colors.blue : Colors.transparent,
                   ),
+                ),
 
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? Colors.blue.withAlpha(25)
-                        : Colors.grey.shade100,
-
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-
-                  child: Text(
-                    "${widget.tabs[index].$1} (${widget.tabs[index].$2})",
-                    style: TextStyle(
-                      color: isSelected
-                          ? Colors.blue
-                          : Colors.grey,
-                      fontWeight: FontWeight.w500,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text("${filter.title} (${counts[filter] ?? 0})",
+                    style: TextStyle(color: isSelected ? Colors.blue : Colors.grey,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }

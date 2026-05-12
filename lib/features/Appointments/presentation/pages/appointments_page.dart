@@ -48,36 +48,37 @@ class MyAppointmentsPage extends StatelessWidget {
                   const SizedBox(height: 16),
         
                   /// Stats
-                  AppointmentsStatsRow(tabs:context.read<AppointmentsBloc>().tabs),
+                  AppointmentsStatsRow(counts:state.counts),
         
                   const SizedBox(height: 16),
         
                   /// Tabs
-                  AppointmentsFilterTabs(tabs:context.read<AppointmentsBloc>().tabs ,),
+                  AppointmentsFilterTabs(counts:state.counts, selectedFilter: state.selectedFilter ,),
         
                   const SizedBox(height: 16),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: state.upcomingAppointments.length,
-                      itemBuilder:(context, index) {
+                      itemCount: state.filteredAppointments.length,
+                      itemBuilder: (context, index) {
+                        final appointment = state.filteredAppointments[index];
                         return Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(15),
                           child: AppointmentCard(
-                            appointment: state.upcomingAppointments[index],
+                            appointment: appointment,
                             onPressed: () {
-                              (state.upcomingAppointments[index].status=="Pending")?
-
-                              context.read<AppointmentsBloc>().add(
-                                  DeleteAppointments(state.upcomingAppointments[index].id)):
-
-                              context.read<AppointmentsBloc>().add(
-                              EditAppointments(state.upcomingAppointments[index].id,{"status":"Cancelled"}));
-                            }
+                              if (appointment.status == "Pending") {
+                                context.read<AppointmentsBloc>().add(DeleteAppointments(appointment.id,),);
+                              } else {
+                                context.read<AppointmentsBloc>().add(EditAppointments(
+                                    id: appointment.id, body: {"status": "Cancelled",},),
+                                );
+                              }
+                            },
                           ),
                         );
                       },
                     ),
-                  ),
+                  )
 
                 ],
               );

@@ -1,52 +1,54 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/shared/widget/state_card.dart';
+import '../bloc/appointments_bloc.dart';
 
 class AppointmentsStatsRow extends StatelessWidget {
-  final List<(String, int)> tabs;
-  const AppointmentsStatsRow({super.key, required this.tabs});
+  final Map<AppointmentFilter, int> counts;
+
+  const AppointmentsStatsRow({super.key, required this.counts});
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: StateCard(
-            title: tabs[0].$1,
-            count: tabs[0].$2,
+            title: AppointmentFilter.pending.title,
+            count: counts[AppointmentFilter.pending] ?? 0,
             color: Colors.orange,
             icon: Icons.pending,
           ),
         ),
+
+        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
               child: StateCard(
-                title: tabs[1].$1,
-                count: tabs[1].$2,
+                title: AppointmentFilter.scheduled.title,
+                count: counts[AppointmentFilter.scheduled] ?? 0,
                 color: Colors.blue,
                 icon: Icons.schedule,
               ),
             ),
 
             const SizedBox(width: 12),
-
             Expanded(
               child: StateCard(
-                title: tabs[2].$1,
-                count: tabs[2].$2,
+                title: AppointmentFilter.completed.title,
+                count: counts[AppointmentFilter.completed] ?? 0,
                 color: Colors.green,
                 icon: Icons.check_circle,
               ),
             ),
 
             const SizedBox(width: 12),
-
             Expanded(
               child: StateCard(
-                title: tabs[3].$1,
-                count: tabs[3].$2,
+                title: AppointmentFilter.cancelled.title,
+                count: counts[AppointmentFilter.cancelled] ?? 0,
                 color: Colors.red,
                 icon: Icons.cancel,
               ),
@@ -57,4 +59,3 @@ class AppointmentsStatsRow extends StatelessWidget {
     );
   }
 }
-

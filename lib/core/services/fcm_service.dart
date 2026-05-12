@@ -13,9 +13,7 @@ class FCMService {
   Future<void> init() async {
     await _messaging.requestPermission();
     FirebaseMessaging.onMessage.listen((message) {
-
       final notification = message.notification;
-
       if (notification != null) {
         NotificationService.showNotification(
           title:
@@ -26,8 +24,7 @@ class FCMService {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-
-      print('Notification clicked');
+      print('Notification clicked $message');
 
     });
     final initialMessage = await _messaging.getInitialMessage();

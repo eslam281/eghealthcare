@@ -27,3 +27,4 @@ class ChoiceFilter extends AppointmentsEvent {
 
   ChoiceFilter(this.filter);
 }
+class RefreshAppointments extends AppointmentsEvent {}

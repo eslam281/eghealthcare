@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../injection_container.dart';
@@ -40,12 +41,11 @@ extension AppointmentFilterX on AppointmentFilter {
 class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   AppointmentsBloc() : super(AppointmentsInitial()) {
     on<LoadAppointments>(_onLoadAppointments);
-
     on<DeleteAppointments>(_onDeletedAppointments);
-
     on<EditAppointments>(_onEditAppointments);
-
     on<ChoiceFilter>(_onChoiceFilter);
+    on<RefreshAppointments>((event, emit) async {add(LoadAppointments());});
+    _listenToNotifications();
   }
 
   // Source Of Truth
@@ -53,6 +53,13 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
 
   AppointmentFilter _selectedFilter = AppointmentFilter.pending;
 
+  // ========================= NOTIFICATIONS =========================
+
+  void _listenToNotifications() {
+    FirebaseMessaging.onMessage.listen((message) {
+      add(RefreshAppointments());
+    });
+  }
   // ========================= LOAD =========================
 
   Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit,) async {
@@ -60,7 +67,6 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
 
     try {
       final response = await sl<GetAppointmentUseCase>().call();
-
       _appointments = response.fold(
             (l) => [],
             (r) => r,
@@ -97,10 +103,7 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   Future<void> _onEditAppointments(EditAppointments event, Emitter<AppointmentsState> emit,) async {
     try {
       await sl<EditAppointmentUseCase>().call(
-        params:
-        (event.id, event.body)
-        as (int, Map<String, dynamic>)?,
-      );
+        params: (event.id, event.body) as (int, Map<String, dynamic>)?,);
 
       final index = _appointments.indexWhere(
             (e) => e.id == event.id,
