@@ -108,6 +108,7 @@ class AppointmentCard extends StatelessWidget {
 
 
             /// 🔹 Cancel Button
+            if(appointment.status=="Pending"||appointment.status=="Scheduled")
             Align(
               alignment: Alignment.centerLeft,
               child: ElevatedButton.icon(

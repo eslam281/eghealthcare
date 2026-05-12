@@ -1,15 +1,29 @@
 part of 'appointments_bloc.dart';
 
 @immutable
-sealed class AppointmentsEvent {}
+abstract class AppointmentsEvent {}
 
-final class AppointmentCreated extends AppointmentsEvent {}
-final class LoadAppointments extends AppointmentsEvent {}
-final class ChoiceFilter extends AppointmentsEvent {
-  final int index;
-  ChoiceFilter(this.index);
-}
-final class DeleteAppointments extends AppointmentsEvent {
+class LoadAppointments extends AppointmentsEvent {}
+
+class DeleteAppointments extends AppointmentsEvent {
   final int id;
+
   DeleteAppointments(this.id);
+}
+
+class EditAppointments extends AppointmentsEvent {
+  final int id;
+
+  final Map<String, dynamic> body;
+
+  EditAppointments({
+    required this.id,
+    required this.body,
+  });
+}
+
+class ChoiceFilter extends AppointmentsEvent {
+  final AppointmentFilter filter;
+
+  ChoiceFilter(this.filter);
 }

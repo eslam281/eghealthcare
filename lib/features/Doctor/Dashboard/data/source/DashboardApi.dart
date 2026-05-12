@@ -65,6 +65,11 @@ class DocDashboardApiImpl implements DocDashboardApi{
             ()=> sl<ApiClient>().get("${AppLinks.doctor}/$id"));
     print("===========================response : ${response.toString()}");
 
+    final  token = await sl<FCMService>().getToken(id!);
+    print("=============================== token : $token");
+    final  newToken = await sl<FCMService>().onRefreshToken(id);
+    print("=============================== new token : $newToken");
+
     return response.fold(
           (failure) => Left(failure),
           (data) {
@@ -84,11 +89,6 @@ class DocDashboardApiImpl implements DocDashboardApi{
                 queryParameters: {'doctorID': id}
             ));
     print("===========================response : ${response.toString()}");
-
-    final  token = await sl<FCMService>().getToken(id!);
-    print("=============================== token : $token");
-    final  newToken = await sl<FCMService>().onRefreshToken(id);
-    print("=============================== new token : $newToken");
 
     return response.fold(
           (failure) => Left(failure),

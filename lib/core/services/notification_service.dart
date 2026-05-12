@@ -30,6 +30,7 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.high,
       icon: '@mipmap/ic_launcher',
+      enableLights: true,
     );
 
     const details =

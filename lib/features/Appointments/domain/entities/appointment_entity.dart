@@ -20,4 +20,28 @@ class AppointmentEntity {
     required this.patientID,
     required this.status,
   });
+
+  AppointmentEntity copyWith({
+    int? id,
+    String? name,
+    String? type,
+    DateTime? date,
+    String? time,
+    String? avtar,
+    String? status,
+    String? doctorID,
+    String? patientID,
+  }) {
+    return AppointmentEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      date: date ?? this.date,
+      time: time ?? this.time,
+      avtar: avtar ?? this.avtar,
+      status: status ?? this.status,
+      doctorID: doctorID ?? this.doctorID,
+      patientID: patientID ?? this.patientID,
+    );
+  }
 }

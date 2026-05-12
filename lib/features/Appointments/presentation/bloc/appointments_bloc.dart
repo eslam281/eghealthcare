@@ -1,69 +1,140 @@
+import 'dart:ffi';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/usecases/deleteAppointment_usecase.dart';
+import '../../domain/usecases/editAppointment_usecase.dart';
 import '../../domain/usecases/getAppointment_usecase.dart';
 
 part 'appointments_event.dart';
 part 'appointments_state.dart';
 
+enum AppointmentFilter {
+  pending,
+  scheduled,
+  completed,
+  cancelled,
+}
+
+extension AppointmentFilterX on AppointmentFilter {
+  String get title {
+    switch (this) {
+      case AppointmentFilter.pending:
+        return "Pending";
+
+      case AppointmentFilter.scheduled:
+        return "Scheduled";
+
+      case AppointmentFilter.completed:
+        return "Completed";
+
+      case AppointmentFilter.cancelled:
+        return "Cancelled";
+    }
+  }
+}
+
 class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   AppointmentsBloc() : super(AppointmentsInitial()) {
     on<LoadAppointments>(_onLoadAppointments);
+
     on<DeleteAppointments>(_onDeletedAppointments);
+
+    on<EditAppointments>(_onEditAppointments);
+
     on<ChoiceFilter>(_onChoiceFilter);
   }
-  List<(String, int)> tabs = [
-    ("Pending", 0),
-    ("Scheduled", 0),
-    ("Completed", 0),
-    ("Cancelled", 0),
-  ];
-  late List<AppointmentEntity> appointments ;
-  Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit) async {
-    emit(AppointmentsLoading());
-      try{
-        final response = await sl<GetAppointmentUseCase>().call();
-        appointments = response.fold((l) => [], (r) => r);
-      }catch(e){
-        print(e);
-        emit(AppointmentsError("$e"));
-      }
-      for (int index=0 ;index<tabs.length;index++) {
-          final pending=appointments.where((element) {
-            return element.status == tabs[index].$1;
-          },).toList();
-          tabs[index]=(tabs[index].$1,pending.length);
-        }
-        final filteredAppointments=appointments.where((element) {
-          return element.status == "Pending";
-        },).toList();
 
+  // Source Of Truth
+  List<AppointmentEntity> _appointments = [];
 
-      emit(AppointmentsLoaded(upcomingAppointments: filteredAppointments,));
-  }
-  Future<void> _onDeletedAppointments(DeleteAppointments event, Emitter<AppointmentsState> emit) async {
+  AppointmentFilter _selectedFilter = AppointmentFilter.pending;
+
+  // ========================= LOAD =========================
+
+  Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit,) async {
     emit(AppointmentsLoading());
 
     try {
-      await sl<DeleteAppointmentUseCase>().call(params: event.id);
-      appointments.removeWhere((element) => element.id == event.id);
+      final response = await sl<GetAppointmentUseCase>().call();
 
-    }catch(e){
-      emit(AppointmentsError("Failed to delete dashboard"));
+      _appointments = response.fold(
+            (l) => [],
+            (r) => r,
+      );
+
+      _emitLoaded(emit);
+    } catch (e) {
+      emit(AppointmentsError(e.toString()));
     }
-    emit(AppointmentsLoaded(upcomingAppointments: appointments,));
   }
 
-  Future<void> _onChoiceFilter(ChoiceFilter event, Emitter<AppointmentsState> emit) async {
-    emit(AppointmentsLoading());
-    final filteredAppointments=appointments.where((element) {
-      return element.status == tabs[event.index].$1;
-    },).toList();
-    tabs[event.index]=(tabs[event.index].$1,filteredAppointments.length);
-    emit(AppointmentsLoaded(upcomingAppointments: filteredAppointments,));
+  // ========================= DELETE =========================
+
+  Future<void> _onDeletedAppointments(
+      DeleteAppointments event,
+      Emitter<AppointmentsState> emit,
+      ) async {
+    try {
+      await sl<DeleteAppointmentUseCase>()
+          .call(params: event.id);
+
+      _appointments.removeWhere(
+            (e) => e.id == event.id,
+      );
+
+      _emitLoaded(emit);
+    } catch (e) {
+      emit(AppointmentsError(e.toString()));
+    }
   }
 
+  // ========================= EDIT =========================
+
+  Future<void> _onEditAppointments(EditAppointments event, Emitter<AppointmentsState> emit,) async {
+    try {
+      await sl<EditAppointmentUseCase>().call(
+        params:
+        (event.id, event.body)
+        as (int, Map<String, dynamic>)?,
+      );
+
+      final index = _appointments.indexWhere(
+            (e) => e.id == event.id,
+      );
+
+      if (index != -1) {
+        final old = _appointments[index];
+
+        _appointments[index] = old.copyWith(
+          status: event.body["status"],
+        );
+      }
+
+      _emitLoaded(emit);
+    } catch (e) {
+      emit(AppointmentsError(e.toString()));
+    }
+  }
+
+  // ========================= FILTER =========================
+
+  Future<void> _onChoiceFilter(ChoiceFilter event, Emitter<AppointmentsState> emit,) async {
+    _selectedFilter = event.filter;
+    _emitLoaded(emit);
+  }
+
+  // ========================= HELPER =========================
+
+  void _emitLoaded(Emitter<AppointmentsState> emit,) {
+    emit(
+      AppointmentsLoaded(
+        appointments: _appointments,
+        selectedFilter: _selectedFilter,
+      ),
+    );
+  }
 }

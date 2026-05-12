@@ -23,6 +23,7 @@ import 'core/services/fcm_service.dart';
 import 'core/services/role_service.dart';
 import 'features/Appointments/domain/repository/appointment_repository.dart';
 import 'features/Appointments/domain/usecases/deleteAppointment_usecase.dart';
+import 'features/Appointments/domain/usecases/editAppointment_usecase.dart';
 import 'features/Doctor/Al Analysis/data/source/aiAnalysis_api.dart';
 import 'features/Doctor/Al Analysis/domain/repository/aiAnalysis_repository.dart';
 import 'features/Doctor/Al Analysis/domain/usecases/aiAnalysis_usecase.dart';
@@ -121,6 +122,7 @@ void _initUseCase() {
   sl.registerLazySingleton<SignInGoogleUseCase>(() => SignInGoogleUseCase());
   sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
   sl.registerLazySingleton<DeleteAppointmentUseCase>(() => DeleteAppointmentUseCase());
+  sl.registerLazySingleton<EditAppointmentUseCase>(() => EditAppointmentUseCase());
   ///////////////////////////////////
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());

@@ -15,6 +15,7 @@ abstract class AppointmentApi {
   Future<Either> getAppointment();
   Future<Either> getAppointmentById(int id);
   Future<Either> deleteAppointment(int id);
+  Future<Either> editAppointment(int id,Map<String, dynamic> body);
 }
 class AppointmentApiImpl implements AppointmentApi {
 
@@ -65,6 +66,18 @@ class AppointmentApiImpl implements AppointmentApi {
   Future<Either<dynamic, dynamic>> deleteAppointment(int id)async {
     final response = await sl<NetworkCallHandler>().call(
             () => sl<ApiClient>().delete("${AppLinks.appointment}/$id",));
+    print("===========================response : ${response.toString()}");
+
+    return response.fold(
+          (failure) => Left(failure),
+          (data) {return Right(data);},
+    );
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> editAppointment(int id,Map<String, dynamic> body)async {
+    final response = await sl<NetworkCallHandler>().call(
+            () => sl<ApiClient>().patch("${AppLinks.appointment}/$id",body: body));
     print("===========================response : ${response.toString()}");
 
     return response.fold(

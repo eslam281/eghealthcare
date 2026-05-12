@@ -17,6 +17,11 @@ abstract class ApiClient {
     Map<String, String>? headers,
     Object? body,
   });
+  Future<dynamic> patch(
+    String url, {
+    Map<String, String>? headers,
+    Object? body,
+  });
   Future<dynamic> postWithFile(
     String url, {
     Map<String, String>? headers,
@@ -47,9 +52,12 @@ class ApiClientImpl implements ApiClient {
   dynamic _handleResponse(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
+        if (response.body.isEmpty) {
+          return null;
+        }
         return jsonDecode(response.body);
       } catch (e) {
-        throw ServerException('Failed to parse JSON');
+        throw ServerException('Failed to parse JSON $e');
       }
     } else {
       try {
@@ -79,6 +87,18 @@ class ApiClientImpl implements ApiClient {
     }) async{
     final uri = Uri.parse(url);
     final response = await _client.post(
+        uri, headers: _getHeaders(headers), body: jsonEncode(body));
+    return _handleResponse(response);
+  }
+
+  @override
+  Future<dynamic> patch(
+    String url, {
+    Map<String, String>? headers,
+    Object? body
+    }) async{
+    final uri = Uri.parse(url);
+    final response = await _client.patch(
         uri, headers: _getHeaders(headers), body: jsonEncode(body));
     return _handleResponse(response);
   }

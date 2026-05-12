@@ -56,7 +56,6 @@ class MyAppointmentsPage extends StatelessWidget {
                   AppointmentsFilterTabs(tabs:context.read<AppointmentsBloc>().tabs ,),
         
                   const SizedBox(height: 16),
-
                   Expanded(
                     child: ListView.builder(
                       itemCount: state.upcomingAppointments.length,
@@ -66,9 +65,13 @@ class MyAppointmentsPage extends StatelessWidget {
                           child: AppointmentCard(
                             appointment: state.upcomingAppointments[index],
                             onPressed: () {
+                              (state.upcomingAppointments[index].status=="Pending")?
+
                               context.read<AppointmentsBloc>().add(
-                                  DeleteAppointments(
-                                      state.upcomingAppointments[index].id));
+                                  DeleteAppointments(state.upcomingAppointments[index].id)):
+
+                              context.read<AppointmentsBloc>().add(
+                              EditAppointments(state.upcomingAppointments[index].id,{"status":"Cancelled"}));
                             }
                           ),
                         );
