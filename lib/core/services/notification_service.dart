@@ -9,7 +9,7 @@ class NotificationService {
   static Future<void> init() async {
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@drawable/ic_notification');
 
     const settings =
     InitializationSettings(
@@ -29,7 +29,7 @@ class NotificationService {
       'Appointments',
       importance: Importance.max,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_notification',
       enableLights: true,
     );
 

@@ -7,8 +7,7 @@ import '../network/network_call_handler.dart';
 import 'notification_service.dart';
 
 class FCMService {
-  final FirebaseMessaging _messaging =
-      FirebaseMessaging.instance;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<void> init() async {
     await _messaging.requestPermission();
@@ -16,10 +15,8 @@ class FCMService {
       final notification = message.notification;
       if (notification != null) {
         NotificationService.showNotification(
-          title:
-          notification.title ?? '',
-          body:
-          notification.body ?? '',
+          title: notification.title ?? '',
+          body: notification.body ?? '',
         );
       }
     });
