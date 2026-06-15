@@ -128,7 +128,7 @@ class PatientProfilePage extends StatelessWidget {
 
             const Divider(),
 
-            _infoRow("Blood Type", patient.medicalSummary?.bloodType ?? "A+"),
+            _infoRow("Blood Type", patient.medicalSummary?.bloodType ?? "None"),
             _infoRow("Allergies", patient.medicalSummary?.allergies ?? "None"),
             _infoRow("Last Visit", patient.medicalSummary?.lastVisit ?? "-"),
             _infoRow("Next Appointment", patient.medicalSummary?.nextAppointment ?? "-"),
@@ -149,7 +149,7 @@ class PatientProfilePage extends StatelessWidget {
             _statItem("Total Visits", patient.patientStats?.totalVisits.toString()??"0"),
             _statItem("Completed", patient.patientStats?.completed.toString()??"0",
                 color: Colors.green),
-            _statItem("Upcoming", patient.patientStats!.upcoming.toString(),
+            _statItem("Upcoming", patient.patientStats?.upcoming.toString()??"0",
                 color: Colors.blue),
           ],
         ),

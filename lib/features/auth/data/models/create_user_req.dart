@@ -33,7 +33,12 @@ class CreateUserReqPatient extends CreateUserReq{
 }
 
 class CreateUserReqDoctor extends CreateUserReq{
-  CreateUserReqDoctor({required super.fullName, required super.email, required super.password, required super.userRole, required super.phoneNumber, required super.age, required super.address, required super.gender});
+  final String specialty;
+  final List<Map<String, String>> availability;
+  CreateUserReqDoctor({required super.fullName, required super.email,
+    required super.password, required super.userRole, required super.phoneNumber,
+    required super.age, required super.address, required super.gender, required this.specialty,
+    required this.availability});
 
   @override
   Map<String, dynamic> toJson(String uid) {
@@ -46,6 +51,8 @@ class CreateUserReqDoctor extends CreateUserReq{
     data['address'] = address;
     // data['role'] = userRole; are not use now
     data['gender'] = gender;
+    data['specialty'] = specialty;
+    data['availability'] = availability;
     return data;
   }
 }

@@ -321,7 +321,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           int.parse(ageCtrl.text),
                                           addressCtrl.text,
                                           phoneCtrl.text,
-                                           selectedGender,/////////////////////////////////
+                                           selectedGender,
+                                          availability: availability,
+                                          specialty: specialtyCtrl.text,
                                         ),
                                       );
                                     },

@@ -71,6 +71,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           age: event.age,
           address:event.address,
           gender: event.gender,
+          specialty: event.specialty!,
+          availability: event.availability!,
         )
       );
 

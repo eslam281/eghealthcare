@@ -19,8 +19,10 @@ final class RegisterRequested extends AuthEvent {
   final String password;
   final UserRole userRole;
   final String gender;
+  final String? specialty;
+  final List<Map<String, String>>? availability;
   RegisterRequested(this.name, this.email, this.password,this.userRole,
-      this.age,this.address, this.phoneNumber, this.gender);
+      this.age,this.address, this.phoneNumber, this.gender, {this.specialty, this.availability});
 }
 
 final class ResetPasswordEvent extends AuthEvent {
