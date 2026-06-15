@@ -52,6 +52,7 @@ class AppDrawer extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DrawerItem(
                         icon: Icons.logout_outlined,
+                        iconColor: Colors.red,
                         title: "Logout",
                         onTap: () {
                           context.read<AuthBloc>().add(LogoutRequested());
@@ -84,6 +85,7 @@ class _DrawerHeader extends StatelessWidget {
 
 class DrawerItem extends StatelessWidget {
   final IconData icon;
+  final Color? iconColor;
   final String title;
   final bool isActive;
   final void Function() onTap;
@@ -93,7 +95,7 @@ class DrawerItem extends StatelessWidget {
     required this.icon,
     required this.title,
     this.isActive = false,
-    required this.onTap,
+    required this.onTap, this.iconColor,
   });
 
   @override
@@ -109,9 +111,8 @@ class DrawerItem extends StatelessWidget {
       ),
       child: ListTile(
         leading: Icon(
-
           icon,
-          color: isActive ? colors.primary : colors.onSurfaceVariant,
+          color:iconColor?? (isActive ? colors.primary : colors.onSurfaceVariant),
         ),
         title: Text(
           title,

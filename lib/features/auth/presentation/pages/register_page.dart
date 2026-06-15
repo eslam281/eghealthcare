@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/routes.dart';
 import '../../../../core/services/role_service.dart';
 import '../bloc/auth_bloc.dart';
+import '../widgets/AvailabilityPicker.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_header.dart';
@@ -29,6 +30,9 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isAgree = false;
   late UserRole _role = UserRole.patient;
   String selectedGender = "Male";
+  /// doctor additional information
+  final specialtyCtrl = TextEditingController();
+  List<Map<String, String>> availability = [];
 
   @override
   void dispose() {
@@ -203,6 +207,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                             ),
                             const SizedBox(height: 18),
+
+                            // set Role
                             RoleSelector(
                               selectedRole: _role,
                               onChanged: (role) {
@@ -211,7 +217,45 @@ class _RegisterPageState extends State<RegisterPage> {
                                 });
                               },
                             ),
+                            const SizedBox(height: 16),
+                            const Divider(color: Colors.grey),
+                            const SizedBox(height: 16),
+                            // doctor additional information
+                            if (_role == UserRole.doctor)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Additional Information",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  AuthTextField(
+                                    label: "Specialty",
+                                    hint: "Cardiology",
+                                    controller: specialtyCtrl,
+                                    validator: (String? value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return "Specialty is required";
+                                      }
+                                      if (value.length < 3) {
+                                        return "Specialty is too short";
+                                      }
+                                      return null;
+                                    },
 
+                                  ),
+                                  const SizedBox(height: 16),
+                                  AvailabilityPicker(
+                                    onChanged: (value) {
+                                      availability = value;
+                                    },
+                                  )
+                                ]
+                              ),
                             const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

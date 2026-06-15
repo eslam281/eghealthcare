@@ -6,7 +6,9 @@ import 'package:eghealthcare/features/Appointments/domain/usecases/getAppointmen
 import 'package:eghealthcare/features/Doctor/Al%20Analysis/data/repository/aiAnalysis_repository.dart';
 import 'package:eghealthcare/features/Doctor/Dashboard/domain/repository/dashboard_repository.dart';
 import 'package:eghealthcare/features/Doctor/My%20Patients/data/repository/doctorPatients_repository.dart';
+import 'package:eghealthcare/features/Doctor/profile/data/repository/doctorProfile_repository.dart';
 import 'package:eghealthcare/features/Doctor/profile/data/source/doctorProfile_api.dart';
+import 'package:eghealthcare/features/Doctor/profile/domain/repository/doctorProfile_repository.dart';
 import 'package:eghealthcare/features/Patient/profile/data/repository/patientProfile_repository.dart';
 import 'package:eghealthcare/features/Patient/profile/domain/repository/patientProfile_repository.dart';
 import 'package:eghealthcare/features/auth/data/repository/auth_repository_impl.dart';
@@ -113,6 +115,7 @@ void _initRepository() {
   sl.registerLazySingleton<DocDashboardRepository>(() => DocDashboardRepositoryImpl());
   sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
   sl.registerLazySingleton<AiAnalysisRepository>(() => AiAnalysisRepositoryImpl());
+  sl.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepositoryImpl());
 }
 
 void _initUseCase() {

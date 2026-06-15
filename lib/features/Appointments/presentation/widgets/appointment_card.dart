@@ -13,8 +13,9 @@ import '../../domain/entities/appointment_entity.dart';
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
   final void Function() onPressed;
+  final UserRole role;
 
-  const AppointmentCard({super.key, required this.appointment, required this.onPressed});
+  const AppointmentCard({super.key, required this.appointment, required this.onPressed,required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,6 @@ class AppointmentCard extends StatelessWidget {
               children: [
                 //////////////////////
                 AvatarImage(imageUrl: appointment.avtar, radius: 50, name: appointment.name,onTap:() async{
-                  final UserRole? role = await sl<RoleService>().getCurrentRole();
                    Navigator.push(context, MaterialPageRoute(builder:
                       (context) {
                         return role==UserRole.doctor? PatientProfilePage(id: appointment.patientID):
@@ -107,33 +107,53 @@ class AppointmentCard extends StatelessWidget {
             Divider(color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(50),),
 
 
-            /// 🔹 Cancel Button
-            if(appointment.status=="Pending")
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ElevatedButton.icon(
-                onPressed:onPressed,
-                icon: Icon(Icons.close, color: colors.error),
-                label: Text(
-                  "Confirem",
-                  style: theme.textTheme.labelLarge!
-                      .copyWith(color: colors.primary),
-                ),
-              ),
-            ),
-            if(appointment.status=="Pending"||appointment.status=="Scheduled")
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ElevatedButton.icon(
-                onPressed:onPressed,
-                icon: Icon(Icons.close, color: colors.error),
-                label: Text(
-                  "Cancel",
-                  style: theme.textTheme.labelLarge!
-                      .copyWith(color: colors.error),
-                ),
-              ),
-            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// 🔹 Cancel Button
+                if(appointment.status=="Pending")
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton.icon(
+                      onPressed:onPressed,
+                      icon: Icon(Icons.close, color: colors.error),
+                      label: Text(
+                        "Retract",
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: colors.error),
+                      ),
+                    ),
+                  ),
+                if(appointment.status=="Scheduled")
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton.icon(
+                      onPressed:onPressed,
+                      icon: Icon(Icons.close, color: colors.error),
+                      label: Text(
+                        "Cancel",
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: colors.error),
+                      ),
+                    ),
+                  ),
+                
+                if(appointment.status=="Pending"&&role==UserRole.doctor)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton.icon(
+                      onPressed:onPressed,
+                      icon: Icon(Icons.close, color: colors.error),
+                      label: Text(
+                        "Confirem",
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: colors.primary),
+                      ),
+                    ),
+                  ),
+              ],
+            )
           ],
         ),
       ),

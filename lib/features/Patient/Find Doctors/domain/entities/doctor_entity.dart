@@ -3,7 +3,7 @@ import '../../../../../core/shared/model/doctor_model.dart';
 class DoctorEntity {
   final String id;
   final String name;
-  final String specialty;
+  final String? specialty;
   final String? imageUrl;
   final String? bio;
   final String? experience;
@@ -11,7 +11,7 @@ class DoctorEntity {
 
   DoctorEntity({
     required this.name,
-    required this.specialty,
+    this.specialty,
     this.imageUrl,
     required this.id,
     this.availability,

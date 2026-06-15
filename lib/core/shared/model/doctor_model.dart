@@ -42,7 +42,7 @@ class DoctorModel {
     email = json['email'];
     address = json['address'];
     avatar = json['avatar'];
-    specialty = json['specialty'];
+    specialty = json['specialty']??"";
     experience = json['experience'];
     bio = json['bio'];
     if (json['availability'] != null) {

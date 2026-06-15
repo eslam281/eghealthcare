@@ -5,12 +5,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../../core/shared/widget/avatar.dart';
 import '../../../../../core/themes/app_colors_light.dart';
 import '../../../../../core/themes/components_style.dart';
-import '../../../../Patient/Find Doctors/domain/entities/doctor_entity.dart'as find_entity;
+import '../../../../Patient/Find Doctors/domain/entities/doctor_entity.dart' as find_entity;
+import '../../../../Patient/Find Doctors/presentation/bloc/book_appointment_bloc.dart';
 import '../../../../Patient/Find Doctors/presentation/widgets/bookAppointmentDialog.dart';
 import '../../domain/entities/doctor_entity.dart';
 import '../bloc/doctor_profile_bloc.dart';
 
-Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
+Widget buildHeaderCard(BuildContext context, DoctorEntity doctorEntity) {
   return Container(
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
@@ -55,7 +56,9 @@ Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
                     children: [
                       _buildTag(LucideIcons.briefcase,
                           '${doctorEntity.experience ?? 'N/A'} experience'),
-                      _buildTag(LucideIcons.star, '${context.read<DoctorProfileBloc>().avgRating} reviews',
+                      _buildTag(LucideIcons.star, '${context
+                          .read<DoctorProfileBloc>()
+                          .avgRating} reviews',
                           color: AppColorsLight.warning),
                     ],
                   ),
@@ -77,25 +80,38 @@ Widget buildHeaderCard(BuildContext context,DoctorEntity doctorEntity) {
 
   );
 }
-Widget _buildBookButton(BuildContext context,DoctorEntity doctorEntity) {
-  return ElevatedButton.icon(
-    onPressed: () {
-      showDialog(
-        context: context,
-        builder: (context) => BookAppointmentDialog(
-          doctor: find_entity.DoctorEntity(name: doctorEntity.name,
-              specialty: doctorEntity.name, id: doctorEntity.id),
-        ),
-      );
-    },
-    icon: const Icon(LucideIcons.calendar, size: 18),
-    label: const Text('Book Appointment'),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: AppColorsLight.primary,
-      foregroundColor: Colors.white,
-      elevation: 0,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+Widget _buildBookButton(BuildContext context, DoctorEntity doctorEntity) {
+  return BlocProvider(
+    create: (context) => BookAppointmentBloc(),
+    child: Builder(
+      builder: (context) {
+        return ElevatedButton.icon(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) =>
+                  BlocProvider.value(
+                      value: context.read<BookAppointmentBloc>(),
+                      child: BookAppointmentDialog(
+                        doctor: find_entity.DoctorEntity(name: doctorEntity.name,
+                            specialty: doctorEntity.name, id: doctorEntity.id,
+                            availability: doctorEntity.availability),
+                      )
+                  ),
+            );
+          },
+          icon: const Icon(LucideIcons.calendar, size: 18),
+          label: const Text('Book Appointment'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColorsLight.primary,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        );
+      }
     ),
   );
 }

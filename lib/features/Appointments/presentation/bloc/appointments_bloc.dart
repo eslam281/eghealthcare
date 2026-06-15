@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/services/role_service.dart';
 import '../../../../injection_container.dart';
 import '../../domain/entities/appointment_entity.dart';
 import '../../domain/usecases/deleteAppointment_usecase.dart';
@@ -51,6 +52,7 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   List<AppointmentEntity> _appointments = [];
 
   AppointmentFilter _selectedFilter = AppointmentFilter.pending;
+  late final UserRole? role ;
 
   // ========================= NOTIFICATIONS =========================
 
@@ -63,7 +65,7 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
 
   Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit,) async {
     emit(AppointmentsLoading());
-
+    role = await sl<RoleService>().getCurrentRole();
     try {
       final response = await sl<GetAppointmentUseCase>().call();
       _appointments = response.fold(

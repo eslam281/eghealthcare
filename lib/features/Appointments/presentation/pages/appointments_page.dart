@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/services/role_service.dart';
+import '../../../../injection_container.dart';
 import '../bloc/appointments_bloc.dart';
 import '../widgets/appointment_card.dart' show AppointmentCard;
 import '../widgets/appointments_filterTabs.dart';
@@ -65,6 +67,7 @@ class MyAppointmentsPage extends StatelessWidget {
                           padding: const EdgeInsets.all(15),
                           child: AppointmentCard(
                             appointment: appointment,
+                            role: context.read<AppointmentsBloc>().role!,
                             onPressed: () {
                               if (appointment.status == "Pending") {
                                 context.read<AppointmentsBloc>().add(DeleteAppointments(appointment.id,),);

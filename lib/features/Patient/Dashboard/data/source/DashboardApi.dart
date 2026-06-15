@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/network_call_handler.dart';
+import '../../../../../core/services/fcm_service.dart';
 import '../../../../../core/shared/model/appointment_model.dart';
 import '../../../../../core/shared/model/doctor_model.dart';
 import '../../../../../core/shared/model/patient_model.dart';
@@ -62,6 +63,10 @@ class PDashboardApiImpl implements PDashboardApi{
     final response = await sl<NetworkCallHandler>().call(
             ()=> sl<ApiClient>().get("${AppLinks.patient}/$id"));
     print("===========================response : ${response.toString()}");
+    final  token = await sl<FCMService>().getToken(id!);
+    print("=============================== token : $token");
+    final  newToken = await sl<FCMService>().onRefreshToken(id);
+    print("=============================== new token : $newToken");
 
     return response.fold(
           (failure) => Left(failure),

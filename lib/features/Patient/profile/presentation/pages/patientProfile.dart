@@ -146,8 +146,8 @@ class PatientProfilePage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _statItem("Total Visits", patient.patientStats!.totalVisits.toString()),
-            _statItem("Completed", patient.patientStats!.completed.toString(),
+            _statItem("Total Visits", patient.patientStats?.totalVisits.toString()??"0"),
+            _statItem("Completed", patient.patientStats?.completed.toString()??"0",
                 color: Colors.green),
             _statItem("Upcoming", patient.patientStats!.upcoming.toString(),
                 color: Colors.blue),

@@ -36,9 +36,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       }
       try{
         final response =await sl<GetPatientDoctorDashboardUseCase>().call();
-         response.fold((l) => l, (r) {
-          patients =r;
-        },);
+        patients = response.fold((l) =>[], (r) => r);
       }catch(e){
         emit(DashboardError("$e"));
       }

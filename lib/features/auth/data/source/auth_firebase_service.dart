@@ -9,6 +9,7 @@ import '../../../../core/constants/links.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/network_call_handler.dart';
+import '../../../../core/services/fcm_service.dart';
 import '../../../../injection_container.dart';
 import '../models/create_user_req.dart';
 import '../models/signin_user_req.dart';
@@ -64,13 +65,15 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           email: createuserReq.email,
           password: createuserReq.password,
       );
+      final  token = await sl<FCMService>().getToken(data.user!.uid);
       await sl<NetworkCallHandler>().call(()=> sl<ApiClient>().post(
               AppLinks.user,
               body: {
                 "userID":data.user?.uid,
                 "username":createuserReq.fullName,
                 "email":createuserReq.email,
-                "role":createuserReq.userRole
+                "role":createuserReq.userRole,
+                "fcmToken":token,
               }
       ));
 

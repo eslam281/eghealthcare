@@ -29,7 +29,6 @@ abstract class DocDashboardApi{
 }
 
 class DocDashboardApiImpl implements DocDashboardApi{
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   @override
   Future<Either> getPatients() async{
     String? id = await sl<FlutterSecureStorage>().read(key: 'uid');

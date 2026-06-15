@@ -45,7 +45,7 @@ class DoctorCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      doctor.specialty,
+                      doctor.specialty??"",
                       style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                     ),
                   ],
