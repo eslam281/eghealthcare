@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/themes/app_themes.dart';
 import '../core/themes/theme_cubit.dart';
+import '../features/Doctor/report/presentation/pages/ClinicalWorkspaceScreen.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -20,8 +21,8 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: mode,
-            routes: routes,
-            // home: const SplashScreen(),
+            // routes: routes,
+            home: const ClinicalWorkspaceScreen(),
           );
         },
       ),
