@@ -1,6 +1,7 @@
 import 'package:eghealthcare/core/services/role_service.dart';
 import 'package:eghealthcare/core/shared/widget/avatar.dart';
 import 'package:eghealthcare/features/Doctor/profile/presentation/pages/doctorProfile.dart';
+import 'package:eghealthcare/features/Doctor/report/presentation/pages/ClinicalWorkspaceScreen.dart';
 import 'package:eghealthcare/features/Patient/profile/presentation/pages/patientProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -149,6 +150,22 @@ class AppointmentCard extends StatelessWidget {
                       icon: const Icon(Icons.check, color: Colors.teal),
                       label: Text(
                         "Confirm",
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: colors.primary),
+                      ),
+                    ),
+                  ),
+                if(appointment.status=="Scheduled"&&role==UserRole.doctor)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton.icon(
+                      onPressed:(){
+                        Navigator.of(context).push(MaterialPageRoute(builder:
+                            (context) => const ClinicalWorkspaceScreen(),));
+                      },
+                      icon: const Icon(Icons.check, color: Colors.teal),
+                      label: Text(
+                        "Complete",
                         style: theme.textTheme.labelLarge!
                             .copyWith(color: colors.primary),
                       ),

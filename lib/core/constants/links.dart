@@ -1,7 +1,7 @@
 
 class AppLinks{
   static const String server ="http://10.0.2.2:8000";
-  // static const String server ="http://192.168.1.7:8000";
+  // static const String server ="http://10.114.33.246:8000";
 
   static const String user ="$server/users";
   static const String doctor ="$server/doctors";
@@ -9,4 +9,5 @@ class AppLinks{
   static const String appointment ="$server/appointments";
   static const String aiAnalysis ="$server/ai-analysis";
   static const String chatbot ="$server/ai/chat";
+  static const String medicalHistory ="$server/medical-history";
 }

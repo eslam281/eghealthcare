@@ -39,6 +39,12 @@ import 'features/Doctor/My Patients/data/source/doctorPatientsApi.dart';
 import 'features/Doctor/My Patients/domain/repository/doctorPatients_repository.dart';
 import 'features/Doctor/My Patients/domain/usecases/getPatientDoctor_usecase.dart';
 import 'features/Doctor/profile/domain/usecases/getDoctorProfile_usecase.dart';
+import 'features/Doctor/report/data/repository/report_repository.dart';
+import 'features/Doctor/report/data/source/reportApi.dart';
+import 'features/Doctor/report/domain/repository/report_repository.dart';
+import 'features/Doctor/report/domain/usecases/chatRAG_usecase.dart';
+import 'features/Doctor/report/domain/usecases/makeReport_usecase.dart';
+import 'features/Doctor/report/domain/usecases/makeTemplate_usecase.dart';
 import 'features/Patient/profile/domain/usecases/getPatientProfile_usecase.dart';
 import 'features/Patient/Dashboard/data/repository/dashboard_repository.dart';
 import 'features/Patient/Dashboard/data/source/DashboardApi.dart';
@@ -102,6 +108,7 @@ void _initSource() {
   sl.registerLazySingleton<DoctorPatientsApi>(() => DoctorPatientsApiImpl());
   sl.registerLazySingleton<DoctorProfileApi>(() => DoctorProfileApiImpl());
   sl.registerLazySingleton<AiAnalysisApi>(() => AiAnalysisApiImpl());
+  sl.registerLazySingleton<ReportApi>(() => ReportApiImpl());
 }
 
 void _initRepository() {
@@ -116,6 +123,7 @@ void _initRepository() {
   sl.registerLazySingleton<DoctorPatientsRepository>(() => DoctorPatientsRepositoryImpl());
   sl.registerLazySingleton<AiAnalysisRepository>(() => AiAnalysisRepositoryImpl());
   sl.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepositoryImpl());
+  sl.registerLazySingleton<ReportRepository>(() => ReportRepositoryImpl());
 }
 
 void _initUseCase() {
@@ -126,6 +134,7 @@ void _initUseCase() {
   sl.registerLazySingleton<GetAppointmentUseCase>(() => GetAppointmentUseCase());
   sl.registerLazySingleton<DeleteAppointmentUseCase>(() => DeleteAppointmentUseCase());
   sl.registerLazySingleton<EditAppointmentUseCase>(() => EditAppointmentUseCase());
+  sl.registerLazySingleton<ChatbotUseCase>(() => ChatbotUseCase());
   ///////////////////////////////////
   sl.registerLazySingleton<PGetUserUseCase>(() => PGetUserUseCase());
   sl.registerLazySingleton<GetPatientAppointmentUseCase>(() => GetPatientAppointmentUseCase());
@@ -141,6 +150,8 @@ void _initUseCase() {
   sl.registerLazySingleton<GetPatientDoctorDashboardUseCase>(() => GetPatientDoctorDashboardUseCase());
   sl.registerLazySingleton<GetDoctorProfileUseCase>(() => GetDoctorProfileUseCase());
   sl.registerLazySingleton<AiAnalysisUseCase>(() => AiAnalysisUseCase());
-  sl.registerLazySingleton<ChatbotUseCase>(() => ChatbotUseCase());
+  sl.registerLazySingleton<ChatRAGUseCase>(() => ChatRAGUseCase());
+  sl.registerLazySingleton<MakeTemplateUseCase>(() => MakeTemplateUseCase());
+  sl.registerLazySingleton<MakeReportUseCase>(() => MakeReportUseCase());
 
 }

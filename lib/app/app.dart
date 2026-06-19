@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: mode,
-            // routes: routes,
-            home: const ClinicalWorkspaceScreen(),
+            routes: routes,
+            // home: const ClinicalWorkspaceScreen(),
           );
         },
       ),

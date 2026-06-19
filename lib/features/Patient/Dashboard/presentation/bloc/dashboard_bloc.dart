@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
@@ -20,11 +22,29 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<LoadDashboardRequested>(_onLoadDashboard);
     on<RefreshDashboardRequested>(_onRefreshDashboard);
     on<DeleteAppointments>(_onDeletedAppointments);
+    _listenToNotifications();
   }
+  StreamSubscription<RemoteMessage>? _messagingSubscription;
   late final UserEntity user;
   late final List<DoctorEntity> doctors;
   late List<AppointmentEntity> appointments;
   late final DashboardSummary summary ;
+// ========================= NOTIFICATIONS =========================
+
+  void _listenToNotifications() {
+    _messagingSubscription = FirebaseMessaging.onMessage.listen((message) {
+      if (!isClosed) {
+        add(RefreshDashboardRequested());
+      }
+    });
+  }
+
+  // ========================= CLOSE (CLEAN UP) =========================
+  @override
+  Future<void> close() {
+    _messagingSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> _onLoadDashboard(LoadDashboardRequested event, Emitter<DashboardState> emit,) async {
     emit(DashboardLoading());

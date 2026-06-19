@@ -1,20 +1,31 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/models/ChatMessage_model.dart';
+import '../../data/models/chatMessage_model.dart';
+import '../../domain/usecases/chatRAG_usecase.dart';
+import '../../domain/usecases/makeReport_usecase.dart';
+import '../../domain/usecases/makeTemplate_usecase.dart';
 
 part 'workspace_event.dart';
 part 'workspace_state.dart';
 
 class WorkspaceBloc extends Bloc<WorkspaceEvent, WorkspaceState> {
-  WorkspaceBloc() : super(WorkspaceState()) {
+  final MakeReportUseCase makeReportUseCase;
+  final MakeTemplateUseCase makeTemplateUseCase;
+  final ChatRAGUseCase chatRAGUseCase;
+
+  WorkspaceBloc({
+    required this.makeReportUseCase,
+    required this.makeTemplateUseCase,
+    required this.chatRAGUseCase,
+  }) : super(WorkspaceState()) {
 
     // 1. تحميل بيانات الصفحة
     on<LoadWorkspaceData>((event, emit) async {
       emit(state.copyWith(isLoading: true));
       // TODO: هنا هتنادي على الـ API عشان تجيب بيانات المريض والـ History
       await Future.delayed(const Duration(seconds: 1)); // Mock API Call
-      emit(state.copyWith(isLoading: false, hasHistory: true)); // غير لـ false عشان تشوف الشاشة الفاضية
+      emit(state.copyWith(isLoading: false, hasHistory: true)); // خليها true عشان تشوف الـ Filled state
     });
 
     // 2. تحديث نص التقرير
@@ -29,22 +40,40 @@ class WorkspaceBloc extends Bloc<WorkspaceEvent, WorkspaceState> {
         ..add(ChatMessage(text: event.message, isUser: true));
       emit(state.copyWith(chatHistory: updatedHistory, isLoading: true));
 
-      // TODO: هنا هتنادي على الـ AI API
-      await Future.delayed(const Duration(seconds: 2)); // Mock AI Delay
+      final result = await chatRAGUseCase.call(params: {
+        "patientID":"vMHJe45VObOtljKdvwOyXNWpSn03",
+        "question":event.message,
+        "limit":5
+      });
 
-      // ضيف رد الـ AI
-      updatedHistory.add(ChatMessage(
-          text: "هذا رد تجريبي من الـ RAG Agent بناءً على الداتا المتاحة.",
-          isUser: false));
-      emit(state.copyWith(chatHistory: updatedHistory, isLoading: false));
+      result.fold(
+        (failure) {
+          updatedHistory.add(ChatMessage(text: "عذراً، حدث خطأ أثناء الاتصال بالـ AI.", isUser: false));
+          emit(state.copyWith(chatHistory: updatedHistory, isLoading: false));
+        },
+        (response) {
+          updatedHistory.add(ChatMessage(text: response.toString(), isUser: false));
+          emit(state.copyWith(chatHistory: updatedHistory, isLoading: false));
+        },
+      );
     });
 
     // 4. حفظ التقرير
     on<SaveReport>((event, emit) async {
       emit(state.copyWith(isLoading: true));
-      // TODO: نادى على الـ API عشان تحفظ الـ Report
-      await Future.delayed(const Duration(seconds: 1));
-      emit(state.copyWith(isLoading: false));
+      
+      final result = await makeReportUseCase.call(params: {
+          "patientID":"vMHJe45VObOtljKdvwOyXNWpSn03",
+          "content":"hifsdg",
+          "doctorID":"anIvxQ9KsqNpD8Lm7dxkPqws9Hc2",
+          "doctorName":"Dr. Nour Ali",
+          "type":"diagnosis"
+      });
+
+      result.fold(
+        (failure) => emit(state.copyWith(isLoading: false)),
+        (success) => emit(state.copyWith(isLoading: false)),
+      );
     });
   }
 }
