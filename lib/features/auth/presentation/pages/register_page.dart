@@ -312,6 +312,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                         );
                                         return;
                                       }
+                                      if (availability.isEmpty&&_role==UserRole.doctor) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Please select availability'),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
                                       context.read<AuthBloc>().add(
                                         RegisterRequested(
                                           nameCtrl.text,

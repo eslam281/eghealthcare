@@ -14,7 +14,7 @@ class DoctorProfileBloc extends Bloc<DoctorProfileEvent, DoctorProfileState> {
     on<LoadedDoctorProfileRequest>(_onLoadedRequest);
   }
   late final String userID;
-  late final double avgRating;
+  double avgRating=0;
   Future<void> _onLoadedRequest(LoadedDoctorProfileRequest event,Emitter<DoctorProfileState> emit)async{
     emit(DoctorProfileLoading());
     try{
@@ -22,10 +22,12 @@ class DoctorProfileBloc extends Bloc<DoctorProfileEvent, DoctorProfileState> {
       userID= (await sl<FlutterSecureStorage>().read(key: 'uid'))!;
       response.fold((l) => emit(DoctorProfileError(l.toString())),
               (r) {
-                 avgRating = r.reviews!
+        if (r.reviews != null) {
+          avgRating = r.reviews!
                     .map((e) => e.rating)
                     .reduce((a, b) => a + b) /
                     r.reviews!.length;
+        }
         emit(DoctorProfileLoaded(r,userID: userID));
       });
     }catch(e){

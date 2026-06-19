@@ -53,6 +53,13 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
       } else if (e.code == 'wrong-credential') {
         message = 'The wrong email or password was provided for that user.';
       }
+      else if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+      }
+      else if (e.code == 'wrong-password') {
+        message = 'Wrong password provided for that user.';
+      }
+      message='not a valid user';
       return Left(message);
     }
   }

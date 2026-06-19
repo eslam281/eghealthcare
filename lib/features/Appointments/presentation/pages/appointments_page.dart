@@ -77,6 +77,11 @@ class MyAppointmentsPage extends StatelessWidget {
                                 );
                               }
                             },
+                            onPressedConfirm: () {
+                              context.read<AppointmentsBloc>().add(EditAppointments(
+                                  id: appointment.id, body: {"status": "Scheduled",},),
+                              );
+                            },
                           ),
                         );
                       },

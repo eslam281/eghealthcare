@@ -26,13 +26,15 @@ class ConfirmBookingDialog extends StatelessWidget {
         if (state is BookingSuccess) {
           Navigator.pop(context);
 
-          showDialog(
-            context: context,
-            builder: (_) => BookingSuccessDialog(
-              date: state.appointmentEntity.date,
-              time: state.appointmentEntity.time,
-            ),
-          );
+          Future.microtask(() {
+            showDialog(
+              context: context,
+              builder: (_) => BookingSuccessDialog(
+                date: state.appointmentEntity.date,
+                time: state.appointmentEntity.time,
+              ),
+            );
+          });
         }
       },
       child: Dialog(

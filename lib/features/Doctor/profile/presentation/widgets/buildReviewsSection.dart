@@ -23,7 +23,7 @@ Widget buildReviewsSection(DoctorEntity doctorEntity) {
             const Icon(LucideIcons.messageSquare, size: 20, color: AppColorsLight.primary),
             const SizedBox(width: 10),
             Text(
-              'Patient Reviews (${doctorEntity.reviews?.length})',
+              'Patient Reviews (${doctorEntity.reviews?.length??0})',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

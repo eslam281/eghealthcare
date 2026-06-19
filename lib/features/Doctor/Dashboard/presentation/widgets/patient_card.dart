@@ -79,7 +79,7 @@ class PatientCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  " ${patient.medicalSummary?.allergies}",
+                  " ${patient.medicalSummary?.allergies??"No Medical Summary yet"}",
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -89,7 +89,9 @@ class PatientCard extends StatelessWidget {
           const SizedBox(height: 12),
 
           TextButton(
-            onPressed: () {},
+            onPressed: () => Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => PatientProfilePage(id: patient.id),))
+            ,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

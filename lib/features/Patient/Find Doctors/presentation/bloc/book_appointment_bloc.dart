@@ -13,7 +13,7 @@ class BookAppointmentBloc extends Bloc<BookAppointmentEvent, BookAppointmentStat
   BookAppointmentBloc() : super(BookingInitial()) {
     on<SubmitBooking>(_onSubmit);
   }
-  late final AppointmentEntity appointment;
+  late AppointmentEntity appointment;
 
   Future<void> _onSubmit(SubmitBooking event, Emitter<BookAppointmentState> emit,) async {
     emit(BookingLoading());

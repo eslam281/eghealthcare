@@ -4,6 +4,7 @@ import 'package:eghealthcare/features/Doctor/profile/presentation/pages/doctorPr
 import 'package:eghealthcare/features/Patient/profile/presentation/pages/patientProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 
 import '../../../../core/themes/app_colors_light.dart';
@@ -13,9 +14,10 @@ import '../../domain/entities/appointment_entity.dart';
 class AppointmentCard extends StatelessWidget {
   final AppointmentEntity appointment;
   final void Function() onPressed;
+  final void Function() onPressedConfirm;
   final UserRole role;
 
-  const AppointmentCard({super.key, required this.appointment, required this.onPressed,required this.role});
+  const AppointmentCard({super.key, required this.appointment, required this.onPressed,required this.role, required this.onPressedConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +145,10 @@ class AppointmentCard extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton.icon(
-                      onPressed:onPressed,
-                      icon: Icon(Icons.close, color: colors.error),
+                      onPressed:onPressedConfirm,
+                      icon: const Icon(Icons.check, color: Colors.teal),
                       label: Text(
-                        "Confirem",
+                        "Confirm",
                         style: theme.textTheme.labelLarge!
                             .copyWith(color: colors.primary),
                       ),
