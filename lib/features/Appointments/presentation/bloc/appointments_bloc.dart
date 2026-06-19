@@ -1,4 +1,4 @@
-
+import 'dart:async'; // 1. ضفنا الـ import ده عشان الـ StreamSubscription
 import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
@@ -39,12 +39,15 @@ extension AppointmentFilterX on AppointmentFilter {
 }
 
 class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
+
+  StreamSubscription<RemoteMessage>? _messagingSubscription;
+
   AppointmentsBloc() : super(AppointmentsInitial()) {
     on<LoadAppointments>(_onLoadAppointments);
     on<DeleteAppointments>(_onDeletedAppointments);
     on<EditAppointments>(_onEditAppointments);
     on<ChoiceFilter>(_onChoiceFilter);
-    on<RefreshAppointments>((event, emit) async {add(LoadAppointments());});
+    on<RefreshAppointments>((event, emit) async { add(LoadAppointments()); });
     _listenToNotifications();
   }
 
@@ -52,21 +55,32 @@ class AppointmentsBloc extends Bloc<AppointmentsEvent, AppointmentsState> {
   List<AppointmentEntity> _appointments = [];
 
   AppointmentFilter _selectedFilter = AppointmentFilter.pending;
-  late final UserRole? role ;
+
+  UserRole? role;
 
   // ========================= NOTIFICATIONS =========================
 
   void _listenToNotifications() {
-    FirebaseMessaging.onMessage.listen((message) {
-      add(RefreshAppointments());
+    _messagingSubscription = FirebaseMessaging.onMessage.listen((message) {
+      if (!isClosed) {
+        add(RefreshAppointments());
+      }
     });
   }
+
+  // ========================= CLOSE (CLEAN UP) =========================
+  @override
+  Future<void> close() {
+    _messagingSubscription?.cancel();
+    return super.close();
+  }
+
   // ========================= LOAD =========================
 
   Future<void> _onLoadAppointments(LoadAppointments event, Emitter<AppointmentsState> emit,) async {
     emit(AppointmentsLoading());
-    role = await sl<RoleService>().getCurrentRole();
     try {
+      role = await sl<RoleService>().getCurrentRole();
       final response = await sl<GetAppointmentUseCase>().call();
       _appointments = response.fold(
             (l) => [],
